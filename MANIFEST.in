@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include thai_wht *.css
+recursive-include thai_wht *.csv
+recursive-include thai_wht *.html
+recursive-include thai_wht *.ico
+recursive-include thai_wht *.js
+recursive-include thai_wht *.json
+recursive-include thai_wht *.md
+recursive-include thai_wht *.png
+recursive-include thai_wht *.py
+recursive-include thai_wht *.svg
+recursive-include thai_wht *.txt
+recursive-exclude thai_wht *.pyc
