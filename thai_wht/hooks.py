@@ -11,6 +11,10 @@ app_color = "green"
 app_email = "poranut@spacecode.co.th"
 app_license = "MIT"
 
+app_include_js = [
+    '/assets/thai_wht/cleave/cleave.min.js',
+    ]
+
 # Includes in <head>
 # ------------------
 
