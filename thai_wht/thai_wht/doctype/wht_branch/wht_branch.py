@@ -42,9 +42,15 @@ def get_branch_display(branch_dict):
     #     template = template_file.read()
 
     template = """
-        {{ address_line1 }}<br>
-        {{ district }}{{ sub_district }}<br>
-        {{ province }}<br>
+        {% if address.province == 'กรุงเทพมหานคร' %}
+            {{ address_line1 }}<br>
+            แขวง{{ sub_district }} เขต{{ district }}<br>
+            {{ province }}<br>
+        {% else %}
+            {{ address_line1 }}<br>
+            ต.{{ sub_district }} อ.{{ district }}<br>
+            จ.{{ province }}<br>
+        {% endif %}
     """
 
     return frappe.render_template(template, branch_dict)
