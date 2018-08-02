@@ -42,7 +42,7 @@ def get_branch_display(branch_dict):
     #     template = template_file.read()
 
     template = """
-        {% if address.province == 'กรุงเทพมหานคร' %}
+        {% if province == 'กรุงเทพมหานคร' %}
             {{ address_line1 }}<br>
             แขวง{{ sub_district }} เขต{{ district }}<br>
             {{ province }}<br>
