@@ -9,8 +9,6 @@
     }
 </style>
 
-<p><button class="btn btn-xs btn-default btn-branch">New Branch</button></p>
-
 <div class="clearfix"></div>
 
 {% for(var i=0, l=branch_list.length; i<l; i++) { %}
@@ -32,3 +30,5 @@
 {% if(!branch_list.length) { %}
 <p class="text-muted">{%= __("No branch added yet.") %}</p>
 {% } %}
+
+<p><button class="btn btn-xs btn-default btn-branch">New Branch</button></p>
