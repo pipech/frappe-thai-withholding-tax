@@ -3,7 +3,8 @@
 
 frappe.ui.form.on('Whdee', {
     refresh: function(frm) {
-        if (frm.doc.docstatus !== 1) {
+        // format tax_id input
+        if (frm.doc.__islocal) {
             frm.cleave = {};
             frm.cleave.tax_id = new Cleave(
                 $('[data-fieldname="tax_id"] input').last(),
@@ -14,6 +15,7 @@ frappe.ui.form.on('Whdee', {
             );
         }
 
+        // branch list
         frappe.dynamic_link = {
             doc: frm.doc, fieldname: 'name', doctype: 'Whdee',
         };

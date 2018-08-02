@@ -12,8 +12,19 @@ app_email = "poranut@spacecode.co.th"
 app_license = "MIT"
 
 app_include_js = [
+    # format branch and tax_id input
     'assets/thai_wht/js/lib/cleave/cleave.min.js',
+    # auto fill thai address
+    'assets/thai_wht/js/lib/JQL.min.js',
+    'assets/thai_wht/js/lib/typeahead.bundle.js',
+    'assets/thai_wht/js/lib/jquery_thailand/jquery.Thailand.min.js',
+    # list branch in form
     'assets/js/wht_branch.min.js',
+    ]
+
+app_include_css = [
+    # auto fill thai address
+    'assets/thai_wht/js/lib/jquery_thailand/jquery.Thailand.min.css',
     ]
 
 # Includes in <head>

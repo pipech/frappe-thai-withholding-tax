@@ -1,8 +1,36 @@
 // Copyright (c) 2018, SpaceCode Co., Ltd. and contributors
 // For license information, please see license.txt
 
+let loaded = 0;
+
 frappe.ui.form.on('Wht Branch', {
+    onload: function(frm) {
+        // thai address auto fill
+        
+        if (loaded === 0) {
+            loaded = 1;
+
+            $.Thailand({
+                $district: $('[data-fieldname="sub_district"] input'),
+                $amphoe: $('[data-fieldname="district"] input'),
+                $province: $('[data-fieldname="province"] input'),
+            });
+        }
+    },
     refresh: function(frm) {
+        // format branch input
+        if (frm.doc.__islocal) {
+            frm.cleave = {};
+            frm.cleave.branch = new Cleave(
+                $('[data-fieldname="branch"] input').last(),
+                {
+                    numericOnly: true,
+                    blocks: [5],
+                }
+            );
+        }
+
+        // auto fill link field 1/3
         if (frm.doc.__islocal) {
             let lastRoute = frappe.route_history.slice(-2, -1)[0];
             let docname = lastRoute[2];
@@ -29,7 +57,7 @@ frappe.ui.form.on('Wht Branch', {
         frm.refresh_field('links');
     },
     validate: function(frm) {
-        // clear linked customer / supplier / sales partner on saving...
+        // auto fill link field 2/3
         if (frm.doc.links) {
             frm.doc.links.forEach(function(d) {
                 frappe.model.remove_from_locals(d.link_doctype, d.link_name);
@@ -37,6 +65,7 @@ frappe.ui.form.on('Wht Branch', {
         }
     },
     after_save: function() {
+        // auto fill link field 3/3
         frappe.run_serially([
             () => frappe.timeout(1),
             () => {
