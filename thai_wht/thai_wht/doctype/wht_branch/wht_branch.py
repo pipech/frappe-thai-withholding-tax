@@ -8,11 +8,20 @@ from frappe.model.document import Document
 
 
 class WhtBranch(Document):
-    pass
+    def before_save(self):
+        # fill branch with leading 5 zeros
+        self.branch = self.branch.zfill(5)
+        # remove duplicated spaces
+        self.address_line1 = ' '.join(self.address_line1.split())
+
+    def validate(self):
+        try:
+            int(self.branch)
+        except ValueError:
+            frappe.throw('สาขาไม่ถูกต้อง กรุณากรอกสาขาเป็นตัวเลข')
 
 
 def load_branch(doc):
-
     filters = [
         ['Dynamic Link', 'link_doctype', '=', doc.doctype],
         ['Dynamic Link', 'link_name', '=', doc.name],
