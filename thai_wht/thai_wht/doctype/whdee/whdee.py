@@ -15,7 +15,7 @@ class Whdee(Document):
         self.w_name = ' '.join(self.w_name.split())
 
     def validate(self):
-        self.name = self.tax_id.replace(' ', '')
         self.tax_id = self.tax_id.replace(' ', '-')
+        self.name = self.tax_id.replace('-', '')
         if not check_tax_id(self.name):
             frappe.throw('เลขบัตรประจำตัวประชาชน ไม่ถูกต้อง')
