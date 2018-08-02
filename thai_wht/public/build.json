@@ -1,0 +1,6 @@
+{
+	"js/wht_branch.min.js": [
+		"public/js/thai_wht/branch.js",
+		"public/js/template/branch_list.html"
+    ]
+}

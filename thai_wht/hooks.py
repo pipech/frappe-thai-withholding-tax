@@ -12,7 +12,8 @@ app_email = "poranut@spacecode.co.th"
 app_license = "MIT"
 
 app_include_js = [
-    '/assets/thai_wht/cleave/cleave.min.js',
+    'assets/thai_wht/js/lib/cleave/cleave.min.js',
+    'assets/js/wht_branch.min.js',
     ]
 
 # Includes in <head>

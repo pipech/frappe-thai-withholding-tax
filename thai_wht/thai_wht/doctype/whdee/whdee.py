@@ -5,8 +5,8 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
-from frappe.contacts.address_and_contact import load_address_and_contact
 from thai_wht.thai_wht.thai_utils import check_tax_id
+from thai_wht.thai_wht.doctype.wht_branch.wht_branch import load_branch
 
 
 class Whdee(Document):
@@ -22,4 +22,4 @@ class Whdee(Document):
             frappe.throw('เลขบัตรประจำตัวประชาชน ไม่ถูกต้อง')
 
     def onload(self):
-        load_address_and_contact(self)
+        load_branch(self)

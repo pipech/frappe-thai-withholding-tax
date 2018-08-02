@@ -1,0 +1,34 @@
+<style>
+    .branch-box {
+        background-color: #fafbfc;
+        padding: 0px 15px;
+        margin: 15px 0px;
+        border: 1px solid #d1d8dd;
+        border-radius: 3px;
+        font-size: 12px;
+    }
+</style>
+
+<p><button class="btn btn-xs btn-default btn-branch">New Branch</button></p>
+
+<div class="clearfix"></div>
+
+{% for(var i=0, l=branch_list.length; i<l; i++) { %}
+    <div class="branch-box">
+        <p class="h6">
+            สาขาที่ {%= branch_list[i].branch %}
+            <a href="#Form/Wht%20Branch/{%= branch_list[i].name %}"
+                class="btn btn-default btn-xs pull-right">
+                {%= __("Edit") %}</a>
+        </p>
+        <div style="padding-left: 15px;">
+            <p style="margin-top: 5px; font-size: 12px;">
+                {%= branch_list[i].display %}
+            </p>
+        </div>
+    </div>
+{% } %}
+
+{% if(!branch_list.length) { %}
+<p class="text-muted">{%= __("No branch added yet.") %}</p>
+{% } %}

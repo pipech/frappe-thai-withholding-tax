@@ -14,16 +14,16 @@ frappe.ui.form.on('Whdee', {
             );
         }
 
-        // frappe.dynamic_link = {
-        //     doc: frm.doc, fieldname: 'name', doctype: 'Whdee',
-        // };
+        frappe.dynamic_link = {
+            doc: frm.doc, fieldname: 'name', doctype: 'Whdee',
+        };
 
         frm.toggle_display(['address_html'], !frm.doc.__islocal);
 
         if (frm.doc.__islocal) {
-            frappe.contacts.clear_address_and_contact(frm);
+            clearBranch(frm);
         } else {
-            frappe.contacts.render_address_and_contact(frm);
+            renderBranch(frm);
         }
     },
 });
