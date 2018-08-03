@@ -23,9 +23,9 @@ frappe.ui.form.on('Whdee', {
         frm.toggle_display(['address_html'], !frm.doc.__islocal);
 
         if (frm.doc.__islocal) {
-            clearBranch(frm);
+            branchList.clear(frm);
         } else {
-            renderBranch(frm);
+            branchList.render(frm);
         }
     },
 });
