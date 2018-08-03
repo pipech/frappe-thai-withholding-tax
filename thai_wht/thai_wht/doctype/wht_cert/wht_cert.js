@@ -65,6 +65,8 @@ frappe.ui.form.on('Wht Cert', {
                 },
             };
         });
+
+        setupWhtTypeQueries(frm);
     },
     wht_cert_detail_on_form_rendered: function(frm) {
         // hide add row button if wht child table have 3 entry
@@ -74,6 +76,7 @@ frappe.ui.form.on('Wht Cert', {
         $('[data-fieldname="wht_cert_detail"] button.grid-insert-row').toggle(hideBool);
 
         setChildTblDefaultValue(frm.open_grid_row(), frm.doc.date);
+        setupWhtTypeQueries(frm);
     },
 });
 
@@ -109,4 +112,23 @@ function setChildTblDefaultValue(gridRow, date) {
         'condition',
         1
     );
+}
+
+/**
+ * add filter to query
+ * @param {object} frm - form object from frappe
+ */
+function setupWhtTypeQueries(frm) {
+    frm.set_query('type', 'wht_cert_detail', function() {
+        if (frm.doc.pnd) {
+            let filterDict = {};
+            let pnd = 'pnd' + frm.doc.pnd;
+            filterDict[pnd] = 1;
+            return {
+                filters: filterDict,
+            };
+        } else {
+            frappe.msgprint('กรุณาเลือก ภ.ง.ด.');
+        }
+    });
 }
