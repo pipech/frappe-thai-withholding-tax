@@ -4,12 +4,14 @@
 frappe.ui.form.on('Wht Cert', {
     refresh: function(frm) {
         setDefaultDate(frm);
+        branchList.branchSelectionQuery('Whder', frm.doc.whder, frm.doc.whder_branch, 'whder_branch');
+        branchList.branchSelectionQuery('Whdee', frm.doc.whdee, frm.doc.whdee_branch, 'whdee_branch');
     },
     whder: function(frm) {
-        branchList.branchSelectionQuery('Whder', frm.doc.whder, 'whder_branch');
+        branchList.branchSelectionQuery('Whder', frm.doc.whder, frm.doc.whder_branch, 'whder_branch');
     },
     whdee: function(frm) {
-        branchList.branchSelectionQuery('Whdee', frm.doc.whdee, 'whdee_branch');
+        branchList.branchSelectionQuery('Whdee', frm.doc.whdee, frm.doc.whdee_branch, 'whdee_branch');
     },
     pnd: function(frm) {
         // filter whdee field by pnd

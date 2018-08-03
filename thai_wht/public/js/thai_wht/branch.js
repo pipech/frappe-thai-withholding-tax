@@ -63,7 +63,7 @@ branchList = {
         });
         frm.refresh_field('links');
     },
-    branchSelectionQuery: (linkDoctype, linkField, selectFieldName) => {
+    branchSelectionQuery: (linkDoctype, linkField, selectField, selectFieldName) => {
         if (linkField) {
             frappe.call({
                 method: 'thai_wht.thai_wht.doctype.wht_branch.wht_branch.get_branch_select',
@@ -73,27 +73,30 @@ branchList = {
                 },
                 callback: function(data) {
                     let branchList= data.message;
-                    let selectField = $('select[data-fieldname="' + selectFieldName + '"]');
-                    selectField.empty();
+                    let JselectField = $('select[data-fieldname="' + selectFieldName + '"]');
+                    JselectField.empty();
                     if (!branchList) {
                         frappe.msgprint('กรุณา เพิ่มสาขา');
                     } else if (branchList.length === 1) {
-                        selectField.append($('<option>', {
+                        JselectField.append($('<option>', {
                             value: branchList[0].name,
                             text: branchList[0].branch,
                         }));
-                        selectField.val(branchList[0].name).trigger('change');
+                        JselectField.val(branchList[0].name).trigger('change');
                     } else {
-                        selectField.append($('<option>', {
+                        JselectField.append($('<option>', {
                             value: '',
                             text: '',
                         }));
                         $.each(branchList, function(i, item) {
-                            selectField.append($('<option>', {
+                            JselectField.append($('<option>', {
                                 value: item.name,
                                 text: item.branch,
                             }));
                         });
+                        if (selectField) {
+                            JselectField.val(selectField).trigger('change');
+                        }
                     }
                 },
             });
