@@ -9,7 +9,7 @@
  "custom": 0, 
  "docstatus": 0, 
  "doctype": "DocType", 
- "document_type": "", 
+ "document_type": "Setup", 
  "editable_grid": 1, 
  "engine": "InnoDB", 
  "fields": [
@@ -267,7 +267,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2018-08-03 11:32:47.307388", 
+ "modified": "2018-08-03 13:58:01.105299", 
  "modified_by": "Administrator", 
  "module": "Thai Wht", 
  "name": "Whdee", 

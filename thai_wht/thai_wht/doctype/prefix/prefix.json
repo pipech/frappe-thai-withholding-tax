@@ -9,7 +9,7 @@
  "custom": 0, 
  "docstatus": 0, 
  "doctype": "DocType", 
- "document_type": "", 
+ "document_type": "System", 
  "editable_grid": 1, 
  "engine": "InnoDB", 
  "fields": [
@@ -85,7 +85,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2018-08-01 15:43:33.266743", 
+ "modified": "2018-08-03 13:57:39.136334", 
  "modified_by": "Administrator", 
  "module": "Thai Wht", 
  "name": "Prefix", 

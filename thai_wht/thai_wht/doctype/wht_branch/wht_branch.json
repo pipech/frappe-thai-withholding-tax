@@ -8,7 +8,7 @@
  "custom": 0, 
  "docstatus": 0, 
  "doctype": "DocType", 
- "document_type": "", 
+ "document_type": "Setup", 
  "editable_grid": 1, 
  "engine": "InnoDB", 
  "fields": [
@@ -291,7 +291,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
- "modified": "2018-08-02 22:57:43.151804", 
+ "modified": "2018-08-03 13:58:17.668936", 
  "modified_by": "Administrator", 
  "module": "Thai Wht", 
  "name": "Wht Branch", 
