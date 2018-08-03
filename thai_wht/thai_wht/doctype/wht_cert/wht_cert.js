@@ -80,6 +80,26 @@ frappe.ui.form.on('Wht Cert', {
     },
 });
 
+frappe.ui.form.on('Wht Cert Detail', {
+    // event triggred when paid field change
+    paid: function(frm, cdt, cdn) {
+       let gridRow = frm.open_grid_row();
+       if (!gridRow) {
+           gridRow = frm.get_field('wht_cert_detail').grid.get_row(cdn);
+       }
+       calWht(gridRow);
+   },
+    // event triggred when paid field change
+    rate: function(frm, cdt, cdn) {
+       let gridRow = frm.open_grid_row();
+       if (!gridRow) {
+           gridRow = frm.get_field('wht_cert_detail').grid.get_row(cdn);
+       }
+       calWht(gridRow);
+   },
+});
+
+
 /**
  * set default date for date field
  * @param {object} frm - form object from frappe
@@ -131,4 +151,23 @@ function setupWhtTypeQueries(frm) {
             frappe.msgprint('กรุณาเลือก ภ.ง.ด.');
         }
     });
+}
+
+/**
+ * calculate wht from rate and paid
+ * @param {object} gridRow - row object of child table from frappe
+ */
+function calWht(gridRow) {
+    let paid = gridRow.doc.paid;
+    let rate = gridRow.doc.rate;
+
+    if (typeof rate != 'undefined') {
+        let wht = paid * (rate/100);
+        frappe.model.set_value(
+            gridRow.doc.doctype,
+            gridRow.doc.name,
+            'wht',
+            wht
+        );
+    }
 }
