@@ -48,4 +48,20 @@ frappe.ui.form.on('Wht Cert', {
             });
         }
     },
+    pnd: function(frm) {
+        let pnd = frm.doc.pnd;
+        let type;
+        if (pnd === '1' || pnd === '2' || pnd === '3') {
+            type = 'Ind';
+        } else {
+            type = 'Org';
+        }
+        frm.set_query('whdee', function() {
+            return {
+                filters: {
+                    type: type,
+                },
+            };
+        });
+    },
 });
