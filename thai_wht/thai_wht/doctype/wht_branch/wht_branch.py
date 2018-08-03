@@ -63,3 +63,15 @@ def get_branch_display(branch_dict):
     """
 
     return frappe.render_template(template, branch_dict)
+
+
+@frappe.whitelist()
+def get_branch_select(link_doctype, link_name):
+    filters = [
+        ['Dynamic Link', 'link_doctype', '=', link_doctype],
+        ['Dynamic Link', 'link_name', '=', link_name],
+        ['Dynamic Link', 'parenttype', '=', 'Wht Branch'],
+    ]
+    branch_list = frappe.get_all('Wht Branch', filters=filters, fields=['*'])
+
+    return branch_list
