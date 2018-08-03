@@ -72,6 +72,10 @@ def get_branch_select(link_doctype, link_name):
         ['Dynamic Link', 'link_name', '=', link_name],
         ['Dynamic Link', 'parenttype', '=', 'Wht Branch'],
     ]
-    branch_list = frappe.get_all('Wht Branch', filters=filters, fields=['*'])
-
+    branch_list = frappe.get_all(
+        'Wht Branch',
+        filters=filters,
+        fields=['*'],
+        order_by='branch asc'
+        )
     return branch_list
