@@ -17,7 +17,7 @@
             สาขาที่ {%= branch_list[i].branch %}
             <a href="#Form/Wht%20Branch/{%= branch_list[i].name %}"
                 class="btn btn-default btn-xs pull-right">
-                {%= __("Edit") %}</a>
+                {%= __("แก้ไข") %}</a>
         </p>
         <div style="padding-left: 15px;">
             <p style="margin-top: 5px; font-size: 12px;">
@@ -28,7 +28,7 @@
 {% } %}
 
 {% if(!branch_list.length) { %}
-<p class="text-muted">{%= __("No branch added yet.") %}</p>
+<p class="text-muted">{%= __("ยังไม่ได้เพิ่ม สาขา") %}</p>
 {% } %}
 
-<p><button class="btn btn-xs btn-default btn-branch">New Branch</button></p>
+<p><button class="btn btn-xs btn-default btn-branch">เพิ่มสาขา</button></p>
