@@ -6,40 +6,46 @@ frappe.ui.form.on('Wht Cert', {
     },
     whder: function(frm) {
         // get whder branch selection list
-        frappe.call({
-            method: 'thai_wht.thai_wht.doctype.wht_branch.wht_branch.get_branch_select',
-            args: {
-                'link_doctype': 'Whder',
-                'link_name': frm.doc.whder,
-            },
-            callback: function(data) {
-                $.each(data.message, function(i, item) {
-                    $('select[data-fieldname="whder_branch"]')
-                    .append($('<option>', {
-                        value: item.name,
-                        text: item.branch,
-                    }));
-                });
-            },
-        });
+        if (frm.doc.whder) {
+            frappe.call({
+                method: 'thai_wht.thai_wht.doctype.wht_branch.wht_branch.get_branch_select',
+                args: {
+                    'link_doctype': 'Whder',
+                    'link_name': frm.doc.whder,
+                },
+                callback: function(data) {
+                    let selectField = $('select[data-fieldname="whder_branch"]');
+                    selectField.empty();
+                    $.each(data.message, function(i, item) {
+                        selectField.append($('<option>', {
+                            value: item.name,
+                            text: item.branch,
+                        }));
+                    });
+                },
+            });
+        }
     },
     whdee: function(frm) {
         // get whdee branch selection list
-        frappe.call({
-            method: 'thai_wht.thai_wht.doctype.wht_branch.wht_branch.get_branch_select',
-            args: {
-                'link_doctype': 'Whdee',
-                'link_name': frm.doc.whdee,
-            },
-            callback: function(data) {
-                $.each(data.message, function(i, item) {
-                    $('select[data-fieldname="whdee_branch"]')
-                    .append($('<option>', {
-                        value: item.name,
-                        text: item.branch,
-                    }));
-                });
-            },
-        });
+        if (frm.doc.whdee) {
+            frappe.call({
+                method: 'thai_wht.thai_wht.doctype.wht_branch.wht_branch.get_branch_select',
+                args: {
+                    'link_doctype': 'Whdee',
+                    'link_name': frm.doc.whdee,
+                },
+                callback: function(data) {
+                    let selectField = $('select[data-fieldname="whdee_branch"]');
+                    selectField.empty();
+                    $.each(data.message, function(i, item) {
+                        selectField.append($('<option>', {
+                            value: item.name,
+                            text: item.branch,
+                        }));
+                    });
+                },
+            });
+        }
     },
 });
