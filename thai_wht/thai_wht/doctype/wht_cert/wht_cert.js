@@ -3,6 +3,7 @@
 
 frappe.ui.form.on('Wht Cert', {
     refresh: function(frm) {
+        setDefaultDate(frm);
     },
     whder: function(frm) {
         // get whder branch selection list
@@ -49,6 +50,7 @@ frappe.ui.form.on('Wht Cert', {
         }
     },
     pnd: function(frm) {
+        // filter whdee field by pnd
         let pnd = frm.doc.pnd;
         let type;
         if (pnd === '1' || pnd === '2' || pnd === '3') {
@@ -64,4 +66,47 @@ frappe.ui.form.on('Wht Cert', {
             };
         });
     },
+    wht_cert_detail_on_form_rendered: function(frm) {
+        // hide add row button if wht child table have 3 entry
+        let hideBool = (frm.doc.wht_cert_detail.length < 3);
+        $('[data-fieldname="wht_cert_detail"] button.grid-add-row').toggle(hideBool);
+        $('[data-fieldname="wht_cert_detail"] button.grid-insert-row-below').toggle(hideBool);
+        $('[data-fieldname="wht_cert_detail"] button.grid-insert-row').toggle(hideBool);
+
+        setChildTblDefaultValue(frm.open_grid_row(), frm.doc.date);
+    },
 });
+
+/**
+ * set default date for date field
+ * @param {object} frm - form object from frappe
+ */
+function setDefaultDate(frm) {
+    let today = frappe.datetime.nowdate();
+    frm.set_value('date', today);
+}
+
+/**
+ * set default date for date field on child table
+ * @param {object} gridRow - form object from frappe
+ * @param {date} date - date from date field
+ */
+function setChildTblDefaultValue(gridRow, date) {
+    if (typeof date === 'undefined') {
+        date = frappe.datetime.nowdate();
+    }
+    if (typeof gridRow.doc.date === 'undefined') {
+        frappe.model.set_value(
+            gridRow.doc.doctype,
+            gridRow.doc.name,
+            'date',
+            date
+        );
+    }
+    frappe.model.set_value(
+        gridRow.doc.doctype,
+        gridRow.doc.name,
+        'condition',
+        1
+    );
+}
