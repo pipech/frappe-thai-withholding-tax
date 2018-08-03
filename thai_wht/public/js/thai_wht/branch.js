@@ -16,8 +16,6 @@ branchList = {
         frappe.run_serially([
             () => frappe.timeout(1),
             () => {
-            },
-            () => {
                 let lastRoute = frappe.route_history.slice(-2, -1)[0];
                 if (frappe.dynamic_link && frappe.dynamic_link.doc
                     && frappe.dynamic_link.doc.name == lastRoute[2]) {
