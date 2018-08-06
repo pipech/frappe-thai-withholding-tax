@@ -3,15 +3,32 @@
 
 frappe.ui.form.on('Wht Cert', {
     refresh: function(frm) {
+        // override print function
+        $('.fa-print').parent().unbind().click(function() {
+            printPDF();
+        });
+        $('a.grey-link:contains("'+__('Print')+'")').unbind().click(function() {
+            printPDF();
+        });
+
         setDefaultDate(frm);
-        branchList.branchSelectionQuery('Whder', frm.doc.whder, frm.doc.whder_branch, 'whder_branch');
-        branchList.branchSelectionQuery('Whdee', frm.doc.whdee, frm.doc.whdee_branch, 'whdee_branch');
+
+        branchList.branchSelectionQuery(
+            'Whder', frm.doc.whder, frm.doc.whder_branch, 'whder_branch'
+        );
+        branchList.branchSelectionQuery(
+            'Whdee', frm.doc.whdee, frm.doc.whdee_branch, 'whdee_branch'
+        );
     },
     whder: function(frm) {
-        branchList.branchSelectionQuery('Whder', frm.doc.whder, frm.doc.whder_branch, 'whder_branch');
+        branchList.branchSelectionQuery(
+            'Whder', frm.doc.whder, frm.doc.whder_branch, 'whder_branch'
+        );
     },
     whdee: function(frm) {
-        branchList.branchSelectionQuery('Whdee', frm.doc.whdee, frm.doc.whdee_branch, 'whdee_branch');
+        branchList.branchSelectionQuery(
+            'Whdee', frm.doc.whdee, frm.doc.whdee_branch, 'whdee_branch'
+        );
     },
     pnd: function(frm) {
         // filter whdee field by pnd
@@ -63,6 +80,23 @@ frappe.ui.form.on('Wht Cert Detail', {
    },
 });
 
+/**
+ * open newtab and print pdf
+ */
+function printPDF() {
+    let w = window.open(
+        frappe.urllib.get_full_url(
+            '/api/method/frappe.utils.print_format.download_pdf?'
+            + 'doctype=' + encodeURIComponent(me.frm.doc.doctype)
+            + '&name=' + encodeURIComponent(me.frm.doc.name)
+            + '&format=Wht%20Certificate'
+            + '&no_letterhead=0'
+        )
+    );
+    if (!w) {
+        frappe.msgprint(__('Please enable pop-ups')); return;
+    }
+}
 
 /**
  * set default date for date field
