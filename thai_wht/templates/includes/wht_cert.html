@@ -1,0 +1,207 @@
+{% include "thai_wht/templates/includes/css.html" %}
+
+<div>
+    <table>
+        <tr>
+            <td style="width:60%;">
+                <p><small>ฉบับที่ 1 (สำหรับผู้ถูกหักภาษี ณ ที่จ่าย ใช้แนบพร้อมกับแบบแสดงรายการภาษี)</small></p>
+                <p><small>ฉบับที่ 2 (สำหรับผู้ถูกหักภาษี ณ ที่จ่าย เก็บไว้เป็นหลักฐาน)</small></p>
+                <p><small>ฉบับที่ 3 (สำหรับผู้หักภาษีเก็บไว้เป็นหลักฐาน)</small></p>
+            </td>
+            <td style="width:40%; text-align: right">
+                <p>เลขที่ {{ doc.name }}</p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div style="text-align:center;">
+    <h1 style="padding: 0px; margin: 0px;">หนังสือรับรองการหักภาษี ณ ที่จ่าย</h1>
+    <h2 style="padding: 0px 0px 10px 0px; margin: 0px;">ตามมาตรา 50 ทวิ แห่งประมวลรัษฎากร</h2>
+</div>
+
+<div>
+    <table class="border">
+        <tr>
+            <td><b>ผู้มีหน้าที่หักภาษี ณ ที่จ่าย :</b></td>
+            <td><b>เลขประจำตัวผู้เสียภาษีอากร </b>
+                {{ doc.whder }}
+            </td> 
+        </tr>
+        <tr>
+            <td style="width:50%">
+                <b>ชื่อ </b>
+                {{ doc.whder_prefix }}{{ doc.whder_name }}
+            </td>
+            <td>
+                <b>สาขาที่</b>
+                {{ doc.whder_branch_no }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><b>ที่อยู่ </b>
+                {{ doc.whder_branch_addr }}
+            </td>
+        </tr>
+    </table>
+    <table class="border">
+        <tr>
+            <td><b>ผู้ถูกหักภาษี ณ ที่จ่าย :</b></td>
+            <td><b>เลขประจำตัวผู้เสียภาษีอากร </b>
+                {{ doc.whdee }}
+            </td> 
+        </tr>
+        <tr>
+            <td style="width:50%">
+                <b>ชื่อ </b>
+                {{ doc.whdee_prefix }}{{ doc.whdee_name }}
+            </td>
+            <td>
+                {% if (doc.pnd != '2' and doc.pnd != '1') %}
+                    <b>สาขาที่</b>
+                    {{ doc.whdee_branch_no }}
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><b>ที่อยู่ </b>
+                {{ doc.whdee_branch_addr }}
+            </td>
+        </tr>
+    </table>
+    <table class="border">
+        <tr>
+            <td rowspan="2" style="width:24%;">
+                <p>ลำดับที่ ............ ในแบบ</p>
+                <p>
+                    <small>
+                        (ให้สามารถอ้างอิงหรือสอบยันกันได้ 
+                        ระหว่างลำดับที่ตามหนังสือรับรองฯ 
+                        กับแบบยื่นรายการภาษีหักที่จ่าย)
+                    </small>
+                </p>
+            </td>
+            <td style="width:19%;"><input type="checkbox" 
+                {% if doc.pnd == '1' %}
+                    checked
+                {% endif %}
+                />(1) <b>ภ.ง.ด.1ก</b></td>
+            <td style="width:19%;"><input type="checkbox"/>(2) <b>ภ.ง.ด.1ก</b><small>พิเศษ</small></td>
+            <td style="width:19%;"><input type="checkbox"
+                {% if doc.pnd == '2' %}
+                    checked
+                {% endif %}
+                />(3) <b>ภ.ง.ด.2</b></td>
+            <td style="width:19%;"><input type="checkbox"
+                {% if doc.pnd == '3' %}
+                    checked
+                {% endif %}
+                />(4) <b>ภ.ง.ด.3</b></td>
+        </tr>
+        <tr>
+            <td style="width:19%;"><input type="checkbox"/>(5) <b>ภ.ง.ด.2ก</b></td>
+            <td style="width:19%;"><input type="checkbox"/>(6) <b>ภ.ง.ด.3ก</b></td>
+            <td colspan="2" style="width:18%;"><input type="checkbox"
+                {% if doc.pnd == '53' %}
+                    checked
+                {% endif %}
+                />(7) <b>ภ.ง.ด.53</b></td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <table class="border">
+        <tr class="border">
+            <th colspan="2" class="border center" style="width:49%;">ประเภทเงินได้พึงประเมินที่จ่าย</th>
+            <th class="border center" style="width:15%;">วัน เดือน หรือปีภาษี ที่จ่าย</th>
+            <th class="border center" style="width:15%;">จำนวนเงินที่จ่าย</th>
+            <th class="border center" style="width:15%;">ภาษีที่หัก และนำส่งไว้</th>
+            <th class="border center" style="width:6%;">เงื่อน ไข*</th>
+        </tr>
+
+        {% 
+            set wht_con = [
+                'หัก ณ ที่จ่าย',
+                'ออกให้ตลอดไป',
+                'ออกให้ครั้งเดียว',
+                'ออกภาษีให้'
+            ]
+        %}
+
+        {% for i in doc.wht_cert_detail %}
+            {% if i != doc.wht_cert_detail[-1] %}
+                <tr>
+                    <td colspan="2" class="border-in">{{ i.type }}{% if i.type_detail %} {{ i.type_detail }}{% endif %}</td>
+                    <td class="border-in" style="text-align: center">{{ i.get_formatted("date", i) }}</td>
+                    <td class="border-in" style="text-align: right">{{ "{:,.2f}".format(i.paid) }}</td>
+                    <td class="border-in" style="text-align: right">{{ "{:,.2f}".format(i.wht) }}</td>
+                    <td class="border-in" style="text-align: center">{{ i.condition }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2">{{ i.type }}{% if i.type_detail %} {{ i.type_detail }}{% endif %}</td>
+                    <td class="border-in-last" style="text-align: center">{{ i.get_formatted("date", i) }}</td>
+                    <td class="border-in-last" style="text-align: right">{{ "{:,.2f}".format(i.paid) }}</td>
+                    <td class="border-in-last" style="text-align: right">{{ "{:,.2f}".format(i.wht) }}</td>
+                    <td class="border-in-last" style="text-align: center">{{ i.condition }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+
+        {% set total_paid = doc.wht_cert_detail|sum(attribute='paid') %}
+        {% set total_wht = doc.wht_cert_detail|sum(attribute='wht') %}
+
+        <tr class="border">
+            <td class="border" colspan="3" style="text-align: right">รวมเงินที่จ่ายและภาษีที่หักนำส่ง</td>
+            <td class="border" style="text-align: right">{{ "{:,.2f}".format(total_paid) }}</td>
+            <td class="border" style="text-align: right">{{ "{:,.2f}".format(total_wht) }}</td>
+            <td class="border"></td>
+        </tr>
+        <tr>
+            <td style="width:30%;">รวมเงินภาษีที่หักนำส่ง <small>(ตัวอักษร) </small></td>
+            <td colspan="5" style="background-color: #eee;"><big style="padding: 10px;">{{ frappe.utils.num2words(total_wht, lang='th', to='currency') }}</big></td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <table class="border">
+        <tr>
+            <td style="width:8%;">
+                <b>คำเตือน</b>
+            </td>
+            <td style="width:32%; border-right: 1px solid black; padding-bottom: 0px !important;">
+                <small>
+                    ผู้มีหน้าที่ออกหนังสือรับรองการหักภาษี ณ ที่จ่าย
+                    ฝ่าฝืนไม่ปฏิบัติตามมาตรา 50 ทวิ แห่งประมวลรัษฎากร
+                    ต้องรับโทษทางอาญาตามมาตรา 35 แห่งประมวลรัษฎากร
+                </small>
+            </td>
+            <td rowspan="2" style="width:60%; text-align: center;">
+                <p>ขอรับรองว่าข้อความและตัวเลขดังกล่าวข้างต้นถูกต้อง
+                ตรงกับความจริงทุกประการ</p>
+                <br>
+                <br>
+                <br>
+                <p>ลงชื่อ ................................................................... ผู้จ่ายเงิน</p>
+                <p>{{ doc.get_formatted("date", doc) }}</p>
+                <p><small>(วัน เดือน ปี ที่ออกหนังสือรับรอง)</small></p>
+            </td>
+        </tr>
+        <tr>
+                <td style="width:8%; padding-top: 0px !important;">
+                    <b>หมายเหตุ</b>
+                </td>
+                <td style="width:32%; border-right: 1px solid black; padding-top: 0px !important;">
+                    <small>* เงื่อนไขการหักภาษีให้กรอกดังนี้</small>
+                    <ul style="margin: 0px; padding-left: 18px;">
+                        <li><small>หัก ณ ที่จ่าย กรอก1</small></li>
+                        <li><small>ออกให้ตลอดไป กรอก 2</small></li>
+                        <li><small>ออกให้ครั้งเดียว กรอก 3</small></li>
+                        <li><small>ออกภาษีให้ กรอก 4</small></li>
+                    </ul>
+                </td>
+            </tr>
+    </table>
+</div>

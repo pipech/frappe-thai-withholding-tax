@@ -1,0 +1,51 @@
+<style>
+    .print-format {
+        /* config margin size of pdf print */
+        margin-top: 0mm;
+        margin-bottom: 0mm;
+        margin-left: 0mm;
+        margin-right: 0mm;
+
+        margin: 0mm !important;
+        padding: 10mm !important;
+    }
+    table {
+        width: 100%;
+    }
+    table, th, tr, td {
+        border-collapse: collapse;
+    }
+    table.border, th.border, tr.border, td.border {
+        border: 1px solid black;
+    }
+    td.border-in {
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        border-bottom: 0.25px solid #aaa;
+    }
+    td.border-in-last {
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+    }
+    input[type='checkbox'] {
+        width: 15px;
+        height: 15px;
+        border: 0.5px solid black;
+    }
+    .print-format table, .print-format tr,
+    .print-format td, .print-format div, .print-format p {
+        font-size: 9pt;
+        /* got this number from rendered html */
+        line-height: 1.42857143;
+        font-family: 'Laksaman';
+    }
+    th.center {
+        text-align: center !important; 
+        vertical-align: middle !important;
+    }
+    p.tbl {
+        margin: 0px;
+        padding: 0px;
+    }
+</style>
