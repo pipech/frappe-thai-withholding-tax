@@ -47,9 +47,6 @@ def get_branch_display(branch_dict):
             'Wht Branch', branch_dict, '*', as_dict=True
             ) or {}
 
-    # with open('wht_branch_template.html', 'r') as template_file:
-    #     template = template_file.read()
-
     template = """
         {% if province == 'กรุงเทพมหานคร' %}
             {{ address_line1 }}<br>
@@ -79,3 +76,23 @@ def get_branch_select(link_doctype, link_name):
         order_by='branch asc'
         )
     return branch_list
+
+
+def get_branch_address(branch):
+    branch_dict = frappe.get_value(
+        'Wht Branch', branch, '*', as_dict=True
+        )
+
+    if branch_dict == 'กรุงเทพมหานคร':
+        addr_temp = '{addr} แขวง{sub_district} เขต{district} {province}'
+    else:
+        addr_temp = '{addr} ต.{sub_district} อ.{district} จ.{province}'
+
+    branch_dict.address = addr_temp.format(
+        addr=branch_dict.address_line1,
+        sub_district=branch_dict.sub_district,
+        district=branch_dict.district,
+        province=branch_dict.province,
+        )
+
+    return branch_dict
