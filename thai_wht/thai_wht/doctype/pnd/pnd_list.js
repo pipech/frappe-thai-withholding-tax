@@ -12,12 +12,13 @@ frappe.listview_settings['Pnd'] = {
                     'Auto Generate ?',
                     function() {
                         alert('hhh')
-                        // frappe.call({
-                        //     method:'frappe.core.doctype.error_log.error_log.clear_error_logs',
-                        //     callback: function() {
-                        //         listview.refresh();
-                        //     }
-                        // });
+                        frappe.call({
+                            method: 'thai_wht.thai_wht.doctype.pnd.pnd.autogen',
+                            callback: function(message) {
+                                console.log(message);
+                                listview.refresh();
+                            }
+                        });
                     },
                 );
             });
