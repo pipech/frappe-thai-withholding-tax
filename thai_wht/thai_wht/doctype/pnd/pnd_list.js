@@ -8,7 +8,6 @@ frappe.listview_settings['Pnd'] = {
 
 /** Create auto gen button */
 function createAutoGenButton() {
-    console.log('hapo')
     $('.octicon-search.text-muted')
         .next('div.form-group.frappe-control')
         .after(`
@@ -41,6 +40,9 @@ function createAutoGenButton() {
                         method: 'thai_wht.thai_wht.doctype.pnd.pnd.autogen',
                         callback: function(r) {
                             frappe.msgprint(r.message);
+                            // this might change soon
+                            // might not need true parameters
+                            cur_list.refresh(true);
                         },
                     });
                 },
