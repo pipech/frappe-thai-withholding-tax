@@ -40,7 +40,7 @@ function createAutoGenButton() {
                     frappe.call({
                         method: 'thai_wht.thai_wht.doctype.pnd.pnd.autogen',
                         callback: function(r) {
-                            msgprint(r.message);
+                            frappe.msgprint(r.message);
                         },
                     });
                 },
