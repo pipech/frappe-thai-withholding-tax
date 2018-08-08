@@ -8,7 +8,7 @@ frappe.listview_settings['Pnd'] = {
 
 /** Create auto gen button */
 function createAutoGenButton() {
-    $('.octicon-search.text-muted')
+    $('#page-List\\/Pnd .octicon-search.text-muted')
         .next('div.form-group.frappe-control')
         .after(`
                 <style>
