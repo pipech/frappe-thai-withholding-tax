@@ -14,13 +14,15 @@ class Pnd(Document):
         pnd_count = count_pnd_submit_no(self)[0]
         if pnd_count.identical_draft >= 1:
             if pnd_count.is_self != 1:
-                frappe.throw(_("""There'is draft"""))
+                frappe.throw(_('ข้อมูลซ้ำ มีเอกสารฉบับร่างอยู่แล้ว'))
         elif pnd_count.total_submit - 1 > self.submit_no:
-            frappe.throw(_("""เลขกระโดด ยู๋ฮู"""))
+            frappe.throw(_('ครั้งที่ยื่นไม่ถูกต้อง'))
         for d in self.wht_cert:
             wht_cert = frappe.get_doc('Wht Cert', d.wht_cert)
             if wht_cert.workflow_state == 'Submitted':
-                frappe.throw(_("""ซัมมิ๊ดแล้วเด้อ"""))
+                frappe.throw(_(
+                    'หนังสือรับรอง {wht_cert} ได้มีการยื่นไปในภ.ง.ด.ฉบับอื่นแล้ว'.format(wht_cert=wht_cert.name)
+                    ))
 
     def on_submit(self):
         for d in self.wht_cert:
@@ -58,7 +60,7 @@ def autogen():
         """,
         as_dict=1
     )
-
+    total_created_pnd = 0
     # create new Pnd
     for pnd in pnd_list:
         # using default law
@@ -113,8 +115,12 @@ def autogen():
 
             # insert Pnd document
             pnd_doc.insert()
+            total_created_pnd += 1
 
-    return 'done'
+    if total_created_pnd == 0:
+        return 'ภ.ง.ด. ไม่ได้ถูกสร้าง เนื่องจาก ไม่มีหนังสือรับรองที่มี สถานะ ยืนยัน'
+    else:
+        return 'สร้าง ภ.ง.ด. ทั้งหมด {} ฉบับ'.format(total_created_pnd)
 
 
 def count_pnd_submit_no(pnd):

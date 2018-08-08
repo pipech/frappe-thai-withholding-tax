@@ -39,8 +39,8 @@ function createAutoGenButton() {
                 function() {
                     frappe.call({
                         method: 'thai_wht.thai_wht.doctype.pnd.pnd.autogen',
-                        callback: function(message) {
-                            console.log(message)
+                        callback: function(r) {
+                            msgprint(r.message);
                         },
                     });
                 },
