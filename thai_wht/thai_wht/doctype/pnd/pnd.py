@@ -7,6 +7,7 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 import datetime
+from thai_wht.thai_wht.doctype.wht_branch.wht_branch import get_branch_address
 
 
 class Pnd(Document):
@@ -23,6 +24,23 @@ class Pnd(Document):
                 frappe.throw(_(
                     'หนังสือรับรอง {wht_cert} ได้มีการยื่นไปในภ.ง.ด.ฉบับอื่นแล้ว'.format(wht_cert=wht_cert.name)
                     ))
+
+    def before_save(self):
+        # get whder name and prefix
+        whder = frappe.get_value(
+            doctype='Whder',
+            filters=self.whder,
+            fieldname=['w_name', 'prefix'],
+            as_dict=True,
+            )
+        self.whder_name = whder.w_name
+        self.whder_prefix = whder.prefix
+        # get whder branch
+        whder_branch = get_branch_address(
+            branch=self.whder_branch
+            )
+        self.whder_branch_no = whder_branch.branch
+        self.whder_branch_addr = whder_branch.address
 
     def on_submit(self):
         for d in self.wht_cert:
