@@ -1,26 +1,49 @@
 frappe.listview_settings['Pnd'] = {
     onload: function(listview) {
-        $('button.btn-primary.primary-action:contains('+__('New')+')').after(`
-            <button class="btn btn-success">
-                <i class="visible-xs octicon octicon-versions "></i>
-                <span class="hidden-xs">`+__('Auto Generate')+`</span>
-            </button>
-        `);
-        $('button.btn-success:contains('+__('Auto Generate')+')')
-            .click(function() {
-                frappe.confirm(
-                    'Auto Generate ?',
-                    function() {
-                        alert('hhh')
-                        frappe.call({
-                            method: 'thai_wht.thai_wht.doctype.pnd.pnd.autogen',
-                            callback: function(message) {
-                                console.log(message);
-                                listview.refresh();
-                            }
-                        });
-                    },
-                );
-            });
+        setTimeout(() => {
+            createAutoGenButton();
+        }, 1);
     },
 };
+
+/** Create auto gen button */
+function createAutoGenButton() {
+    console.log('hapo')
+    $('.octicon-search.text-muted')
+        .next('div.form-group.frappe-control')
+        .after(`
+                <style>
+                @media (max-width: 767px) {
+                    .remove-margin-xs {
+                        margin-right: 0px !important;
+                    }
+                }
+            </style>
+            <div 
+                class="col-md-2 text-right" 
+                style="position: absolute; right: 0px;"
+                >
+                <button 
+                    class="btn btn-success remove-margin-xs" 
+                    style="margin-right: 15px;"
+                    >
+                    <i class="visible-xs octicon octicon-versions "></i>
+                    <span class="hidden-xs">Auto</span>
+                </button>
+            </div>
+        `);
+    $('button.btn-success:contains('+__('Auto')+')')
+        .click(function() {
+            frappe.confirm(
+                'Auto Generate ?',
+                function() {
+                    frappe.call({
+                        method: 'thai_wht.thai_wht.doctype.pnd.pnd.autogen',
+                        callback: function(message) {
+                            console.log(message)
+                        },
+                    });
+                },
+            );
+        });
+}
