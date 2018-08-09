@@ -7,19 +7,28 @@ import frappe
 from frappe.utils.pdf import get_pdf
 
 
-def execute(name, filters=None):
+def execute(name, csv=False, filters=None):
     # get raw data
-    columns = get_columns()
     data = get_data(name)
     # format and arrange data
     data = arrange_data(data)
+    if csv:
+        return data
     data = format_data(data)
     # adding additional data
     if name:
         data[0]['pnd'] = get_pnd(name)
         data[0]['total'] = get_page_and_total(data)
+    # get columns
+    columns = get_columns()
 
     return columns, data
+
+
+@frappe.whitelist()
+def download_pdf_csv(name):
+    data = execute(name, csv=True)
+    return data
 
 
 @frappe.whitelist()
