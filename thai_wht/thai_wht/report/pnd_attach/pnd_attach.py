@@ -4,9 +4,9 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe.utils.pdf import get_pdf
 
 
-@frappe.whitelist()
 def execute(name, filters=None):
     # get raw data
     columns = get_columns()
@@ -18,7 +18,38 @@ def execute(name, filters=None):
     if name:
         data[0]['pnd'] = get_pnd(name)
         data[0]['total'] = get_page_and_total(data)
+
     return columns, data
+
+
+@frappe.whitelist()
+def download_pdf_pnd(name):
+    columns, data = execute(name)
+    content = frappe.render_template(
+        'thai_wht/thai_wht/report/pnd_attach/pnd_attach.html',
+        {
+            'data': data,
+            'columns': columns,
+        }
+        )
+    html = frappe.render_template(
+        'public/html/print_template_pnd.html',
+        {
+            'content': content,
+            'title': name,
+            'landscape ': True,
+            'print_settings': {},
+            'columns': columns,
+        }
+    )
+    frappe.local.response.filename = '{name}.pdf'.format(
+        name=name.replace(' ', '-').replace('/', '-')
+        )
+    frappe.local.response.filecontent = get_pdf(
+        html,
+        {'orientation': 'Landscape'}
+        )
+    frappe.local.response.type = 'download'
 
 
 def format_data(data):
@@ -98,7 +129,12 @@ def arrange_data(data):
 
 
 def get_pnd(pnd_name):
-    pnd_dict = frappe.get_doc('Pnd', pnd_name)
+    pnd_dict = frappe.get_value(
+        doctype='Pnd',
+        fieldname='*',
+        filters=pnd_name,
+        as_dict=1
+        )
 
     thai_month = [
         'มกราคม',
@@ -121,7 +157,7 @@ def get_pnd(pnd_name):
         )
     
     id = pnd_dict.whder
-    pnd_dict['_tax_id'] = '{}-{}-{}-{}-{}'.format(
+    pnd_dict['_whder'] = '{}-{}-{}-{}-{}'.format(
         id[0], id[1:5], id[5:10], id[10:12], id[12]
         )
     
@@ -157,11 +193,11 @@ def get_page_and_total(data):
         for item in range(start_data, end_data):
             for i in range(3):
                 try:
-                    page_wht += data[item]['_{}{}'.format('wht', i)]
+                    page_wht += int(data[item]['{}{}'.format('wht', i)])
                 except KeyError:
                     pass
                 try:
-                    page_paid += data[item]['_{}{}'.format('paid', i)]
+                    page_paid += int(data[item]['{}{}'.format('paid', i)])
                 except KeyError:
                     pass
 
