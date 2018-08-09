@@ -1,0 +1,267 @@
+<style>
+    .print-format {
+        /* max-width: 11.69in !important;
+		min-height: 11.69in; */
+        /* setting pdf margin */
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+        margin-top: 0px;
+
+        margin: 0px !important;
+        padding: 0mm 5mm 0mm 5mm !important;
+    }
+    .print-format p,
+    .pnd-heading {
+        font-size: 9pt;
+        font-family: Laksaman;
+    }
+    .print-format th {
+        vertical-align: middle !important;
+    }
+    .pnd-heading {
+        padding: 5mm 0 0 0;
+    }
+    .pnd-heading h1,
+    .pnd-heading b,
+    .pnd-heading small {
+        display: inline;
+    }
+    .print-format ol {
+        margin-bottom: 0mm !important;
+    }
+    .print-format th {
+        padding: 0.75mm 1mm 0.75mm 1mm !important;
+    }
+    .print-format td {
+        /* 4.5mm height, will match perfectly with below padding and 9pt font size */
+        /* fill table and blank table will have same size */
+        padding: 1.05mm 2mm 1mm 2mm !important;
+        height: 4.5mm;
+    }
+    .print-format td.footer {
+        padding: 1.5mm !important;
+    }
+    table,
+    tr,
+    td,
+    th {
+        border:#666 solid 1px;
+        border-collapse: collapse;
+        font-size: 9pt;
+        text-align: center;
+        font-family: Laksaman;
+        /* got this number from rendered html */
+        line-height: 1.42857143;
+    }
+</style>
+
+
+{% for (let page=0, pages=data[0].total.pages; page<pages; page++) { %}
+
+<div class="pnd-heading">
+    <div style="float: left;">
+        <h1>ใบแนบ</h1><h1 style="font-weight: bold;">ภ.ง.ด.{{ data[0].pnd.pnd }}</h1> &nbsp;&nbsp;
+        <b>เลขประจำตัวผู้เสียภาษีอากร</b>
+        <small>(ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย)</small>
+        <b>{{ data[0].pnd._whder }}</b>
+        <b>สาขาที่ {{ data[0].pnd.whder_branch_no }}</b>
+    </div>
+    <div style="float: right">
+        <p>แผ่นที่ {%= page+1 %} ในจำนวน {%= pages %} แผ่น</p>
+    </div>
+</div>
+
+<div style="clear: both;">
+    <table style="width:100%; table-layout: fixed;">
+
+        <col style="width: 4%;">
+        <col style="width: 30%;">
+        <col style="width: 10%;">
+        <colgroup style="width: 43%;">
+            <col style="width: 9%;">
+            <col style="width: 20%;">
+            <col style="width: 4%;">
+            <col style="width: 10%;">
+        </colgroup>
+        <col style="width: 10%;">
+        <col style="width: 3%;">
+
+        <tr>
+            <th rowspan="3">ลำดับ ที่</th>
+            <th>เลขประจำตัวผู้เสียภาษีอากร <small>(ของผู้มีเงินได้)</small></th> 
+            <th>สาขาที่</th>
+            <th colspan="4">รายละเอียดเกี่ยวกับการจ่ายเงิน</th>
+            <th rowspan="3">จำนวนเงินภาษีที่หักและนำส่งในครั้งนี้</th>
+            <th rowspan="3"><small>เงื่อน ไข</small></th>
+        </tr>
+        <tr>
+            <th colspan="2">
+                ชื่อของผู้มีเงินได้
+                {% if(data[0].pnd.pnd==='3') { %}
+                    <small>(ให้ระบุให้ชัดเจนว่าเป็น นาย นาง นางสาว หรือยศ)</small>
+                {% } else if(data[0].pnd.pnd==='53') { %}
+                    <small>(ให้ระบุให้ชัดเจนว่าเป็น บจก. บมจ. หจก. หรือหสม.)</small>
+                {% } %}
+            </th>
+            <th rowspan="2">วัน เดือน ปี ที่จ่าย</th>
+            <th rowspan="2">ประเภทเงินได้พึงประเมินที่จ่าย</th>
+            <th rowspan="2"><small>อัตรา ภาษี %</small></th>
+            <th rowspan="2">จำนวนเงินได้ที่จ่ายในครั้งนี้</th>
+        </tr>
+        <tr>
+            <th colspan="2">ที่อยู่ของผู้มีเงินได้ <small>(ให้ระบุเลขที่ ตรอก/ซอย ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด)</small></th>
+        </tr>
+
+        {% if(((page+1)*data[0].total.line_in_page)<data.length) { %}
+            {% var end_data = (page+1)*data[0].total.line_in_page %}
+        {% } else { %}
+            {% var end_data = data.length %}
+        {% } %}
+
+        {% for (var i=page*data[0].total.line_in_page, l=end_data; i<l; i++) { %}
+        <tr>
+            <td rowspan="3">{{ data[i].idx }}</td>
+            <td style="text-align: left;">{{ data[i]._whdee }}</td>
+            <td>{{ data[i].whdee_branch_no }}</td>
+
+            <td>{{ data[i].date0 }}</td>
+            <td style="text-align: left; white-space: nowrap; overflow: hidden;">{{ data[i].type0 }}</td>
+            <td>{{ data[i].rate0 }}</td>
+            <td style="text-align: right;">{{ data[i]._paid0 }}</td>
+            <td style="text-align: right;">{{ data[i]._wht0 }}</td>
+            <td>{{ data[i].condition0 }}</td>
+
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: left;">ชื่อ {{ data[i].whdee_prefix }}{{ data[i].whdee_name }}</td>
+
+            <td>{{ data[i].date1 }}</td>
+            <td style="text-align: left; white-space: nowrap; overflow: hidden;">{{ data[i].type1 }}</td>
+            <td>{{ data[i].rate1 }}</td>
+            <td style="text-align: right;">{{ data[i]._paid1 }}</td>
+            <td style="text-align: right;">{{ data[i]._wht1 }}</td>
+            <td>{{ data[i].condition1 }}</td>
+
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: left; white-space: nowrap; overflow: hidden;">ที่อยู่ {{ data[i].whdee_branch_addr }}</td>
+
+            <td>{{ data[i].date2 }}</td>
+            <td style="text-align: left; white-space: nowrap; overflow: hidden;">{{ data[i].type2 }}</td>
+            <td>{{ data[i].rate2 }}</td>
+            <td style="text-align: right;">{{ data[i]._paid2 }}</td>
+            <td style="text-align: right;">{{ data[i]._wht2 }}</td>
+            <td>{{ data[i].condition2 }}</td>
+
+        </tr>
+        {% } %}
+
+        {% if(page+1===data[0].total.pages && data[0].total.line_left>0) { %}
+            {% for (let l=0, lines=6-data[0].total.line_left; l<lines; l++) { %}
+            <tr>
+                <td rowspan="3"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            {% } %}
+        {% } %}
+
+        <tr>
+            <td colspan="6" style="text-align: right;"><b>รวม</b>ยอดเงินได้และภาษีที่นำส่ง (นำไปรวมกับ<b>ใบแนบ ภ.ง.ด.{{ data[0].pnd.pnd }}</b> แผ่นอื่น (ถ้ามี))</td>
+            <td style="text-align: right;">{{ data[0]['total'][page]._paid }}</td>
+            <td style="text-align: right;">{{ data[0]['total'][page]._wht }}</td>
+            <td></td>
+        </tr>
+
+    </table>
+</div>
+
+<div>
+    <table style="height: 4.5cm; width: 100%;">
+        <tr>
+            <td class="footer" style="width: 65%; text-align: left;">
+                <small>(ให้กรอกลำดับที่ต่อเนื่องไปทุกแผ่น)</small><br>
+                <table style="width: 100%; padding: 0cm; margin: 0cm; border: none !important;">
+                    <tr style="border: none !important;">
+                        <td style="text-align: left; border: none !important;">
+                            <b><u>หมายเหตุ</u></b>
+                        </td>
+                        {% if(data[0].pnd.pnd==='3') { %}
+                        <td style="text-align: left; border: none !important;">
+                            <ol>
+                                <li>
+                                    ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่าเช่าอาคาร ค่าสอบบัญชี ค่าทนายความ ค่าวิชาชีพของแพทย์ ค่าก่อสร้าง รางวัล 
+                                    ส่วนลดหรือประโยชน์ใดๆ เนื่องจากการส่งเสริมการขาย รางวัลในการประกวด การแข่งขัน การชิงโชค ค่าจ้างแสดงภาพยนตร์ 
+                                    ร้องเพลงดนตรี ค่าจ้างทำของ ค่าจ้างโฆษณา ค่าขนส่งสินค้า ฯลฯ
+                                </li>
+                                <li>
+                                    เงื่อนไขการหักภาษีให้กรอกดังนี้
+                                    <ul>
+                                        <li>หัก ณ ที่จ่าย กรอก 1</li>
+                                        <li>ออกให้ตลอดไป กรอก 2</li>
+                                        <li>ออกให้ครั้งเดียว กรอก 3</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </td>
+                        {% } else if(data[0].pnd.pnd==='53') { %}
+                        <td style="text-align: left; border: none !important;">
+                                <ol>
+                                    <li>
+                                        ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่านายหน้า ค่าแห่งกู๊ดวิลล์ ดอกเบี้ยเงินฝาก ดอกเบี้ยตั๋วเงิน เงินปันผล เงินส่วนแบ่งกำไร
+                                        ค่าเช่าอาคาร ค่าสอบบัญชี ค่าออกแบบ ค่าก่อสร้างโรงเรียน ค่าซื้อเครื่องพิมพ์ดีด ค่าซื้อพืชผลทางการเกษตร
+                                        (ยางพารา มันสำปะหลัง ปอ ข้าว ฯลฯ) ค่าจ้างทำของ ค่าจ้างโฆษณา รางวัล ส่วนลดหรือประโยชน์ใดๆ เนื่องจากการส่งเสริมการขาย
+                                        รางวัลในการประกวด การแข่งขัน ค่าขนส่งสินค้า ค่าเบี้ยประกันวินาศภัย
+                                    </li>
+                                    <li>
+                                        เงื่อนไขการหักภาษีให้กรอกดังนี้
+                                        <ul>
+                                            <li>หัก ณ ที่จ่าย กรอก 1</li>
+                                            <li>ออกภาษีให้ กรอก 2</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                            </td>
+                        {% } %}
+                    </tr>
+                </table>
+
+            </td>
+            <td style="vertical-align: bottom !important;">
+                <p style="padding: 1.2mm 0 0 2cm;">ลงชื่อ .............................................................. ผู้จ่ายเงิน</p>
+                <p style="padding: 1.2mm 0 0 2cm;">(..............................................................)</p>
+                <p style="padding: 1.2mm 0 0 2cm;">ตำแหน่ง ...............................................</p>
+                <p style="padding: 1.2mm 0 0 2cm;">ยื่น{{ data[0]['pnd']._date }}</p>
+            </td>
+        </tr>
+    </table>
+</div>
+{% if(data[0].total.pages!==page+1) { %}
+<div class="page-break"></div> 
+{% } %}
+{% } %}
