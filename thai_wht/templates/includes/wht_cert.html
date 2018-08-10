@@ -129,11 +129,19 @@
             ]
         %}
 
+        {% macro thai_date(date) %}
+            {{ "{:02d}/{:02d}/{}".format(
+                date.day,
+                date.month,
+                date.year+543,
+                ) }}
+        {% endmacro %}
+
         {% for i in doc.wht_cert_detail %}
             {% if i != doc.wht_cert_detail[-1] %}
                 <tr>
                     <td colspan="2" class="border-in">{{ i.type }}{% if i.type_detail %} {{ i.type_detail }}{% endif %}</td>
-                    <td class="border-in" style="text-align: center">{{ i.get_formatted("date", i) }}</td>
+                    <td class="border-in" style="text-align: center">{{ thai_date(i.date) }}</td>
                     <td class="border-in" style="text-align: right">{{ "{:,.2f}".format(i.paid) }}</td>
                     <td class="border-in" style="text-align: right">{{ "{:,.2f}".format(i.wht) }}</td>
                     <td class="border-in" style="text-align: center">{{ i.condition }}</td>
@@ -141,7 +149,7 @@
             {% else %}
                 <tr>
                     <td colspan="2">{{ i.type }}{% if i.type_detail %} {{ i.type_detail }}{% endif %}</td>
-                    <td class="border-in-last" style="text-align: center">{{ i.get_formatted("date", i) }}</td>
+                    <td class="border-in-last" style="text-align: center">{{ thai_date(i.date) }}</td>
                     <td class="border-in-last" style="text-align: right">{{ "{:,.2f}".format(i.paid) }}</td>
                     <td class="border-in-last" style="text-align: right">{{ "{:,.2f}".format(i.wht) }}</td>
                     <td class="border-in-last" style="text-align: center">{{ i.condition }}</td>
@@ -165,6 +173,28 @@
     </table>
 </div>
 
+{% macro full_thai_date(date) %}
+{% set thai_month = [
+    'มกราคม',
+    'กุมภาพันธ์',
+    'มีนาคม',
+    'เมษายน',
+    'พฤษภาคม',
+    'มิถุนายน',
+    'กรกฎาคม',
+    'สิงหาคม',
+    'กันยายน',
+    'ตุลาคม',
+    'พฤศจิกายน',
+    'ธันวาคม',
+    ] %}
+{{ "วันที่ {:02d} เดือน {} พ.ศ. {}".format(
+    date.day,
+    thai_month[date.month-1],
+    date.year+543,
+    ) }}
+{% endmacro %}
+
 <div>
     <table class="border">
         <tr>
@@ -185,7 +215,7 @@
                 <br>
                 <br>
                 <p>ลงชื่อ ................................................................... ผู้จ่ายเงิน</p>
-                <p>{{ doc.get_formatted("date", doc) }}</p>
+                <p>{{ full_thai_date(doc.date) }}</p>
                 <p><small>(วัน เดือน ปี ที่ออกหนังสือรับรอง)</small></p>
             </td>
         </tr>
