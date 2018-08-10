@@ -19,6 +19,8 @@ frappe.ui.form.on('Wht Cert', {
         branchList.branchSelectionQuery(
             'Whdee', frm.doc.whdee, frm.doc.whdee_branch, 'whdee_branch'
         );
+
+        hideChildAddBtn(frm);
     },
     whder: function(frm) {
         branchList.branchSelectionQuery(
@@ -50,11 +52,7 @@ frappe.ui.form.on('Wht Cert', {
         setupWhtTypeQueries(frm);
     },
     wht_cert_detail_on_form_rendered: function(frm) {
-        // hide add row button if wht child table have 3 entry
-        let hideBool = (frm.doc.wht_cert_detail.length < 3);
-        $('[data-fieldname="wht_cert_detail"] button.grid-add-row').toggle(hideBool);
-        $('[data-fieldname="wht_cert_detail"] button.grid-insert-row-below').toggle(hideBool);
-        $('[data-fieldname="wht_cert_detail"] button.grid-insert-row').toggle(hideBool);
+        hideChildAddBtn(frm);
 
         setChildTblDefaultValue(frm.open_grid_row(), frm.doc.date);
         setupWhtTypeQueries(frm);
@@ -79,6 +77,25 @@ frappe.ui.form.on('Wht Cert Detail', {
        calWht(gridRow);
    },
 });
+
+/**
+ * hide add row button if wht child table have 3 entry
+ * @param {object} frm
+ */
+function hideChildAddBtn(frm) {
+    let hideBool;
+    if (typeof(frm.doc.wht_cert_detail) == 'undefined') {
+        hideBool = true;
+    } else {
+        hideBool = (frm.doc.wht_cert_detail.length < 3);
+    }
+    $('[data-fieldname="wht_cert_detail"] button.grid-add-row')
+        .toggle(hideBool);
+    $('[data-fieldname="wht_cert_detail"] button.grid-insert-row-below')
+        .toggle(hideBool);
+    $('[data-fieldname="wht_cert_detail"] button.grid-insert-row')
+        .toggle(hideBool);
+}
 
 /**
  * open newtab and print pdf
