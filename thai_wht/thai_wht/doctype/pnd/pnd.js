@@ -7,6 +7,23 @@ frappe.ui.form.on('Pnd', {
             'Whder', frm.doc.whder, frm.doc.whder_branch, 'whder_branch'
         );
     },
+    onload: (frm) =>{
+        console.log('haldo')
+        if ($('#page-Form\\/Pnd .fa-list').length===0) {
+            // add export function
+            $('#page-Form\\/Pnd .fa-print').parents('span').before(`
+                <span class="page-icon-group hidden-xs hidden-sm">
+                    <a class="text-muted no-decoration">
+                        <i class="fa fa-list"></i>
+                    </a>
+                </span>
+            `)
+            $('.fa-list').parent().click(function() {
+                exportPnd(frm);
+            });
+
+        }
+    },
     refresh: (frm) => {
         branchList.branchSelectionQuery(
             'Whder', frm.doc.whder, frm.doc.whder_branch, 'whder_branch'
@@ -19,17 +36,7 @@ frappe.ui.form.on('Pnd', {
         $('a.grey-link:contains("'+__('Print')+'")').unbind().click(function() {
             printPnd(frm);
         });
-        // add export function
-        $('.fa-print').parents('span').before(`
-            <span class="page-icon-group hidden-xs hidden-sm">
-                <a class="text-muted no-decoration">
-                    <i class="fa fa-list"></i>
-                </a>
-            </span>
-        `)
-        $('.fa-list').parent().click(function() {
-            exportPnd(frm);
-        });
+        // added export menu function
         frm.page.add_menu_item(__('Internet Export'), function() {
             exportPnd(frm);
         });
