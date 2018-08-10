@@ -8,7 +8,6 @@ frappe.ui.form.on('Pnd', {
         );
     },
     onload: (frm) =>{
-        console.log('haldo')
         if ($('#page-Form\\/Pnd .fa-list').length===0) {
             // add export function
             $('#page-Form\\/Pnd .fa-print').parents('span').before(`
