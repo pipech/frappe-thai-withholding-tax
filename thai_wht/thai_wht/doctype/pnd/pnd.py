@@ -42,6 +42,17 @@ class Pnd(Document):
         self.whder_branch_no = whder_branch.branch
         self.whder_branch_addr = whder_branch.address
 
+        # get payer info
+        # payer = frappe.get_value(
+        #     doctype='Payer',
+        #     filters=self.payer,
+        #     fieldname=['prefix', 'p_name', 'position'],
+        #     as_dict=True,
+        #     )
+        # self.payer_prefix = payer.prefix
+        # self.payer_name = payer.p_name
+        # self.payer_position = payer.position
+
     def on_submit(self):
         for d in self.wht_cert:
             print(d.wht_cert)
@@ -57,6 +68,21 @@ def autogen():
     Generate by getting all Wht Cert doctype with 'Confirmed' workflow_state
     then used that list to generate Pnd doctype
     """
+
+    # check user permission get payer info for user
+    # if 'Wht Manager' in frappe.get_roles():
+    #     payer = frappe.get_list(
+    #         doctype='Payer',
+    #         fields=['name', 'whder'],
+    #         )
+    #     if not payer:
+    #         return 'กรุณาเพิ่ม ผู้จ่ายเงิน'
+    #     payer_dict = {}
+    #     for p in payer:
+    #         payer_dict[p.whder] = p.name
+    # else:
+    #     return 'คุณต้องมีตำแหน่ง Wht Manager เท่านั้น ถึงจะทำรายการนี้ได้'
+
     # getting Wht Cert doctype with 'Confirmed' workflow_state
     pnd_list = frappe.db.sql(
         """
@@ -78,6 +104,12 @@ def autogen():
         """,
         as_dict=1
     )
+
+    # check payer for company
+    # for pnd in pnd_list:
+    #     if pnd.whder not in payer_dict:
+    #         return 'กรุณาเพิ่ม ผู้จ่ายเงิน สำหรับบริษัท {}'.format(pnd.whder)
+
     total_created_pnd = 0
     # create new Pnd
     for pnd in pnd_list:
@@ -99,6 +131,7 @@ def autogen():
                 'year': pnd.year,
                 'law': pnd.law,
                 'submit_no': pnd_count.total_submit,
+                # 'payer': payer_dict[pnd.whder],
                 'date': datetime.datetime.now(),
             })
 
