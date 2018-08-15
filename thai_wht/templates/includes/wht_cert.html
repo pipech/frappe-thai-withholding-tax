@@ -20,12 +20,18 @@
     <h2 style="padding: 0px 0px 10px 0px; margin: 0px;">ตามมาตรา 50 ทวิ แห่งประมวลรัษฎากร</h2>
 </div>
 
+{% macro format_id(id) %}
+{{ '{}-{}-{}-{}-{}'.format(
+    id[0], id[1:5], id[5:10], id[10:12], id[12]
+    ) }}
+{% endmacro %}
+
 <div>
     <table class="border">
         <tr>
             <td><b>ผู้มีหน้าที่หักภาษี ณ ที่จ่าย :</b></td>
             <td><b>เลขประจำตัวผู้เสียภาษีอากร </b>
-                {{ doc.whder }}
+                {{ format_id(doc.whder) }}
             </td> 
         </tr>
         <tr>
@@ -48,7 +54,7 @@
         <tr>
             <td><b>ผู้ถูกหักภาษี ณ ที่จ่าย :</b></td>
             <td><b>เลขประจำตัวผู้เสียภาษีอากร </b>
-                {{ doc.whdee }}
+                {{ format_id(doc.whdee) }}
             </td> 
         </tr>
         <tr>
