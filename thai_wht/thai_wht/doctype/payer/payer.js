@@ -2,7 +2,14 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Payer', {
-	refresh: function(frm) {
-
-	}
+    refresh: function(frm) {
+        frm.set_query('prefix', function() {
+            return {
+                'filters': [
+                    ['type', '=', 'Ind'],
+                    ['prefix', '!=', 'หสม.'],
+                ],
+            };
+        });
+    },
 });
