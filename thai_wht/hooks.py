@@ -28,3 +28,5 @@ app_include_css = [
     ]
 
 after_install = 'thai_wht.setup.install.after_install'
+
+setup_wizard_requires = 'assets/thai_wht/js/setup_wizard.js'
