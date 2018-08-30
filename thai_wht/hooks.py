@@ -35,4 +35,5 @@ website_context = {
         {'label': 'คู่มือการใช้งาน', 'url': 'https://pnd.in.th/docs', 'right': 1},
         {'label': 'เข้าสู่ระบบ', 'url': '/login', 'right': 1},
     ],
+    'hide_login': 1,
 }
