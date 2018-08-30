@@ -28,3 +28,11 @@ app_include_css = [
     ]
 
 after_install = 'thai_wht.setup.install.after_install'
+
+website_context = {
+    'brand_html': 'ภ.ง.ด.',
+    'top_bar_items': [
+        {'label': 'คู่มือการใช้งาน', 'url': 'https://pnd.in.th/docs', 'right': 1},
+        {'label': 'เข้าสู่ระบบ', 'url': '/login', 'right': 1},
+    ],
+}
