@@ -37,3 +37,5 @@ website_context = {
     ],
     'hide_login': 1,
 }
+
+web_include_css = '/assets/css/pnd_site.min.css'
