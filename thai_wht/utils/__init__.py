@@ -35,6 +35,8 @@ def set_db_host():
         UPDATE mysql.user
         SET host = '10.%.%.%'
         WHERE host LIKE '10.%.%.%' AND user = '{db_name}';
+
+        FLUSH PRIVILEGES;
     """.format(db_name=db_name)
     process = subprocess.Popen(
         [
