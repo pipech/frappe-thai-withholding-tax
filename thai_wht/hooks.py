@@ -29,10 +29,14 @@ app_include_css = [
 
 after_install = 'thai_wht.setup.install.after_install'
 
+web_include_js = [
+    'public/js/website.js'
+    ]
+
 website_context = {
     'brand_html': 'ภ.ง.ด.',
     'top_bar_items': [
-        {'label': 'คู่มือการใช้งาน', 'url': 'https://pnd.in.th/docs', 'right': 1},
+        {'label': 'คู่มือการใช้งาน', 'url': 'https://docs.google.com/document/d/1JhlKvOL91ht_KA9BOscLQH9U9D2rQQ-Un2R3wgZIuhA/', 'right': 1},
         {'label': 'เข้าสู่ระบบ', 'url': '/login', 'right': 1},
     ],
     'hide_login': 1,
