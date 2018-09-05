@@ -30,7 +30,7 @@ app_include_css = [
 after_install = 'thai_wht.setup.install.after_install'
 
 web_include_js = [
-    'public/js/website.js'
+    '/assets/js/website.min.js',
     ]
 
 website_context = {
