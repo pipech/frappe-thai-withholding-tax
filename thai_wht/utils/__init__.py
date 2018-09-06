@@ -52,3 +52,11 @@ def set_db_host():
     out, err = process.communicate(update_sql)
     if process.returncode != 0:
         raise Exception('Something failed : {}'.format(err))
+
+
+def set_email_setting():
+    outgoing_mail = frappe.get_doc(
+        'Email Account', 'Notifications'
+    )
+    outgoing_mail.update(frappe.conf.outgoing_mail_setting)
+    outgoing_mail.save(ignore_permissions=True)
