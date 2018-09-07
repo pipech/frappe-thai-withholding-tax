@@ -21,4 +21,12 @@ def get_data():
             'link': 'List/Wht Cert',
             'label': _('Wht Cert')
         },
+        {
+            'module_name': 'Wht Manual',
+            'color': '#589494',
+            'icon': 'octicon octicon-book',
+            'type': 'page',
+            'link': 'wht-manual',
+            'label': _('Wht Manual')
+        },
     ]

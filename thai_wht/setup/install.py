@@ -161,6 +161,8 @@ def add_fixture():
         ## Thai Wht
         {'doctype': 'Translation', 'language': 'en',
             'source_name': 'Thai Wht', 'target_name': u'ภาษีหัก ณ ที่จ่าย'},
+        {'doctype': 'Translation', 'language': 'en',
+            'source_name': 'Wht Manual', 'target_name': u'คู่มือการใช้งาน'},
         ### Doctype
         {'doctype': 'Translation', 'language': 'en',
             'source_name': 'Pnd', 'target_name': u'ภ.ง.ด.'},
