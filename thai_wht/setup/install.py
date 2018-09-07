@@ -4,9 +4,13 @@
 
 import frappe
 
+from frappe.desk.doctype.desktop_icon.desktop_icon import set_hidden_list
+
 
 def after_install():
     add_fixture()
+    hidden_icon = ['Desk', 'File Manager', 'Website', 'Integrations', 'Setup', 'Email Inbox', 'Core', 'Contacts']
+    set_hidden_list(hidden_icon)
 
 
 def add_fixture():
