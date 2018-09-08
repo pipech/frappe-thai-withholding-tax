@@ -15,6 +15,8 @@ class WhtBranch(Document):
         self.address_line1 = ' '.join(self.address_line1.split())
 
     def validate(self):
+        if self.branch is None:
+            self.branch = '0'
         try:
             int(self.branch)
         except ValueError:
