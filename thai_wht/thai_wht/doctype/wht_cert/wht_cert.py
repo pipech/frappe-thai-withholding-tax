@@ -9,6 +9,19 @@ from thai_wht.thai_wht.doctype.wht_branch.wht_branch import get_branch_address
 
 
 class WhtCert(Document):
+    def autoname(self):
+        from frappe.model.naming import make_autoname
+        whder = frappe.get_value(
+            doctype='Whder',
+            filters=self.whder,
+            fieldname=['whder_no'],
+            as_dict=True,
+            )
+        self.whder_no = whder.whder_no
+        self.name = make_autoname(
+            'WHT{whder_no}.YY.MM.####'.format(whder_no=self.whder_no)
+            )
+
     def before_save(self):
         # get whder name and prefix
         whder = frappe.get_value(

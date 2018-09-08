@@ -10,6 +10,18 @@ from thai_wht.thai_wht.doctype.wht_branch.wht_branch import load_branch
 
 
 class Whder(Document):
+    def before_insert(self):
+        if self.whder_no is None:
+            total_whder_sql = frappe.db.sql(
+                'SELECT COUNT(*) AS "total" FROM `tabWhder`;',
+                as_dict=1
+            )
+            total_whder = total_whder_sql[0].total
+            if total_whder <= 10:
+                self.whder_no = total_whder
+            else:
+                frappe.throw('ไม่สามารถสร้าง ผู้มีหน้าที่หักภาษี ณ ที่จ่าย เกิน 10 ราย')
+
     def before_save(self):
         self.type = frappe.get_value('Prefix', self.prefix, 'type')
         # remove duplicated spaces
