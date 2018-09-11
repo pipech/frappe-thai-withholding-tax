@@ -86,8 +86,8 @@ def delete_for_doctype(doctype):
 
 
 def disable_delete():
-    from frappe.utils import get_site_name
-    site_name = get_site_name(frappe.local.request.host)
+    from frappe.utils import cstr
+    site_name = cstr(frappe.local.site)
 
     # delete data from tabDesktop Icon
     frappe.db.sql(
@@ -130,4 +130,4 @@ def call_bench(cmd):
 
 def adding_pre_config_value():
     from thai_wht.setup.install import add_fixture
-    add_fixture(wht_only=True)
+    add_fixture(only=['wht_records'])
