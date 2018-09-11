@@ -11,15 +11,11 @@ def after_install():
     add_fixture()
     hidden_icon = ['Desk', 'File Manager', 'Website', 'Integrations', 'Setup', 'Email Inbox', 'Core', 'Contacts']
     set_hidden_list(hidden_icon)
+    
 
-
-def add_fixture():
-    records = [
-
-        # Role
-        {'doctype': 'Role', 'role_name': 'Wht Manager', 'desk_access': 1},
-        {'doctype': 'Role', 'role_name': 'Wht User', 'desk_access': 1},
-
+def add_fixture(wht_only=False):
+    
+    wht_records = [
         # Prefix
         {'doctype': 'Prefix', 'prefix': u'นาย', 'type': 'Ind'},
         {'doctype': 'Prefix', 'prefix': u'นาง', 'type': 'Ind'},
@@ -29,48 +25,6 @@ def add_fixture():
         {'doctype': 'Prefix', 'prefix': u'บจก.', 'type': 'Org'},
         {'doctype': 'Prefix', 'prefix': u'บมจ.', 'type': 'Org'},
         {'doctype': 'Prefix', 'prefix': u'หจก.', 'type': 'Org'},
-
-        # Workflow State
-        {'doctype': 'Workflow State', 'workflow_state_name': 'Draft',
-            'style': 'Warning'},
-        {'doctype': 'Workflow State', 'workflow_state_name': 'Confirmed',
-            'style': 'Success'},
-        {'doctype': 'Workflow State', 'workflow_state_name': 'Submitted',
-            'style': 'Primary'},
-        {'doctype': 'Workflow State', 'workflow_state_name': 'Cancelled',
-            'style': 'Danger'},
-
-        # Workflow Action
-        {'doctype': 'Workflow Action', 'workflow_action_name': 'Confirm'},
-        {'doctype': 'Workflow Action', 'workflow_action_name': 'Submit'},
-        {'doctype': 'Workflow Action', 'workflow_action_name': 'Cancel'},
-
-        # Workflow
-        {
-            'doctype': 'Workflow',
-            'workflow_name': 'Wht Cert Workflow',
-            'document_type': 'Wht Cert',
-            'is_active': 1,
-            'states': [
-                {'state': 'Draft', 'doc_status': 0,
-                    'allow_edit': 'Wht User'},
-                {'state': 'Confirmed', 'doc_status': 1,
-                    'allow_edit': 'Administrator'},
-                {'state': 'Submitted', 'doc_status': 1,
-                    'allow_edit': 'Administrator'},
-                {'state': 'Cancelled', 'doc_status': 2,
-                    'allow_edit': 'Administrator'},
-            ],
-            'transitions': [
-                {'state': 'Draft', 'action': 'Confirm',
-                    'next_state': 'Confirmed', 'allowed': 'Wht User'},
-                {'state': 'Confirmed', 'action': 'Submit',
-                    'next_state': 'Submitted', 'allowed': 'Administrator'},
-                {'state': 'Confirmed', 'action': 'Cancel',
-                    'next_state': 'Cancelled', 'allowed': 'Wht Manager'},
-            ],
-            'workflow_state_field': 'workflow_state',
-        },
 
         # Wht Type
         {'doctype': 'Wht Type',
@@ -160,6 +114,54 @@ def add_fixture():
         {'doctype': 'Wht Type',
             'wht_type': u'8 อื่นๆ',
             'pnd1': 0, 'pnd2': 0, 'pnd3': 1, 'pnd53': 1, 'pnd54': 0},
+    ]
+
+    records = [
+        # Role
+        {'doctype': 'Role', 'role_name': 'Wht Manager', 'desk_access': 1},
+        {'doctype': 'Role', 'role_name': 'Wht User', 'desk_access': 1},
+
+        # Workflow State
+        {'doctype': 'Workflow State', 'workflow_state_name': 'Draft',
+            'style': 'Warning'},
+        {'doctype': 'Workflow State', 'workflow_state_name': 'Confirmed',
+            'style': 'Success'},
+        {'doctype': 'Workflow State', 'workflow_state_name': 'Submitted',
+            'style': 'Primary'},
+        {'doctype': 'Workflow State', 'workflow_state_name': 'Cancelled',
+            'style': 'Danger'},
+
+        # Workflow Action
+        {'doctype': 'Workflow Action', 'workflow_action_name': 'Confirm'},
+        {'doctype': 'Workflow Action', 'workflow_action_name': 'Submit'},
+        {'doctype': 'Workflow Action', 'workflow_action_name': 'Cancel'},
+
+        # Workflow
+        {
+            'doctype': 'Workflow',
+            'workflow_name': 'Wht Cert Workflow',
+            'document_type': 'Wht Cert',
+            'is_active': 1,
+            'states': [
+                {'state': 'Draft', 'doc_status': 0,
+                    'allow_edit': 'Wht User'},
+                {'state': 'Confirmed', 'doc_status': 1,
+                    'allow_edit': 'Administrator'},
+                {'state': 'Submitted', 'doc_status': 1,
+                    'allow_edit': 'Administrator'},
+                {'state': 'Cancelled', 'doc_status': 2,
+                    'allow_edit': 'Administrator'},
+            ],
+            'transitions': [
+                {'state': 'Draft', 'action': 'Confirm',
+                    'next_state': 'Confirmed', 'allowed': 'Wht User'},
+                {'state': 'Confirmed', 'action': 'Submit',
+                    'next_state': 'Submitted', 'allowed': 'Administrator'},
+                {'state': 'Confirmed', 'action': 'Cancel',
+                    'next_state': 'Cancelled', 'allowed': 'Wht Manager'},
+            ],
+            'workflow_state_field': 'workflow_state',
+        },
 
         # Translation
         ## Thai Wht
@@ -167,6 +169,8 @@ def add_fixture():
             'source_name': 'Thai Wht', 'target_name': u'ภาษีหัก ณ ที่จ่าย'},
         {'doctype': 'Translation', 'language': 'en',
             'source_name': 'Wht Manual', 'target_name': u'คู่มือการใช้งาน'},
+        {'doctype': 'Translation', 'language': 'en',
+            'source_name': 'Demo Delete', 'target_name': u'ล้างข้อมูลตัวอย่าง'},
         ### Doctype
         {'doctype': 'Translation', 'language': 'en',
             'source_name': 'Pnd', 'target_name': u'ภ.ง.ด.'},
@@ -186,7 +190,12 @@ def add_fixture():
         {'doctype': 'Translation', 'language': 'en',
             'source_name': 'Add Filter', 'target_name': u'เพิ่มคัดกรอง'},
     ]
-    
+
+    if wht_only:
+        records = wht_records
+    else:
+        records.extend(wht_records)
+
     make_fixture_records(records)
 
 

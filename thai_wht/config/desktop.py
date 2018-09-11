@@ -2,9 +2,11 @@
 from __future__ import unicode_literals
 from frappe import _
 
+import frappe
+
 
 def get_data():
-    return [
+    icons = [
         {
             'module_name': 'Thai Wht',
             'color': 'green',
@@ -30,3 +32,13 @@ def get_data():
             'label': _('Wht Manual')
         },
     ]
+    if frappe.conf.demo:
+        icons.append({
+            'module_name': 'Demo Delete',
+            'color': '#ffa00a',
+            'icon': 'octicon octicon-trashcan',
+            'type': 'page',
+            'link': 'delete-transaction',
+            'label': _('Demo Delete')
+        })
+    return icons
