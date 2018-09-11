@@ -120,8 +120,10 @@ function printPDF() {
  * @param {object} frm - form object from frappe
  */
 function setDefaultDate(frm) {
-    let today = frappe.datetime.nowdate();
-    frm.set_value('date', today);
+    if (!frm.doc.date) {
+        let today = frappe.datetime.nowdate();
+        frm.set_value('date', today);
+    };
 }
 
 /**
