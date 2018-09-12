@@ -7,7 +7,307 @@ import json
 
 from frappe.utils import cstr
 from frappe.utils import cint
+from thai_wht.setup.install import add_fixture
+from thai_wht.setup.install import make_fixture_records
+from thai_wht.thai_wht.doctype.wht_branch.wht_branch import get_branch_select
+from thai_wht.thai_wht.doctype.pnd.pnd import autogen
 from os import listdir
+
+
+@frappe.whitelist()
+def add_demo():
+    add_whder_whdee()
+    add_wht_cert()
+    autogen()
+
+
+def add_wht_cert():
+    demo_wht_cert = [
+        {
+            'doctype': 'Wht Cert',
+            'workflow_state': 'Confirmed',
+            'pnd': '3',
+            'date': '2018-09-01',
+            'whder': '1111111111119',
+            'whdee': '1472174703381',
+            'wht_cert_detail': [
+                {
+                    'date': '2018-09-01',
+                    'type': u'8 อื่นๆ - ค่าบริการ',
+                    'type_detail': u'รักษาความสงบของบ้านเมือง',
+                    'paid': 100000,
+                    'rate': 3,
+                    'wht': 3000,
+                    'condition': '1',
+                }
+            ],
+        },
+        {
+            'doctype': 'Wht Cert',
+            'workflow_state': 'Confirmed',
+            'pnd': '3',
+            'date': '2018-09-02',
+            'whder': '2222222222227',
+            'whdee': '8432740761025',
+            'wht_cert_detail': [
+                {
+                    'date': '2018-09-02',
+                    'type': u'8 อื่นๆ - รางวัลในการประกวด แข่งขัน ชิงโชค',
+                    'paid': 200000,
+                    'rate': 3,
+                    'wht': 6000,
+                    'condition': '1',
+                }
+            ],
+        },
+        {
+            'doctype': 'Wht Cert',
+            'workflow_state': 'Confirmed',
+            'pnd': '3',
+            'date': '2018-09-03',
+            'whder': '1111111111119',
+            'whdee': '8432740761025',
+            'wht_cert_detail': [
+                {
+                    'date': '2018-09-03',
+                    'type': u'8 อื่นๆ - ค่าบริการ',
+                    'paid': 1000,
+                    'rate': 3,
+                    'wht': 30,
+                    'condition': '1',
+                },
+                {
+                    'date': '2018-09-03',
+                    'type': u'5 ค่าเช่า',
+                    'paid': 20000,
+                    'rate': 5,
+                    'wht': 1000,
+                    'condition': '1',
+                }
+            ],
+        },
+        {
+            'doctype': 'Wht Cert',
+            'workflow_state': 'Confirmed',
+            'pnd': '53',
+            'date': '2018-09-07',
+            'whder': '2222222222227',
+            'whdee': '4631360706604',
+            'wht_cert_detail': [
+                {
+                    'date': '2018-09-07',
+                    'type': u'8 อื่นๆ - ค่าจ้างทำของ',
+                    'paid': 35000,
+                    'rate': 3,
+                    'wht': 1050,
+                    'condition': '1',
+                }
+            ],
+        },
+        {
+            'doctype': 'Wht Cert',
+            'workflow_state': 'Confirmed',
+            'pnd': '53',
+            'date': '2018-09-10',
+            'whder': '2222222222227',
+            'whdee': '4631360706604',
+            'wht_cert_detail': [
+                {
+                    'date': '2018-09-10',
+                    'type': u'8 อื่นๆ - ค่าจ้างทำของ',
+                    'paid': 25000,
+                    'rate': 3,
+                    'wht': 750,
+                    'condition': '1',
+                }
+            ],
+        },
+        {
+            'doctype': 'Wht Cert',
+            'workflow_state': 'Confirmed',
+            'pnd': '53',
+            'date': '2018-09-13',
+            'whder': '1111111111119',
+            'whdee': '1625011011065',
+            'wht_cert_detail': [
+                {
+                    'date': '2018-09-13',
+                    'type': u'7 การรับเหมาที่ผู้รับเหมาต้องลงทุนด้วยการจัดหาสัมภาระ',
+                    'paid': 56000,
+                    'rate': 3,
+                    'wht': 1680,
+                    'condition': '1',
+                }
+            ],
+        },
+    ]
+
+    # add branch name
+    for wht_cert in demo_wht_cert:
+        whder_branch = get_branch_select('Whder', wht_cert['whder'])[0]['name']
+        whdee_branch = get_branch_select('Whdee', wht_cert['whdee'])[0]['name']
+        wht_cert['whder_branch'] = whder_branch
+        wht_cert['whdee_branch'] = whdee_branch
+
+    # add record
+    make_fixture_records(demo_wht_cert)
+
+
+def add_whder_whdee():
+    demo_records = [
+        # Whder
+        {
+            'doctype': 'Whder',
+            'tax_id': '1 1111 11111 11 9',
+            'prefix': u'บจก.',
+            'w_name': u'สตาร์ค อินดัสตรี้',
+        },
+        {
+            'doctype': 'Whder',
+            'tax_id': '2 2222 22222 22 7',
+            'prefix': u'บจก.',
+            'w_name': u'ทาร์แกเรียน',
+        },
+        # Whdee
+        {
+            'doctype': 'Whdee',
+            'tax_id': '1 4721 74703 38 1',
+            'prefix': u'นาย',
+            'w_name': u'จอห์น สโนว์',
+        },
+        {
+            'doctype': 'Whdee',
+            'tax_id': '8 4327 40761 02 5',
+            'prefix': u'นาย',
+            'w_name': u'มิยาโมโตะ มุซาชิ',
+        },
+        {
+            'doctype': 'Whdee',
+            'tax_id': '4 6313 60706 60 4',
+            'prefix': u'หจก.',
+            'w_name': u'แพลนเนท เอ็กเพรส',
+        },
+        {
+            'doctype': 'Whdee',
+            'tax_id': '1 6250 11011 06 5',
+            'prefix': u'บมจ.',
+            'w_name': u'ดันเดอร์ มิฟฟลิน',
+        },
+        # Wht Branch
+        {
+            'doctype': 'Wht Branch',
+            'branch': '00000',
+            'address_line1': u'11 หมู่บ้านไอรอนแมน',
+            'sub_district': u'เหล',
+            'district': u'กะปง',
+            'province': u'พังงา',
+            'links': [
+                {
+                    'link_doctype': 'Whder',
+                    'link_name': '1111111111119',
+                }
+            ],
+        },
+        {
+            'doctype': 'Wht Branch',
+            'branch': '00001',
+            'address_line1': u'12 หมู่บ้านโกลด์แมน',
+            'sub_district': u'แมด',
+            'district': u'ลืออำนาจ',
+            'province': u'อำนาจเจริญ',
+            'links': [
+                {
+                    'link_doctype': 'Whder',
+                    'link_name': '1111111111119',
+                }
+            ],
+        },
+        {
+            'doctype': 'Wht Branch',
+            'branch': '00000',
+            'address_line1': u'22 ซ.ทาแก 27',
+            'sub_district': u'ทากาศ',
+            'district': u'แม่ทา',
+            'province': u'ลำพูน',
+            'links': [
+                {
+                    'link_doctype': 'Whder',
+                    'link_name': '2222222222227',
+                }
+            ],
+        },
+        {
+            'doctype': 'Wht Branch',
+            'branch': '00000',
+            'address_line1': '32',
+            'sub_district': u'สันกำแพง',
+            'district': u'สันกำแพง',
+            'province': u'เชียงใหม่',
+            'links': [
+                {
+                    'link_doctype': 'Whdee',
+                    'link_name': '1472174703381',
+                }
+            ],
+        },
+        {
+            'doctype': 'Wht Branch',
+            'branch': '00000',
+            'address_line1': '1',
+            'sub_district': u'ปุโละปุโย',
+            'district': u'หนองจิก',
+            'province': u'ปัตตานี',
+            'links': [
+                {
+                    'link_doctype': 'Whdee',
+                    'link_name': '8432740761025',
+                }
+            ],
+        },
+        {
+            'doctype': 'Wht Branch',
+            'branch': '00000',
+            'address_line1': u'39573 ถ.ดาวเหนือ',
+            'sub_district': u'ดาวเรือง',
+            'district': u'เมืองสระบุรี',
+            'province': u'สระบุรี',
+            'links': [
+                {
+                    'link_doctype': 'Whdee',
+                    'link_name': '4631360706604',
+                }
+            ],
+        },
+        {
+            'doctype': 'Wht Branch',
+            'branch': '00322',
+            'address_line1': u'44223',
+            'sub_district': u'ดาวคะนอง',
+            'district': u'ธนบุรี',
+            'province': u'กรุงเทพมหานคร',
+            'links': [
+                {
+                    'link_doctype': 'Whdee',
+                    'link_name': '4631360706604',
+                }
+            ],
+        },
+        {
+            'doctype': 'Wht Branch',
+            'branch': '00008',
+            'address_line1': u'82',
+            'sub_district': u'ดงกระทงยาม',
+            'district': u'ศรีมหาโพธิ',
+            'province': u'ปราจีนบุรี',
+            'links': [
+                {
+                    'link_doctype': 'Whdee',
+                    'link_name': '1625011011065',
+                }
+            ],
+        },
+    ]
+    make_fixture_records(demo_records)
 
 
 @frappe.whitelist()
@@ -214,7 +514,6 @@ def clear_cache(site_name):
 
 
 def adding_pre_config_value(args):
-    from thai_wht.setup.install import add_fixture
     add_fixture(only=['wht_records'])
 
 
