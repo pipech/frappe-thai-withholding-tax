@@ -16,7 +16,12 @@ class Whdee(Document):
         self.w_name = ' '.join(self.w_name.split())
 
     def validate(self):
-        self.tax_id = self.tax_id.replace(' ', '-')
+        # incase of cleave is not load
+        if len(self.tax_id) != 17:
+            frappe.throw('เลขบัตรประจำตัวประชาชน กรุณากด F5 แล้วลองใหม่อีกครั้ง')
+        else:
+            self.tax_id = self.tax_id.replace(' ', '-')
+
         self.name = self.tax_id.replace('-', '')
         if not check_tax_id(self.name):
             frappe.throw('เลขบัตรประจำตัวประชาชน ไม่ถูกต้อง')
