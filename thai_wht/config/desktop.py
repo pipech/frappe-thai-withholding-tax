@@ -32,7 +32,7 @@ def get_data():
             'label': _('Wht Manual')
         },
     ]
-    if frappe.conf.demo == '1':
+    if frappe.conf.demo == 1:
         icons.append({
             'module_name': 'Demo Delete',
             'color': '#ffa00a',

@@ -36,7 +36,7 @@ def delete_demo(pwd):
             'status': 'fail',
             'fail': 'There are already running process or uncaught error',
             }
-    elif frappe.conf.demo != '1':
+    elif frappe.conf.demo != 1:
         return {
             'status': 'fail',
             'fail': 'There are no demo',
