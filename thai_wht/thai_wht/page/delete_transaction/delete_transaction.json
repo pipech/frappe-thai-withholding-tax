@@ -7,12 +7,12 @@
  "modified": "2018-06-02 18:14:53.475842", 
  "modified_by": "Administrator", 
  "module": "Thai Wht", 
- "name": "delete-transaction", 
+ "name": "delete_transaction", 
  "owner": "Administrator", 
- "page_name": "delete-transaction", 
+ "page_name": "delete_transaction", 
  "roles": [], 
  "script": null, 
  "standard": "Yes", 
  "style": null, 
- "title": "Wht Manual"
+ "title": "Delete transaction"
 }

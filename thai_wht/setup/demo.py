@@ -5,6 +5,7 @@ import os
 import functools
 import json
 
+from frappe.utils import cstr
 from frappe.utils import cint
 from os import listdir
 
@@ -20,76 +21,178 @@ def check_password(pwd):
 
 
 @frappe.whitelist()
-def delete_transaction():
+def delete_demo(pwd):
+    # check password
+    if check_password(pwd) == 'wrong password':
+        return {
+            'status': 'fail',
+            'fail': 'Wrong password',
+            }
+
+    # check site config
+    if frappe.conf.demo == '2':
+        delete_transaction()
+        return {
+            'status': 'fail',
+            'fail': 'There are already running process or uncaught error',
+            }
+    elif frappe.conf.demo != '1':
+        return {
+            'status': 'fail',
+            'fail': 'There are no demo',
+            }
+
+    # check roles
     frappe.only_for('System Manager')
-    if frappe.conf.demo:
-        # get all doctype in thai_wht app
-        thai_wht_doc_path = frappe.get_app_path(
-            'thai_wht',
-            'thai_wht',
-            'doctype'
-            )
-        thai_wht_doc = listdir(thai_wht_doc_path)
 
-        # loop through all doctype
-        for doctype in thai_wht_doc:
-            # get doctype name
-            if os.path.isdir(os.path.join(thai_wht_doc_path, doctype)):
-                doc_json = os.path.join(
-                    thai_wht_doc_path,
-                    doctype,
-                    '{doctype}.json'.format(doctype=doctype)
-                    )
-                with open(doc_json) as doc_json_value:
-                    json_data = json.load(doc_json_value)
-                    doctype_name = json_data['name']
+    # get site name
+    site_name = cstr(frappe.local.site)
 
-                    # delete doctype
-                    delete_for_doctype(doctype_name)
+    # start process
+    stages = [
+        {
+            'status': 'Starting process',
+            'fail_msg': 'Failed : Starting process',
+            'tasks': [
+                {
+                    'fn': set_site_demo_config,
+                    'args': {
+                        'site_name': site_name,
+                        'demo_config': '2',
+                    },
+                    'fail_msg': 'Failed : Set site demo config to 2'
+                },
+            ]
+        },
+        {
+            'status': 'Delete demo transaction',
+            'fail_msg': 'Failed : Delete demo transaction',
+            'tasks': [
+                {
+                    'fn': delete_transaction,
+                    'args': '',
+                    'fail_msg': 'Failed : Delete demo transaction'
+                },
+            ]
+        },
+        {
+            'status': 'Adding pro config value',
+            'fail_msg': 'Failed : Adding pro config value',
+            'tasks': [
+                {
+                    'fn': adding_pre_config_value,
+                    'args': '',
+                    'fail_msg': 'Failed : Adding pro config value'
+                },
+            ]
+        },
+        {
+            'status': 'Finishing up',
+            'fail_msg': 'Failed : Finishing up',
+            'tasks': [
+                {
+                    'fn': delete_desktop_icon,
+                    'args': '',
+                    'fail_msg': 'Failed : Delete desktop icon'
+                },
+                {
+                    'fn': clear_cache,
+                    'args': site_name,
+                    'fail_msg': 'Failed : Clear cache'
+                },
+                {
+                    'fn': set_site_demo_config,
+                    'args': {
+                        'site_name': site_name,
+                        'demo_config': '0',
+                    },
+                    'fail_msg': 'Failed : Set site demo config to 0'
+                },
+            ]
+        },
+    ]
+    try:
+        current_task = {}
+        for idx, stage in enumerate(stages):
+            frappe.publish_realtime(
+                'delete_demo',
+                {
+                    'progress': [idx, len(stages)],
+                    'stage_status': stage.get('status'),
+                },
+                user=frappe.session.user
+                )
+            for task in stage.get('tasks'):
+                current_task = task
+                task.get('fn')(task.get('args'))
+    except Exception as err:
+        print(err)
+        return {
+            'status': 'fail',
+            'fail': current_task.get('fail_msg'),
+            'err_str': err,
+            }
+    else:
+        return {'status': 'ok'}
 
-        # after deletion
-        adding_pre_config_value()
-        disable_delete()
+
+def delete_transaction(args):
+    frappe.only_for('System Manager')
+
+    # get all doctype in thai_wht app
+    thai_wht_doc_path = frappe.get_app_path(
+        'thai_wht',
+        'thai_wht',
+        'doctype'
+        )
+    thai_wht_doc = listdir(thai_wht_doc_path)
+
+    # loop through all doctype
+    for doctype in thai_wht_doc:
+        # get doctype name
+        if os.path.isdir(os.path.join(thai_wht_doc_path, doctype)):
+            doc_json = os.path.join(
+                thai_wht_doc_path,
+                doctype,
+                '{doctype}.json'.format(doctype=doctype)
+                )
+            with open(doc_json) as doc_json_value:
+                json_data = json.load(doc_json_value)
+                doctype_name = json_data['name']
+
+                # delete doctype
+                delete_for_doctype(doctype_name)
 
 
 def delete_for_doctype(doctype):
-    # delete parent
+    frappe.db.sql(
+        'DELETE FROM `tab{doctype}`;'.format(doctype=doctype)
+        )
     frappe.db.sql(
         """
-        DELETE FROM
-            `tab{doctype}`
-        ;""".format(doctype=doctype),
-        auto_commit=1
+        DELETE FROM `tabVersion` WHERE `docname`='{doctype}';
+        """.format(doctype=doctype)
         )
-
-    # delete version log
     frappe.db.sql(
-        """
-        DELETE FROM
-            `tabVersion`
-        WHERE
-            `docname`='{doctype}'
-        ;""".format(doctype=doctype),
-        auto_commit=1
+        'DELETE FROM `tabSeries` WHERE `name` LIKE "WHT%";'
         )
-
-    # delete series
-    frappe.db.sql(
-        """
-        DELETE FROM
-            `tabSeries`
-        WHERE
-            `name` LIKE 'WHT%'
-        ;""",
-        auto_commit=1
-        )
+    frappe.db.commit()
 
 
-def disable_delete():
-    from frappe.utils import cstr
-    site_name = cstr(frappe.local.site)
+def set_site_demo_config(args):
+    demo_config = args.get('demo_config')
+    site_name = args.get('site_name')
+    # set site config
+    call_bench([
+        'bench',
+        '--site', site_name,
+        'set-config',
+        'demo',
+        demo_config
+        ])
 
-    # delete data from tabDesktop Icon
+
+def delete_desktop_icon(args):
     frappe.db.sql(
         """
         DELETE FROM
@@ -99,20 +202,20 @@ def disable_delete():
         ;""",
         auto_commit=1
         )
-    # set site config
-    call_bench([
-        'bench',
-        '--site', site_name,
-        'set-config',
-        'demo',
-        '0'
-        ])
+
+
+def clear_cache(site_name):
     # bench site clear cache
     call_bench([
         'bench',
         '--site', site_name,
         'clear-cache'
         ])
+
+
+def adding_pre_config_value(args):
+    from thai_wht.setup.install import add_fixture
+    add_fixture(only=['wht_records'])
 
 
 def call_bench(cmd):
@@ -126,8 +229,3 @@ def call_bench(cmd):
             )
     except subprocess.CalledProcessError as err:
         raise Exception(err.output)
-
-
-def adding_pre_config_value():
-    from thai_wht.setup.install import add_fixture
-    add_fixture(only=['wht_records'])

@@ -1,0 +1,98 @@
+<!-- custom css -->
+<style>
+    .layout-main-section.demo {
+        padding: 20px;
+        border: 0px !important;
+    }
+    .box-body-container form {
+        padding: 10px 0 15px 0;
+    }
+    .progress.demo {
+        height: 20px;
+    }
+</style>
+
+<div class="container page-body">
+    <div class="row layout-main">
+        <div class="col-md-12 layout-main-section-wrapper">
+            <div class="layout-main-section demo">
+
+                    <div class="frappe-box w-500">
+                            <table class="box-body">
+                                <tr>
+                                    <td>
+                        
+                                        <table class="box-header">
+                                            <tr>
+                                                <td width="15"></td>
+                                                <td>
+                                                    <p class="box-header-title">
+                                                        <span class="indicator indicator-blue"></span>
+                                                        <span id="box-header-text">ลบข้อมูลตัวอย่าง</span>
+                                                    </p>
+                                                </td>
+                                                <td width="15"></td>
+                                            </tr>
+                                        </table>
+                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                        
+                                        <table class="box-body demo-form">
+                                            <tr>
+                                                <td width="15"></td>
+                                                <td class="box-body-container">
+                        
+                                                    <form id="delete-demo-form">
+                                                        <div class="form-group pwd">
+                                                            <label class="control-label" for="pwd">กรอกพาสเวิร์ด เพื่อยืนยันการลบข้อมูลตัวอย่าง</label>
+                                                            <div class="input-group">
+                                                                <input type="password" class="form-control" id="pwd">
+                                                                <span class="input-group-addon" id="pass-toggle">แสดงพาสเวิร์ด</span>
+                                                            </div>
+                                                            <span class="help-block"></span>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary" id="delete-demo">ลบข้อมูลตัวอย่าง</button>
+                                                        <button type="button" class="btn btn-secondary" id="cancel-demo">ยกเลิก</button>
+                                                    </form>
+                        
+                                                </td>
+                                                <td width="15"></td>
+                                            </tr>
+                                        </table>
+                        
+                                        <table class="box-body demo-update" style="display: none;">
+                                                <tr>
+                                                    <td width="15"></td>
+                                                    <td class="box-body-container">
+                                                        <div id="box_body">
+                                                            <p>Password validation</p>
+                                                        </div>
+                                                        <div id="please_wait_text">
+                                                            <p>กรุณารอสักครู่ : อย่าปิด หรือรีเฟรชหน้าจอ</p>
+                                                        </div>
+                                                        <br>
+                                                        <div class="progress demo">
+                                                            <div id="box_progress_bar" class="progress-bar progress-bar-striped active progress-bar-success" role="progressbar"
+                                                            aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:10%">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td width="15"></td>
+                                                </tr>
+                                            </table>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+
+
+            </div>
+            <div class="layout-footer hide"></div>
+        </div>
+    </div>
+</div>

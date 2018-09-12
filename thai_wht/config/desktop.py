@@ -32,13 +32,13 @@ def get_data():
             'label': _('Wht Manual')
         },
     ]
-    if frappe.conf.demo:
+    if frappe.conf.demo == '1':
         icons.append({
             'module_name': 'Demo Delete',
             'color': '#ffa00a',
             'icon': 'octicon octicon-trashcan',
             'type': 'page',
-            'link': 'delete-transaction',
+            'link': 'delete_transaction',
             'label': _('Demo Delete')
         })
     return icons

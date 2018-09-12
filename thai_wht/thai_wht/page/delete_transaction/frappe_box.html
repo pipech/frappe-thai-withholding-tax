@@ -1,0 +1,169 @@
+<!-- can't figure out how to use jinja include
+so this is it for now
+frappe-box.css -->
+<style>
+    .w-500 {
+        max-width: 500px;
+        margin: auto;
+    }
+    div.frappe-box .box-body {
+        width: 100%;
+        height: 100%;
+    }
+    div.frappe-box a {
+        text-decoration: underline;
+    }
+    div.frappe-box .box-header,
+    div.frappe-box .box-body,
+    div.frappe-box .box-footer {
+        width: 100% !important;
+        min-width: 100% !important;
+    }
+    div.frappe-box .box-body {
+        font-size: 14px;
+    }
+    div.frappe-box .box-footer {
+        border-top: 1px solid #d1d8dd;
+        font-size: 12px;
+    }
+    div.frappe-box .box-header {
+        border: 1px solid #d1d8dd;
+        border-radius: 4px 4px 0 0;
+        border-collapse: separate; 
+    }
+    div.frappe-box .box-header .brand-image {
+        width: 24px;
+        height: 24px;
+        display: block;
+    }
+    div.frappe-box .box-header-title {
+        font-weight: bold;
+    }
+    div.frappe-box .box-body .box-body {
+        border: 1px solid #d1d8dd;
+        border-radius: 0 0 4px 4px;
+        border-collapse: separate; 
+        border-top: none;
+    }
+    div.frappe-box .box-body .box-footer {
+        border-top: none;
+    }
+    div.frappe-box .box-footer-container {
+        margin-top: 10px;
+    }
+    div.frappe-box .box-footer-container > div:not(:last-child) {
+        margin-bottom: 5px;
+    }
+    div.frappe-box .box-unsubscribe a {
+        color: #8d99a6;
+        text-decoration: underline;
+    }
+    div.frappe-box .btn {
+        text-decoration: none;
+        padding: 7px 10px;
+        font-size: 12px;
+        border: 1px solid transparent;
+        border-radius: 3px;
+    }
+    div.frappe-box .btn.btn-default {
+        color: #fff;
+        background-color: #f0f4f7;
+        border-color: transparent;
+    }
+    div.frappe-box .btn.btn-primary {
+        color: #fff;
+        background-color: #5e64ff;
+        border-color: #444bff;
+    }
+    div.frappe-box .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    div.frappe-box .table td,
+    div.frappe-box .table th {
+        padding: 8px;
+        line-height: 1.42857143;
+        vertical-align: top;
+        border-top: 1px solid #d1d8dd;
+        text-align: left;
+    }
+    div.frappe-box .table th {
+        font-weight: bold;
+    }
+    div.frappe-box .table > thead > tr > th {
+        vertical-align: middle;
+        border-bottom: 2px solid #d1d8dd;
+    }
+    div.frappe-box .table > thead:first-child > tr:first-child > th {
+        border-top: none;
+    }
+    div.frappe-box .table.table-bordered {
+        border: 1px solid #d1d8dd;
+    }
+    div.frappe-box .table.table-bordered td,
+    div.frappe-box .table.table-bordered th {
+        border: 1px solid #d1d8dd;
+    }
+    div.frappe-box .more-info {
+        font-size: 80% !important;
+        color: #8d99a6 !important;
+        border-top: 1px solid #ebeff2;
+        padding-top: 10px;
+    }
+    div.frappe-box .text-right {
+        text-align: right !important;
+    }
+    div.frappe-box .text-center {
+        text-align: center !important;
+    }
+    div.frappe-box .text-muted {
+        color: #8d99a6 !important;
+    }
+    div.frappe-box .text-extra-muted {
+        color: #d1d8dd !important;
+    }
+    div.frappe-box .text-regular {
+        font-size: 14px;
+    }
+    div.frappe-box .text-medium {
+        font-size: 12px;
+    }
+    div.frappe-box .text-small {
+        font-size: 10px;
+    }
+    div.frappe-box .text-bold {
+        font-weight: bold;
+    }
+    div.frappe-box .indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 8px;
+        background-color: #b8c2cc;
+        display: inline-block;
+        margin-right: 5px;
+    }
+    div.frappe-box .indicator.indicator-blue {
+        background-color: #5e64ff;
+    }
+    div.frappe-box .indicator.indicator-green {
+        background-color: #98d85b;
+    }
+    div.frappe-box .indicator.indicator-orange {
+        background-color: #ffa00a;
+    }
+    div.frappe-box .indicator.indicator-red {
+        background-color: #ff5858;
+    }
+    div.frappe-box .indicator.indicator-yellow {
+        background-color: #feef72;
+    }
+    div.frappe-box .screenshot {
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+        border: 1px solid #d1d8dd;
+        margin: 8px 0;
+        max-width: 100%;
+    }
+    div.frappe-box p.button {
+        margin: 2em 0 !important;
+    }
+</style>
