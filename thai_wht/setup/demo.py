@@ -14,11 +14,11 @@ from thai_wht.thai_wht.doctype.pnd.pnd import autogen
 from os import listdir
 
 
-@frappe.whitelist()
 def add_demo():
-    add_whder_whdee()
-    add_wht_cert()
-    autogen()
+    if frappe.conf.demo == 1:
+        add_whder_whdee()
+        add_wht_cert()
+        autogen()
 
 
 def add_wht_cert():
