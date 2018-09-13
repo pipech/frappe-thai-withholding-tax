@@ -258,13 +258,12 @@ def get_data(name):
         """
 
     if name:
-        if frappe.get_value('Pnd', name, 'owner') == frappe.session.user:
-            sql_string += 'WHERE `tabPnd`.`name`={name} '.format(
-                name='"{}"'.format(name)
-                )
+        sql_string += 'WHERE `tabPnd`.`name`="{name}" '.format(
+            name=name
+            )
     else:
-        sql_string += 'WHERE `tabPnd`.`owner`={owner} '.format(
-            owner='"{}"'.format(frappe.session.user)
+        sql_string += 'WHERE `tabPnd`.`owner`="{owner}" '.format(
+            owner=frappe.session.user
             )
 
     sql_string += 'ORDER BY `tabPnd Detail`.`idx` ASC;'
