@@ -51,7 +51,8 @@ def set_db_host():
         )
     out, err = process.communicate(update_sql)
     if process.returncode != 0:
-        raise Exception('Something failed : {}'.format(err))
+        if err:
+            raise Exception('Something failed : {}'.format(err))
 
 
 def set_email_setting():
