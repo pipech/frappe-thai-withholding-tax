@@ -529,7 +529,7 @@ def update_site_status_delete_demo(args):
 
     full_site_name = args.get('site_name')
     subdomain = full_site_name.split('.')[0]
-    kwargs = "{{'domain': '{d}', 'status': {s}}}".format(
+    kwargs = "{{'domain': '{d}'}}".format(
         d=subdomain
     )
     call_bench([
