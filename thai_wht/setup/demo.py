@@ -408,6 +408,13 @@ def delete_demo(pwd):
                     },
                     'fail_msg': 'Failed : Set site demo config to 0'
                 },
+                {
+                    'fn': update_site_status_delete_demo,
+                    'args': {
+                        'site_name': site_name,
+                    },
+                    'fail_msg': 'Failed : Update site status to 3'
+                },
             ]
         },
     ]
@@ -515,6 +522,24 @@ def clear_cache(site_name):
 
 def adding_pre_config_value(args):
     add_fixture(only=['wht_records'])
+
+
+def update_site_status_delete_demo(args):
+    pnd_site = 'pnd.in.th'
+
+    full_site_name = args.get('site_name')
+    subdomain = full_site_name.split('.')[0]
+    kwargs = "{{'domain': '{d}', 'status': {s}}}".format(
+        d=subdomain,
+        s=3
+    )
+    call_bench([
+        'bench',
+        '--site', pnd_site,
+        'execute',
+        '--kwargs', kwargs,
+        'pnd_site.utils.site_setup.update_site_status_to_del_demo'
+        ])
 
 
 def call_bench(cmd):
