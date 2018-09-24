@@ -331,7 +331,6 @@ def delete_demo(pwd):
 
     # check site config
     if frappe.conf.demo == '2':
-        delete_transaction()
         return {
             'status': 'fail',
             'fail': 'There are already running process or uncaught error',
