@@ -61,3 +61,12 @@ def set_email_setting():
     )
     outgoing_mail.update(frappe.conf.outgoing_mail_setting)
     outgoing_mail.save(ignore_permissions=True)
+
+
+def get_last_active_date():
+    sql = 'SELECT MAX(`last_active`) AS last_active FROM `tabUser`;'
+    last_active = frappe.db.sql(sql, as_dict=1)
+    last_active = last_active[0].get('last_active')
+    if last_active:
+        last_active = last_active.strftime('%Y-%m-%d %H:%M:%S')
+        return last_active
