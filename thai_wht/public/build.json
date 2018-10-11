@@ -5,5 +5,9 @@
 		],
 	"js/website.min.js": [
 		"public/js/website.js"
+		],
+	"js/tutorial.min.js": [
+		"public/js/tutorial.js",
+		"public/js/tutorialList.js"
 		]
 }

@@ -20,6 +20,9 @@ app_include_js = [
     'assets/thai_wht/js/lib/jquery_thailand/jquery.Thailand.min.js',
     # list branch in form
     'assets/js/wht_branch.min.js',
+    # tutorial
+    'assets/thai_wht/js/lib/tippy/tippy.min.js',
+    'assets/js/tutorial.min.js',
     ]
 
 app_include_css = [
