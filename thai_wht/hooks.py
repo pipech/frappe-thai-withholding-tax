@@ -11,6 +11,8 @@ app_color = 'green'
 app_email = 'poranut@spacecode.co.th'
 app_license = 'MIT'
 
+after_install = 'thai_wht.setup.install.after_install'
+
 app_include_js = [
     # format branch and tax_id input
     'assets/thai_wht/js/lib/cleave/cleave.min.js',
@@ -24,18 +26,15 @@ app_include_js = [
     'assets/thai_wht/js/lib/tippy/tippy.min.js',
     'assets/js/tutorial.min.js',
     ]
-
 app_include_css = [
     # auto fill thai address
     'assets/thai_wht/js/lib/jquery_thailand/jquery.Thailand.min.css',
     ]
 
-after_install = 'thai_wht.setup.install.after_install'
-
 web_include_js = [
     '/assets/js/website.min.js',
     ]
-
+web_include_css = '/assets/css/pnd_site.min.css'
 website_context = {
     'brand_html': 'ภ.ง.ด.',
     'top_bar_items': [
@@ -45,4 +44,5 @@ website_context = {
     'hide_login': 1,
 }
 
-web_include_css = '/assets/css/pnd_site.min.css'
+get_user_progress_slides = 'thai_wht.utils.user_progress.get_user_progress_slides'
+update_and_get_user_progress = 'thai_wht.utils.user_progress_utils.update_default_domain_actions_and_get_state'

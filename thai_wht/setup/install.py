@@ -181,7 +181,7 @@ def add_fixture(only=''):
                 'source_name': 'Demo Delete', 'target_name': u'ล้างข้อมูลตัวอย่าง'},
             ### Doctype
             {'doctype': 'Translation', 'language': 'en',
-                'source_name': 'Pnd', 'target_name': u'ภ.ง.ด.'},
+                'source_name': 'Pnd', 'target_name': u'แบบยื่นรายการภาษีเงินได้หัก ณ ที่จ่าย ภ.ง.ด.'},
             {'doctype': 'Translation', 'language': 'en',
                 'source_name': 'Wht Cert', 'target_name': u'หนังสือรับรองการหักภาษี ณ ที่จ่าย'},
             {'doctype': 'Translation', 'language': 'en',
@@ -197,6 +197,26 @@ def add_fixture(only=''):
                 'source_name': 'Status', 'target_name': u'สถานะ'},
             {'doctype': 'Translation', 'language': 'en',
                 'source_name': 'Add Filter', 'target_name': u'เพิ่มคัดกรอง'},
+        ],
+        'user_progress': [
+            # Setup progress
+            {
+                'doctype': 'Setup Progress',
+                'actions': [
+                    {'action_name': 'Add Wht Cert',
+                        'action_doctype': 'Wht Cert',
+                        'min_doc_count': 1, 'is_completed': 0},
+                    {'action_name': 'Add Pnd',
+                        'action_doctype': 'Pnd',
+                        'min_doc_count': 1, 'is_completed': 0},
+                    {'action_name': 'Add Whder',
+                        'action_doctype': 'Whder',
+                        'min_doc_count': 1, 'is_completed': 0},
+                    {'action_name': 'Add Whdee',
+                        'action_doctype': 'Whdee',
+                        'min_doc_count': 1, 'is_completed': 0},
+                ]
+            },
         ],
     }
     
