@@ -1,6 +1,7 @@
 let listId = 0;
-
 let loaded = false;
+// temporary
+tutorialList = tutorialList[2].lessonList;
 
 $(document).on('page-change', () => {
     loadTippy();
@@ -21,8 +22,28 @@ function loadTippy() {
                 // since frappe doesn't have event when page is done loading
                 // using setInterval is a way to do that
                 let checkLoaded = setInterval(() => {
+
+                    // set selection prefix
+                    let selPrefix;
+                    if (/body.*/g.test(tutorial.tippyElement)) {
+                        selPrefix = '';
+                    } else if (/^li.*/g.test(tutorial.tippyElement)) {
+                        selPrefix = 'div.main-section div.navbar ';
+                    } else if (pageLabel === 'Desktop' || pageLabel === 'Modules') {
+                        selPrefix = 'div[data-page-route="' +
+                        pageLabel.toLowerCase() +
+                        '"] ';
+                    } else {
+                        selPrefix = 'div[data-page-route="' +
+                        pageLabel +
+                        '"] ';
+                    }
+
+                    // select element
+                    let eleSelector = selPrefix + tutorial.tippyElement;
                     let tippyElement;
-                    tippyElement = $(tutorial.tippyElement)[0];
+                    tippyElement = $(eleSelector)[0];
+
                     if (tippyElement) {
                         // stop interval & init tippy
                         clearInterval(checkLoaded);
@@ -50,6 +71,10 @@ function loadTippy() {
                             listId++;
                             loadTippy();
                         });
+                        // blur pre-selected input box on form page
+                        setTimeout(() => {
+                            $(tippyElement).blur();
+                        }, 500);
                     }
                 }, 200);
             }
