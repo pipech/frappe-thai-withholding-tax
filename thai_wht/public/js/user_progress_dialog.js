@@ -46,9 +46,10 @@ let TutorialSlide = class UserProgressSlide extends frappe.ui.Slide {
              this.before_load(this);
         }
 
-        this.$body = $(`<div class="slide-body">
-            <div class="content text-center">
-                <p class="title lead">${this.title}</p>
+        this.$body = $(`
+        <div class="slide-body">
+            <div class="content">
+                <p class="title lead text-center">${this.title}</p>
             </div>
             <div class="form-wrapper">
                 <div class="form"></div>
@@ -56,7 +57,8 @@ let TutorialSlide = class UserProgressSlide extends frappe.ui.Slide {
                     <a class="form-more-btn hide btn btn-default btn-xs">Add More</a>
                 </div>
             </div>
-        </div>`).appendTo(this.$wrapper);
+        </div>
+        `).appendTo(this.$wrapper);
 
         this.$content = this.$body.find('.content');
         this.$form = this.$body.find('.form');
@@ -86,11 +88,15 @@ let TutorialSlide = class UserProgressSlide extends frappe.ui.Slide {
 
     /** make done state */
     make_done_state() {
-        this.$done_state = $(`<div class="done-state text-center">
-            <div class="check-container"><i class="check fa fa-fw fa-check-circle text-success"></i></div>
+        this.$done_state = $(`
+        <div class="done-state text-center">
+            <div class="check-container">
+                <i class="check fa fa-fw fa-check-circle text-success"></i>
+            </div>
             <h1 class="title"><a></a></h1>
             <div class="help-links"></div>
-        </div>`).appendTo(this.$body);
+        </div>
+        `).appendTo(this.$body);
 
         this.$done_state_title = this.$done_state.find('.title');
         this.$check = this.$done_state.find('.check');
