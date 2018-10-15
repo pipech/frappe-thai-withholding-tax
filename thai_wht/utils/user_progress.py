@@ -11,9 +11,24 @@ def get_user_progress_slides():
     slides = []
     progress_slides = [
         frappe._dict(
-            action_name='Add Wht Cert',
-            title='เพิ่มหนังสือรับรองการหักภาษี ณ ที่จ่าย',
-            help='สวัสดี สวัสดีนายครับ เย่เย้ ไม่อยากเป็นแปรงสีฟันที่รอวันจะทิ้งลงตระกร้า ไม่ใช่ว่าใจฉันด้านชาเจ็บปวดขึ้นมาใครจะดูและ',
+            action_name='addWhtCert',
+            title='เพิ่ม หนังสือรับรองการหักภาษี ณ ที่จ่าย',
+            help="""
+            <h1>สวัสดี</h1>
+            <hr>
+            <ul>
+                <li>ทดสอบ1</li>
+                <li>ทดสอบ2</li>
+            </ul>
+            """,
+            fields=[],
+            done_state_title='เพิ่มหนังสือรับรองการหักภาษี ณ ที่จ่าย เรียบร้อย',
+            done_state_title_route=['List', 'Wht Cert'],
+        ),
+        frappe._dict(
+            action_name='addPnd',
+            title='เพิ่ม แบบยื่นรายการภาษีเงินได้หัก ณ ที่จ่าย ภ.ง.ด.',
+            help='สวัสดี สวัสดีนายครับ เย่เย้ wwwwwwwwwwww qqqqqqqqqq',
             fields=[],
             submit_method='erpnext.utilities.user_progress_utils.create_course',
             done_state_title='เพิ่มหนังสือรับรองการหักภาษี ณ ที่จ่าย เรียบร้อย',
@@ -26,8 +41,23 @@ def get_user_progress_slides():
             # ]
         ),
         frappe._dict(
-            action_name='Add Pnd',
-            title='เพิ่มแบบยื่นรายการภาษีเงินได้หัก ณ ที่จ่าย ภ.ง.ด.',
+            action_name='addWhder',
+            title='เพิ่ม ผู้มีหน้าที่หักภาษี ณ ที่จ่าย',
+            help='สวัสดี สวัสดีนายครับ เย่เย้ wwwwwwwwwwww qqqqqqqqqq',
+            fields=[],
+            submit_method='erpnext.utilities.user_progress_utils.create_course',
+            done_state_title='เพิ่มหนังสือรับรองการหักภาษี ณ ที่จ่าย เรียบร้อย',
+            done_state_title_route=['List', 'Wht Cert'],
+            # help_links=[
+            #     {
+            #         'label': _('Add Students'),
+            #         'route': ['List', 'Student']
+            #     }
+            # ]
+        ),
+        frappe._dict(
+            action_name='addWhdee',
+            title='เพิ่ม ผู้ถูกหักภาษี ณ ที่จ่าย',
             help="""
             <h1>เพิ่มแบบยื่นรายการภาษีเงินได้หัก ณ ที่จ่าย ภ.ง.ด.</h1>
             <ul>
@@ -47,38 +77,28 @@ def get_user_progress_slides():
             #     }
             # ]
         ),
-        # frappe._dict(
-        #     action_name='Add Whder',
-        #     title='เพิ่มผู้มีหน้าที่หักภาษี ณ ที่จ่าย',
-        #     help=_("Example: Basic Mathematics"),
-        #     fields=[],
-        #     add_more=1, max_count=3, mandatory_entry=1,
-        #     submit_method="erpnext.utilities.user_progress_utils.create_course",
-        #     done_state_title=_("Go to Courses"),
-        #     done_state_title_route=["List", "Course"],
-        #     help_links=[
-        #         {
-        #             "label": _('Add Students'),
-        #             "route": ["List", "Student"]
-        #         }
-        #     ]
-        # ),
-        # frappe._dict(
-        #     action_name='Add Whdee',
-        #     title='เพิ่มผู้ถูกหักภาษี ณ ที่จ่าย',
-        #     help=_("Example: Basic Mathematics"),
-        #     fields=[],
-        #     add_more=1, max_count=3, mandatory_entry=1,
-        #     submit_method="erpnext.utilities.user_progress_utils.create_course",
-        #     done_state_title=_("Go to Courses"),
-        #     done_state_title_route=["List", "Course"],
-        #     help_links=[
-        #         {
-        #             "label": _('Add Students'),
-        #             "route": ["List", "Student"]
-        #         }
-        #     ]
-        # ),
+        frappe._dict(
+            action_name='deleteDemo',
+            title='ลบ ข้อมูลตัวอย่าง',
+            help="""
+            <h1>เพิ่มแบบยื่นรายการภาษีเงินได้หัก ณ ที่จ่าย ภ.ง.ด.</h1>
+            <ul>
+                <li>สวัสดี1</li>
+                <li>สวัสดี2</li>
+                <li>สวัสดี3</li>
+            </ul>
+            """,
+            fields=[],
+            # submit_method='erpnext.utilities.user_progress_utils.create_course',
+            done_state_title='เพิ่มแบบยื่นรายการภาษีเงินได้หัก ณ ที่จ่าย ภ.ง.ด. เรียบร้อย',
+            done_state_title_route=['List', 'Pnd'],
+            # help_links=[
+            #     {
+            #         'label': _('Add Students'),
+            #         'route': ['List', 'Student']
+            #     }
+            # ]
+        ),
     ]
 
     for s in progress_slides:
