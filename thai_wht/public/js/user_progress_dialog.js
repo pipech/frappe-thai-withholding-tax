@@ -208,20 +208,6 @@ let TutorialDialog = class UserProgressDialog {
         this.checkForUpdates();
     }
 
-    /** mark as done */
-    markAsDone() {
-        let currentSlide = this.slide_container.current_slide;
-        frappe.call({
-            method: currentSlide.mark_as_done_method,
-            args: {action_name: currentSlide.action_name},
-            callback: function() {
-                currentSlide.done = 1;
-                currentSlide.refresh();
-            },
-            freeze: true,
-        });
-    }
-
     /** check for updates */
     checkForUpdates() {
         this.updater = setInterval(() => {
