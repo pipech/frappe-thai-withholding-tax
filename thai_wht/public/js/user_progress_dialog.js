@@ -103,7 +103,6 @@ let TutorialSlide = class UserProgressSlide extends frappe.ui.Slide {
         this.$body.find('.slide-help').hide();
         this.$body.find('.form-wrapper').hide();
         this.slides_footer.find('.next-btn').addClass('btn-primary');
-        this.slides_footer.find('.done-btn').hide();
         this.$primary_btn.hide();
         this.make_done_state();
     }
@@ -150,10 +149,8 @@ let TutorialSlide = class UserProgressSlide extends frappe.ui.Slide {
     before_show() {
         if (this.done) {
             this.slides_footer.find('.next-btn').addClass('btn-primary');
-            this.slides_footer.find('.done-btn').hide();
         } else {
             this.slides_footer.find('.next-btn').removeClass('btn-primary');
-            this.slides_footer.find('.done-btn').show();
         }
         if (this.dialog_dismissed) {
             this.slides_footer.find('.next-btn').removeClass('btn-primary');
@@ -162,8 +159,6 @@ let TutorialSlide = class UserProgressSlide extends frappe.ui.Slide {
 
     /** primary action */
     primary_action() {
-        console.log('halololo');
-        console.log(this.action_name);
         this.$wrapper.parents('div.modal-dialog').find('.btn-modal-close').trigger('click');
         localStorage.tutorialListId = 0;
         localStorage.tutorialActionName = this.action_name;
@@ -197,8 +192,6 @@ let TutorialDialog = class UserProgressDialog {
             done_state: 1,
             before_load: ($footer) => {
                 $footer.find('.text-right')
-                    .prepend($(`<a class="done-btn btn btn-default btn-sm">
-                    ${__('Mark as Done')}</a>`))
                     .append($(`<a class="make-btn btn btn-primary btn-sm primary action">
                     ${__('Start')}</a>`));
             },
@@ -208,11 +201,7 @@ let TutorialDialog = class UserProgressDialog {
                 if (percent === 100) {
                     this.dismissProgress();
                 }
-            }
-        });
-
-        this.$wrapper.find('.done-btn').on('click', () => {
-            this.markAsDone();
+            },
         });
 
         this.getAndUpdateProgressState();
