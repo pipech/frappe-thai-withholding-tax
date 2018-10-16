@@ -18,7 +18,29 @@ frappe.ui.toolbar.Toolbar.prototype.setup_progress_dialog = function() {
                     });
 
                     if (cint(frappe.boot.sysdefaults.is_first_startup)) {
-                        progressDialog.show();
+                        // init tooltips on progress chart
+                        let tippyElement = $('div.progress-chart')[0];
+                        tippy(
+                            tippyElement,
+                            {
+                                content: 'กดที่นี่ เพื่อเปิดคู่มือการใช้งาน',
+                                arrow: true,
+                                showOnInit: true,
+                                trigger: 'manual',
+                                hideOnClick: 'false',
+                                placement: 'top',
+                                size: 'large',
+                                // theme: 'light',
+                            }
+                        );
+                        let tipEle = tippyElement._tippy;
+                        let userProgressDiv = $('.user-progress .dropdown-toggle');
+                        userProgressDiv.on('focus', () => {
+                            tipEle.destroy();
+                            userProgressDiv.unbind('focus');
+                        });
+
+                        // reset .is_first_startup
                         frappe.call({
                             method: 'frappe.desk.page.setup_wizard.setup_wizard.reset_is_first_startup',
                             args: {},
