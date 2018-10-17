@@ -123,23 +123,22 @@ let TutorialSlide = class UserProgressSlide extends frappe.ui.Slide {
 
     /** before show */
     before_show() {
-        if (this.done) {
+        if (this.action_name === 'introduction') {
             this.slides_footer.find('.next-btn').addClass('btn-primary');
+            this.slides_footer.find('.make-btn').hide();
+        } else if (this.done) {
+            this.slides_footer.find('.next-btn').addClass('btn-primary');
+            this.slides_footer.find('.make-btn').show();
+            this.slides_footer.find('.make-btn').removeClass('btn-primary');
         } else {
             this.slides_footer.find('.next-btn').removeClass('btn-primary');
+            this.slides_footer.find('.make-btn').show();
+            this.slides_footer.find('.make-btn').addClass('btn-primary');
         }
+
         if (this.dialog_dismissed) {
             this.slides_footer.find('.next-btn').removeClass('btn-primary');
         }
-    }
-
-    /** primary action */
-    primary_action() {
-        this.$wrapper.parents('div.modal-dialog').find('.btn-modal-close').trigger('click');
-        localStorage.tutorialListId = 0;
-        localStorage.tutorialActionName = this.action_name;
-        localStorage.tutorialLoaded = 'false';
-        loadTippy();
     }
 };
 
@@ -169,7 +168,7 @@ let TutorialDialog = class UserProgressDialog {
             done_state: 1,
             before_load: ($footer) => {
                 $footer.find('.text-right')
-                    .append($(`<a class="make-btn btn btn-primary btn-sm primary action">
+                    .append($(`<a class="make-btn btn btn-default btn-sm">
                     กดที่นี่ เพื่อเริ่มต้น</a>`));
             },
             on_update: (completed, total) => {
@@ -181,8 +180,22 @@ let TutorialDialog = class UserProgressDialog {
             },
         });
 
+        this.$wrapper.find('.make-btn').on('click', () => {
+            this.startTippy();
+        });
+
         this.getAndUpdateProgressState();
         this.checkForUpdates();
+    }
+
+    /** start tippy */
+    startTippy() {
+        let currentSlide = this.slide_container.current_slide;
+        currentSlide.$wrapper.parents('div.modal-dialog').find('.btn-modal-close').trigger('click');
+        localStorage.tutorialListId = 0;
+        localStorage.tutorialActionName = currentSlide.action_name;
+        localStorage.tutorialLoaded = 'false';
+        loadTippy();
     }
 
     /** check for updates */
