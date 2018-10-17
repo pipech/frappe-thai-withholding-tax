@@ -19,7 +19,10 @@ class WhtCert(Document):
             )
         self.whder_no = whder.whder_no
         self.name = make_autoname(
-            'WHT{whder_no}.YY.MM.####'.format(whder_no=self.whder_no)
+            'WHT{whder_no}.YY.{cert_month}.####'.format(
+                whder_no=self.whder_no,
+                cert_month=self.date[5:7]
+                )
             )
 
     def before_save(self):
