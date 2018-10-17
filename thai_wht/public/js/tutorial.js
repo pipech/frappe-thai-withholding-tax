@@ -50,7 +50,15 @@ function loadTippy() {
                         if (tippyElement) {
                             // stop interval
                             clearInterval(checkLoaded);
-                            initTippy(tippyElement, tutorial.content);
+                            if (tutorial.placement) {
+                                initTippy(
+                                    tippyElement,
+                                    tutorial.content,
+                                    tutorial.placement
+                                    );
+                            } else {
+                                initTippy(tippyElement, tutorial.content);
+                            }
                         }
                     }, 200);
                 }
@@ -62,8 +70,9 @@ function loadTippy() {
 /** init tippy 
  * @param {string} tippyElement
  * @param {string} content
+ * @param {string} placement
 */
-function initTippy(tippyElement, content) {
+function initTippy(tippyElement, content, placement='bottom') {
     tippy(
         tippyElement,
         {
@@ -72,7 +81,7 @@ function initTippy(tippyElement, content) {
             showOnInit: true,
             trigger: 'manual',
             hideOnClick: 'false',
-            placement: 'top',
+            placement: placement,
             size: 'large',
             theme: 'red',
         }
