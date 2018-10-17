@@ -7,9 +7,51 @@ from frappe import _
 from thai_wht.thai_wht.doctype.setup_progress.setup_progress import get_action_completed_state
 
 
+@frappe.whitelist()
 def get_user_progress_slides():
+    setup_progress = frappe.get_value(
+        doctype='Setup Progress',
+        fieldname='done',
+        as_dict=True)
     slides = []
-    progress_slides = [
+
+    if setup_progress.done == '0':
+        progress_slides = get_progress_slides()
+        for s in progress_slides:
+            s.done = get_action_completed_state(s.action_name) or 0
+            slides.append(s)
+
+    return slides
+
+
+def get_progress_slides():
+    return [
+        frappe._dict(
+            action_name='introduction',
+            title='เริ่มต้นใช้งาน',
+            help="""
+            <p>ขอบคุณที่ให้ความสนใจโปรแกรมภาษีเงินได้ หัก ณ ที่จ่าย ออนไลน์</p>
+            <p>
+                <b>ขณะนี้คุณอยู่ในโหมดทดลองการใช้งาน</b>
+                คุณสามารถทดลอง สร้าง ลบ แก้ไข ข้อมูลได้อย่างเต็มที่
+            </p>
+            <p>
+                การใช้งานโปรแกรมโดยเบื้องต้น มีทั้งหมด 4 ฟังก์ชั่นหลักๆ คือ
+            </p>
+            <ul>
+                <li>สร้างหนังสือรับรองการหักภาษี ณ ที่จ่าย</li>
+                <li>สร้างแบบยื่นรายการภาษีเงินได้หัก ณ ที่จ่าย ภ.ง.ด.</li>
+                <li>สร้างผู้มีหน้าที่หักภาษี ณ ที่จ่าย</li>
+                <li>สร้างผู้ถูกหักภาษี ณ ที่จ่าย</li>
+            </ul>
+            <p>
+                คุณสามารถกลับเข้ามาที่หน้านี้ ได้โดยกดที่ แท่งสีเขียว
+                <img src="/assets/thai_wht/img/progress_bar.JPG" style="width: 40px">
+                บริเวณด้านบน
+            </p>
+            """,
+            fields=[],
+        ),
         frappe._dict(
             action_name='addWhtCert',
             title='หนังสือรับรองการหักภาษี ณ ที่จ่าย',
@@ -43,7 +85,7 @@ def get_user_progress_slides():
             </p>
             <hr>
             <p class="lead">สถานะของเอกสารหนังสือรับรองการหักภาษี ณ ที่จ่าย</p>
-            <img src="https://lh6.googleusercontent.com/lmwA_A3w9ilu_QhxL0e1tAqMZnRoyVFEUV-CZqTJYxEhL77tNupxvre67_V6_tvo9jSGpgx9k1TTSTl2z18lC-pRkCQXKhyPpK2b-Z_aSvbd_17mgB3LFoFG8mP62nSezzzKGM2l" class="img-responsive">
+            <img src="/assets/thai_wht/img/wht_workflow.png" class="img-responsive">
             <br>
             <ul>
                 <li>
@@ -69,8 +111,6 @@ def get_user_progress_slides():
                 โปรแกรมจะดึงข้อมูลจากหนังสือรับรองการหักภาษี ณ ที่จ่าย ที่มีสถานะ Confirmed เท่านั้น
             </p>
             """,
-            done_state_title='เพิ่มหนังสือรับรองการหักภาษี ณ ที่จ่าย เรียบร้อย',
-            done_state_title_route=['List', 'Wht Cert'],
             fields=[],
         ),
         frappe._dict(
@@ -90,7 +130,7 @@ def get_user_progress_slides():
             </p>
             <hr>
             <p class="lead">สถานะของเอกสารแบบยื่นรายการภาษีเงินได้หัก ณ ที่จ่าย ภ.ง.ด.</p>
-            <img src="https://lh4.googleusercontent.com/BBjJLMTgrJ915jihiR1dUNFC35G0YiHbR3HWgMTHcv6rn6_mjjFRkIcowBuM4kSEBQXHJkozsw1mxNN6JfATAcBkOPiUT6fS89o5PdYeYtYCJfECLOs4DG6S0LNpCFNhvObkV8DN" class="img-responsive">
+            <img src="/assets/thai_wht/img/pnd_workflow.png" class="img-responsive">
             <br>
             <ul>
                 <li>
@@ -103,8 +143,6 @@ def get_user_progress_slides():
                 </li>
             </ul>
             """,
-            done_state_title='เพิ่มแบบยื่นรายการภาษีเงินได้หัก ณ ที่จ่าย ภ.ง.ด.',
-            done_state_title_route=['List', 'Pnd'],
             fields=[],
         ),
         frappe._dict(
@@ -125,8 +163,6 @@ def get_user_progress_slides():
                 </li>
             </ul>
             """,
-            done_state_title='เพิ่มผู้มีหน้าที่หักภาษี ณ ที่จ่าย',
-            done_state_title_route=['List', 'Whder'],
             fields=[],
         ),
         frappe._dict(
@@ -146,8 +182,6 @@ def get_user_progress_slides():
                 </li>
             </ul>
             """,
-            done_state_title='เพิ่มผู้ถูกหักภาษี ณ ที่จ่าย',
-            done_state_title_route=['List', 'Whdee'],
             fields=[],
         ),
         frappe._dict(
@@ -155,32 +189,10 @@ def get_user_progress_slides():
             title='ลบข้อมูลตัวอย่าง',
             help="""
             <p>
-                เมื่อคุณพร้อมแล้ว คุณสามารถลบข้อมูลตัวอย่าง และเริ่มต้นใช้งานได้เลย<br>
+                เมื่อคุณพร้อมแล้ว คุณสามารถลบข้อมูลตัวอย่าง และเริ่มต้นใช้งานจริงได้เลย<br>
                 <b>เพียงกรอกพาสเวิร์ด และกด submit ด้านล่าง</b>
             </p>
             """,
-            fields=[
-                {
-                    'fieldtype': 'Password',
-                    'fieldname': 'pwd',
-                    'label': 'พาสเวิร์ด',
-                }
-            ],
-            submit_method='erpnext.utilities.user_progress_utils.create_course',
-            done_state_title='เพิ่มแบบยื่นรายการภาษีเงินได้หัก ณ ที่จ่าย ภ.ง.ด. เรียบร้อย',
-            done_state_title_route=['List', 'Pnd'],
-            # help_links=[
-            #     {
-            #         'label': _('Add Students'),
-            #         'route': ['List', 'Student']
-            #     }
-            # ]
+            fields=[],
         ),
     ]
-
-    for s in progress_slides:
-        s.mark_as_done_method = 'thai_wht.thai_wht.doctype.setup_progress.setup_progress.set_action_completed_state'
-        s.done = get_action_completed_state(s.action_name) or 0
-        slides.append(s)
-
-    return slides

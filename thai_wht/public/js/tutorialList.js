@@ -267,4 +267,21 @@ let tutorialDict = {
             content: 'กดโตงนี้เพื่อกลับปายคร้าบเพ่',
         },
     ],
+    deleteDemo: [
+        {
+            pageLabel: 'Desktop',
+            tippyElement: 'div.case-wrapper[data-link="delete_transaction"]',
+            content: 'เพ่กดโตงเน้นะคร้าบ ผู้มีหน้าที่',
+        },
+        {
+            pageLabel: 'Delete transaction',
+            tippyElement: '#pwd',
+            content: 'กรอกพาสสะเวิ้ด',
+        },
+        {
+            pageLabel: 'Delete transaction',
+            tippyElement: '#delete-demo',
+            content: 'กดยืนยัน',
+        },
+    ],
 };

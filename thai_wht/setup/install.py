@@ -19,7 +19,7 @@ def after_install():
         'Contacts',
         ]
     set_hidden_list(hidden_icon)
-    
+
 
 def add_fixture(only=''):
     fixture = {
@@ -203,18 +203,21 @@ def add_fixture(only=''):
             {
                 'doctype': 'Setup Progress',
                 'actions': [
+                    {'action_name': 'introduction',
+                        'action_doctype': 'Wht Cert',
+                        'min_doc_count': 10000, 'is_completed': 1},
                     {'action_name': 'addWhtCert',
                         'action_doctype': 'Wht Cert',
-                        'min_doc_count': 1, 'is_completed': 0},
+                        'min_doc_count': 7, 'is_completed': 0},
                     {'action_name': 'addPnd',
                         'action_doctype': 'Pnd',
-                        'min_doc_count': 1, 'is_completed': 0},
+                        'min_doc_count': 5, 'is_completed': 0},
                     {'action_name': 'addWhder',
                         'action_doctype': 'Whder',
-                        'min_doc_count': 1, 'is_completed': 0},
+                        'min_doc_count': 3, 'is_completed': 0},
                     {'action_name': 'addWhdee',
                         'action_doctype': 'Whdee',
-                        'min_doc_count': 1, 'is_completed': 0},
+                        'min_doc_count': 5, 'is_completed': 0},
                     {'action_name': 'deleteDemo',
                         'action_doctype': 'Pnd',
                         'min_doc_count': 10000, 'is_completed': 0},

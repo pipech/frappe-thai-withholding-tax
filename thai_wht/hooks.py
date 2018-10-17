@@ -43,6 +43,3 @@ website_context = {
     ],
     'hide_login': 1,
 }
-
-get_user_progress_slides = 'thai_wht.utils.user_progress.get_user_progress_slides'
-update_and_get_user_progress = 'thai_wht.utils.user_progress_utils.update_default_domain_actions_and_get_state'

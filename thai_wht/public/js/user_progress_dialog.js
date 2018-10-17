@@ -3,7 +3,7 @@ frappe.provide('frappe.ui');
 
 frappe.ui.toolbar.Toolbar.prototype.setup_progress_dialog = function() {
     frappe.call({
-        method: 'frappe.desk.user_progress.get_user_progress_slides',
+        method: 'thai_wht.utils.user_progress.get_user_progress_slides',
         callback: function(r) {
             if (r.message) {
                 let slides = r.message;
@@ -17,9 +17,10 @@ frappe.ui.toolbar.Toolbar.prototype.setup_progress_dialog = function() {
                         progressDialog.show();
                     });
 
-                    if (cint(frappe.boot.sysdefaults.is_first_startup)) {
-                        // init tooltips on progress chart
-                        let tippyElement = $('div.progress-chart')[0];
+                    // init tippy pointing to user progress bar
+                    let tippyElement = $('.user-progress:not(.hide) div.progress')[0];
+                    if (tippyElement) {
+                        // init tippy
                         tippy(
                             tippyElement,
                             {
@@ -34,13 +35,18 @@ frappe.ui.toolbar.Toolbar.prototype.setup_progress_dialog = function() {
                             }
                         );
                         let tipEle = tippyElement._tippy;
-                        let userProgressDiv = $('.user-progress .dropdown-toggle');
-                        userProgressDiv.on('focus', () => {
-                            tipEle.destroy();
-                            userProgressDiv.unbind('focus');
+                        let eventSelector = '.user-progress:not(.hide) .dropdown-toggle';
+                        $(eventSelector).on('focus', () => {
+                            tipEle.hide();
                         });
+                        $(document).on('page-change', () => {
+                            if (cur_page.page.label === 'Desktop') {
+                                tipEle.show();
+                            }
+                        });
+                    }
 
-                        // reset .is_first_startup
+                    if (cint(frappe.boot.sysdefaults.is_first_startup)) {
                         frappe.call({
                             method: 'frappe.desk.page.setup_wizard.setup_wizard.reset_is_first_startup',
                             args: {},
@@ -100,7 +106,6 @@ let TutorialSlide = class UserProgressSlide extends frappe.ui.Slide {
 
     /** setup done state */
     setup_done_state() {
-        this.$body.find('.slide-help').hide();
         this.$body.find('.form-wrapper').hide();
         this.slides_footer.find('.next-btn').addClass('btn-primary');
         this.$primary_btn.hide();
@@ -109,40 +114,9 @@ let TutorialSlide = class UserProgressSlide extends frappe.ui.Slide {
 
     /** make done state */
     make_done_state() {
-        this.$done_state = $(`
-        <div class="done-state text-center">
-            <div class="check-container">
-                <i class="check fa fa-fw fa-check-circle text-success"></i>
-            </div>
-            <h1 class="title"><a></a></h1>
-            <div class="help-links"></div>
-        </div>
-        `).appendTo(this.$body);
-
-        this.$done_state_title = this.$done_state.find('.title');
-        this.$check = this.$done_state.find('.check');
-        this.$help_links = this.$done_state.find('.help-links');
-
-        if (this.done_state_title) {
-            $('<a>' + this.done_state_title + '</a>').appendTo(this.$done_state_title);
-            this.$done_state_title.on('click', () => {
-                frappe.set_route(this.done_state_title_route);
-            });
-        }
-
-        if (this.help_links) {
-            this.help_links.map((link) => {
-                let $link = $(`<a target="_blank" class="small text-muted">${link.label}</a>`);
-                if (link.url) {
-                    $link.attr({'href': link.url});
-                } else if (link.video_id) {
-                    $link.on('click', () => {
-                        frappe.help.show_video(link.video_id, link.label);
-                    });
-                }
-                this.$help_links.append($link);
-            });
-        }
+        this.$content.find('p.title.lead').prepend(`
+            <i class="check fa fa-fw fa-check-circle text-success"></i>
+        `);
     }
 
     /** before show */
@@ -162,6 +136,7 @@ let TutorialSlide = class UserProgressSlide extends frappe.ui.Slide {
         this.$wrapper.parents('div.modal-dialog').find('.btn-modal-close').trigger('click');
         localStorage.tutorialListId = 0;
         localStorage.tutorialActionName = this.action_name;
+        localStorage.tutorialLoaded = 'false';
         loadTippy();
     }
 };
@@ -182,7 +157,7 @@ let TutorialDialog = class UserProgressDialog {
 
     /** setup */
     setup() {
-        this.dialog = new frappe.ui.Dialog({title: __('Complete Setup')});
+        this.dialog = new frappe.ui.Dialog({title: 'แนะนำการใช้งาน'});
         this.$wrapper = $(this.dialog.$wrapper)
             .addClass('user-progress-dialog');
         this.slide_container = new TutorialSlides({
@@ -193,7 +168,7 @@ let TutorialDialog = class UserProgressDialog {
             before_load: ($footer) => {
                 $footer.find('.text-right')
                     .append($(`<a class="make-btn btn btn-primary btn-sm primary action">
-                    ${__('Start')}</a>`));
+                    กดที่นี่ เพื่อเริ่มต้น</a>`));
             },
             on_update: (completed, total) => {
                 let percent = completed * 100 / total;
@@ -219,7 +194,7 @@ let TutorialDialog = class UserProgressDialog {
     getAndUpdateProgressState() {
         let me = this;
         frappe.call({
-            method: 'frappe.desk.user_progress.update_and_get_user_progress',
+            method: 'thai_wht.utils.user_progress_utils.update_default_domain_actions_and_get_state',
             callback: function(r) {
                 let states = r.message;
                 let changed = 0;
@@ -278,8 +253,8 @@ let TutorialSlides = class UserProgressSlides extends frappe.ui.Slides {
     make_prev_next_buttons() {
         $(`<div class="row">
             <div class="col-sm-4">
-                <a class="prev-btn btn btn-default btn-sm" tabindex="0">Previous</a>
-                <a class="next-btn btn btn-default btn-sm" tabindex="0">Next</a>
+                <a class="prev-btn btn btn-default btn-sm" tabindex="0">ย้อนกลับ</a>
+                <a class="next-btn btn btn-default btn-sm" tabindex="0">ถัดไป</a>
             </div>
             <div class="col-sm-8 text-right">
             </div>
