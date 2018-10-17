@@ -46,8 +46,8 @@ function loadTippy() {
                     // using setInterval is a way to do that
                     let checkLoaded = setInterval(() => {
                         let eleSelector = selPrefix + tutorial.tippyElement;
-                        let tippyElement = $(eleSelector)[0];
-                        if (tippyElement) {
+                        let tippyElement = $(eleSelector);
+                        if (tippyElement[0]) {
                             // stop interval
                             clearInterval(checkLoaded);
                             if (tutorial.placement) {
@@ -74,7 +74,7 @@ function loadTippy() {
 */
 function initTippy(tippyElement, content, placement='bottom') {
     tippy(
-        tippyElement,
+        tippyElement[0],
         {
             content: content,
             arrow: true,
@@ -86,23 +86,49 @@ function initTippy(tippyElement, content, placement='bottom') {
             theme: 'red',
         }
     );
-    let tipEle = tippyElement._tippy;
+    let tipEle = tippyElement[0]._tippy;
 
-    // focus is event is trigger before click event
-    // when element get focus id++ and destroy tippy
-    $(tippyElement).on('focus', () => {
-        tipEle.destroy();
-        $(tippyElement).unbind('focus');
-        localStorage.tutorialLoaded = 'false';
-        localStorage.tutorialListId++;
-        loadTippy();
-    });
     // blur pre-selected input box on form page
     setTimeout(() => {
-        $(tippyElement).blur();
+        tippyElement.blur();
     }, 500);
-    $(document).on('page-change', () => {
-        $(tippyElement).unbind('focus');
-        tipEle.destroy();
-    });
+
+    let bindEvent = (event) => {
+        tippyElement.on(event, () => {
+            tippyElement.unbind(event);
+            tipEle.destroy();
+            localStorage.tutorialLoaded = 'false';
+            localStorage.tutorialListId++;
+            loadTippy();
+        });
+        $(document).on('page-change', () => {
+            tippyElement.unbind(event);
+            tipEle.destroy();
+        });
+    };
+
+    let tippyEvent;
+
+    if (/awesomplete/g.test(tippyElement.selector)) {
+        tippyEvent = 'awesomplete-selectcomplete';
+
+        tippyElement.on('focus', () => {
+            tippyElement.unbind(event);
+            tipEle.destroy();
+        });
+        tippyElement.on(tippyEvent, () => {
+            localStorage.tutorialLoaded = 'false';
+            localStorage.tutorialListId++;
+            loadTippy();
+        });
+        $(document).on('page-change', () => {
+            tippyElement.unbind(tippyEvent);
+            tippyElement.unbind('focus');
+            tipEle.destroy();
+        });
+    } else {
+        tippyEvent = 'focus';
+        bindEvent(tippyEvent);
+    }
+
 }
