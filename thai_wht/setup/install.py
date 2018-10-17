@@ -197,6 +197,10 @@ def add_fixture(only=''):
                 'source_name': 'Status', 'target_name': u'สถานะ'},
             {'doctype': 'Translation', 'language': 'en',
                 'source_name': 'Add Filter', 'target_name': u'เพิ่มคัดกรอง'},
+            {'doctype': 'Translation', 'language': 'en',
+                'source_name': 'Mandatory fields required in {0}', 'target_name': u'กรุณากรอกข้อมูล'},
+            {'doctype': 'Translation', 'language': 'en',
+                'source_name': 'Missing Fields', 'target_name': u'ข้อมูลไม่ครบ'},
         ],
         'user_progress': [
             # Setup progress
