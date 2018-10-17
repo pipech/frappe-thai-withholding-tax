@@ -17,33 +17,35 @@ frappe.ui.toolbar.Toolbar.prototype.setup_progress_dialog = function() {
                         progressDialog.show();
                     });
 
-                    // init tippy pointing to user progress bar
-                    let tippyElement = $('.user-progress:not(.hide) div.progress')[0];
-                    if (tippyElement) {
-                        // init tippy
-                        tippy(
-                            tippyElement,
-                            {
-                                content: 'กดที่นี่ เพื่อเปิดคู่มือการใช้งาน',
-                                arrow: true,
-                                showOnInit: true,
-                                trigger: 'manual',
-                                hideOnClick: 'false',
-                                placement: 'top',
-                                size: 'large',
-                                theme: 'red',
-                            }
-                        );
-                        let tipEle = tippyElement._tippy;
-                        let eventSelector = '.user-progress:not(.hide) .dropdown-toggle';
-                        $(eventSelector).on('focus', () => {
-                            tipEle.hide();
-                        });
-                        $(document).on('page-change', () => {
-                            if (cur_page.page.label === 'Desktop') {
-                                tipEle.show();
-                            }
-                        });
+                    if ($('div[data-page-route]').attr('data-page-route') === 'desktop') {
+                        // init tippy pointing to user progress bar
+                        let tippyElement = $('.user-progress:not(.hide) div.progress')[0];
+                        if (tippyElement) {
+                            // init tippy
+                            tippy(
+                                tippyElement,
+                                {
+                                    content: 'กดที่นี่ เพื่อเปิดคู่มือการใช้งาน',
+                                    arrow: true,
+                                    showOnInit: true,
+                                    trigger: 'manual',
+                                    hideOnClick: 'false',
+                                    placement: 'top',
+                                    size: 'large',
+                                    theme: 'red',
+                                }
+                            );
+                            let tipEle = tippyElement._tippy;
+                            let eventSelector = '.user-progress:not(.hide) .dropdown-toggle';
+                            $(eventSelector).on('focus', () => {
+                                tipEle.hide();
+                            });
+                            $(document).on('page-change', () => {
+                                if (cur_page.page.label === 'Desktop') {
+                                    tipEle.show();
+                                }
+                            });
+                        }
                     }
 
                     if (cint(frappe.boot.sysdefaults.is_first_startup)) {
