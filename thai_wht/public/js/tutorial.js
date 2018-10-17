@@ -50,7 +50,7 @@ function loadTippy() {
                         if (tippyElement) {
                             // stop interval
                             clearInterval(checkLoaded);
-                            initTippy(eleSelector, tutorial.content);
+                            initTippy(tippyElement, tutorial.content);
                         }
                     }, 200);
                 }
