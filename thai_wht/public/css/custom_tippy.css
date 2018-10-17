@@ -1,0 +1,14 @@
+.tippy-tooltip.red-theme {
+    background: #f8d7da;
+    border: 2px solid #f5c6cb;
+    color: #721c24;
+    font-size: 15px;
+}
+
+.tippy-popper[x-placement^=top] .tippy-tooltip.red-theme .tippy-arrow {
+    border-top: 10px solid #f8d7da;
+}
+
+.tippy-popper[x-placement^=bottom] .tippy-tooltip.red-theme .tippy-arrow {
+    border-bottom: 10px solid #f8d7da;
+}

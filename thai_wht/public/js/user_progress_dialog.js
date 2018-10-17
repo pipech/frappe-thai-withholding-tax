@@ -31,7 +31,7 @@ frappe.ui.toolbar.Toolbar.prototype.setup_progress_dialog = function() {
                                 hideOnClick: 'false',
                                 placement: 'top',
                                 size: 'large',
-                                // theme: 'light',
+                                theme: 'red',
                             }
                         );
                         let tipEle = tippyElement._tippy;

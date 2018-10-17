@@ -74,7 +74,7 @@ function initTippy(tippyElement, content) {
             hideOnClick: 'false',
             placement: 'top',
             size: 'large',
-            // theme: 'light',
+            theme: 'red',
         }
     );
     let tipEle = tippyElement._tippy;

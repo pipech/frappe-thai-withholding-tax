@@ -29,6 +29,7 @@ app_include_js = [
 app_include_css = [
     # auto fill thai address
     'assets/thai_wht/js/lib/jquery_thailand/jquery.Thailand.min.css',
+    'assets/thai_wht/css/custom_tippy.css',
     ]
 
 web_include_js = [
