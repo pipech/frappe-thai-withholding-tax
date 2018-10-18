@@ -30,6 +30,8 @@ function loadTippy() {
                         selPrefix = '';
                     } else if (/^li.*/g.test(tutorial.tippyElement)) {
                         selPrefix = 'div.main-section div.navbar ';
+                    } else if (/navbar/g.test(tutorial.tippyElement)) {
+                        selPrefix = 'div.main-section div.navbar ';
                     } else if (pageLabel === 'Desktop' || pageLabel === 'Modules') {
                         selPrefix = 'div[data-page-route="' +
                         pageLabel.toLowerCase() +

@@ -82,6 +82,11 @@ let tutorialDict = {
             tippyElement: 'li a[href="#List/Wht Cert"]',
             content: 'กดเพื่อกลับไปที่รายการหนังสือรับรอง',
         },
+        {
+            pageLabel: 'List/Wht Cert',
+            tippyElement: 'a.navbar-home',
+            content: 'กดเพื่อกลับไปที่หน้าหลัก',
+        },
     ],
     addPnd: [
         {
@@ -145,6 +150,11 @@ let tutorialDict = {
             pageLabel: 'Form/Pnd',
             tippyElement: 'li a[href="#List/Pnd"]',
             content: 'กดเพื่อกลับไปที่รายการแบบยื่นรายการภาษี',
+        },
+        {
+            pageLabel: 'List/Pnd',
+            tippyElement: 'a.navbar-home',
+            content: 'กดเพื่อกลับไปที่หน้าหลัก',
         },
     ],
     addWhder: [
@@ -216,6 +226,11 @@ let tutorialDict = {
             tippyElement: 'li a[href="#List/Whder"]',
             content: 'กดเพื่อกลับไปที่รายการผู้มีหน้าที่หักภาษี ณ ที่จ่าย',
         },
+        {
+            pageLabel: 'List/Whder',
+            tippyElement: 'a.navbar-home',
+            content: 'กดเพื่อกลับไปที่หน้าหลัก',
+        },
     ],
     addWhdee: [
         {
@@ -286,12 +301,18 @@ let tutorialDict = {
             tippyElement: 'li a[href="#List/Whdee"]',
             content: 'กดเพื่อกลับไปที่รายการผู้ถูกหักภาษี ณ ที่จ่าย',
         },
+        {
+            pageLabel: 'List/Whdee',
+            tippyElement: 'a.navbar-home',
+            content: 'กดเพื่อกลับไปที่หน้าหลัก',
+        },
     ],
     deleteDemo: [
         {
             pageLabel: 'Desktop',
             tippyElement: 'div.case-wrapper[data-link="delete_transaction"]',
             content: 'กดเพื่อลบข้อมูลตัวอย่าง',
+            placement: 'top',
         },
         {
             pageLabel: 'Delete transaction',
