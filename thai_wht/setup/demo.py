@@ -310,6 +310,15 @@ def add_whder_whdee():
     make_fixture_records(demo_records)
 
 
+def commit_pnd():
+    pnd_list = frappe.get_all(
+        doctype='Pnd',
+    )
+    for pnd in pnd_list:
+        pnd_doc = frappe.get_doc('Pnd', pnd['name'])
+        pnd_doc.submit()
+
+
 @frappe.whitelist()
 def check_password(pwd):
     from frappe.utils.password import check_password
@@ -375,13 +384,24 @@ def delete_demo(pwd):
             ]
         },
         {
-            'status': 'Adding pro config value',
-            'fail_msg': 'Failed : Adding pro config value',
+            'status': 'Adding pre config value',
+            'fail_msg': 'Failed : Adding pre config value',
             'tasks': [
                 {
                     'fn': adding_pre_config_value,
                     'args': '',
-                    'fail_msg': 'Failed : Adding pro config value'
+                    'fail_msg': 'Failed : Adding pre config value'
+                },
+            ]
+        },
+        {
+            'status': 'Clear setup progress',
+            'fail_msg': 'Failed : Clear setup progress',
+            'tasks': [
+                {
+                    'fn': clear_completed_state,
+                    'args': '',
+                    'fail_msg': 'Failed : Clear setup progress'
                 },
             ]
         },
@@ -452,6 +472,7 @@ def delete_transaction(args):
         'doctype'
         )
     thai_wht_doc = listdir(thai_wht_doc_path)
+    dont_delete_doctype = ['Setup Progress', 'Setup Progress Action']
 
     # loop through all doctype
     for doctype in thai_wht_doc:
@@ -466,8 +487,9 @@ def delete_transaction(args):
                 json_data = json.load(doc_json_value)
                 doctype_name = json_data['name']
 
-                # delete doctype
-                delete_for_doctype(doctype_name)
+                if doctype_name not in dont_delete_doctype:
+                    # delete doctype
+                    delete_for_doctype(doctype_name)
 
 
 def delete_for_doctype(doctype):
@@ -521,6 +543,12 @@ def clear_cache(site_name):
 
 def adding_pre_config_value(args):
     add_fixture(only=['wht_records'])
+
+
+def clear_completed_state(args):
+    setup_progress = frappe.get_single('Setup Progress')
+    setup_progress.done = 1
+    setup_progress.save()
 
 
 def update_site_status_delete_demo(args):

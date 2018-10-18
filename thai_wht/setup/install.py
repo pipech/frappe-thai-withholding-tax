@@ -19,7 +19,7 @@ def after_install():
         'Contacts',
         ]
     set_hidden_list(hidden_icon)
-    
+
 
 def add_fixture(only=''):
     fixture = {
@@ -181,7 +181,7 @@ def add_fixture(only=''):
                 'source_name': 'Demo Delete', 'target_name': u'ล้างข้อมูลตัวอย่าง'},
             ### Doctype
             {'doctype': 'Translation', 'language': 'en',
-                'source_name': 'Pnd', 'target_name': u'ภ.ง.ด.'},
+                'source_name': 'Pnd', 'target_name': u'แบบยื่นรายการภาษีเงินได้หัก ณ ที่จ่าย ภ.ง.ด.'},
             {'doctype': 'Translation', 'language': 'en',
                 'source_name': 'Wht Cert', 'target_name': u'หนังสือรับรองการหักภาษี ณ ที่จ่าย'},
             {'doctype': 'Translation', 'language': 'en',
@@ -197,6 +197,36 @@ def add_fixture(only=''):
                 'source_name': 'Status', 'target_name': u'สถานะ'},
             {'doctype': 'Translation', 'language': 'en',
                 'source_name': 'Add Filter', 'target_name': u'เพิ่มคัดกรอง'},
+            {'doctype': 'Translation', 'language': 'en',
+                'source_name': 'Mandatory fields required in {0}', 'target_name': u'กรุณากรอกข้อมูล'},
+            {'doctype': 'Translation', 'language': 'en',
+                'source_name': 'Missing Fields', 'target_name': u'ข้อมูลไม่ครบ'},
+        ],
+        'user_progress': [
+            # Setup progress
+            {
+                'doctype': 'Setup Progress',
+                'actions': [
+                    {'action_name': 'introduction',
+                        'action_doctype': 'Wht Cert',
+                        'min_doc_count': 10000, 'is_completed': 1},
+                    {'action_name': 'addWhtCert',
+                        'action_doctype': 'Wht Cert',
+                        'min_doc_count': 7, 'is_completed': 0},
+                    {'action_name': 'addPnd',
+                        'action_doctype': 'Pnd',
+                        'min_doc_count': 5, 'is_completed': 0},
+                    {'action_name': 'addWhder',
+                        'action_doctype': 'Whder',
+                        'min_doc_count': 3, 'is_completed': 0},
+                    {'action_name': 'addWhdee',
+                        'action_doctype': 'Whdee',
+                        'min_doc_count': 5, 'is_completed': 0},
+                    {'action_name': 'deleteDemo',
+                        'action_doctype': 'Pnd',
+                        'min_doc_count': 10000, 'is_completed': 0},
+                ]
+            },
         ],
     }
     

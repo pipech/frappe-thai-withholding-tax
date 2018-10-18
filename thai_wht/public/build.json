@@ -5,5 +5,10 @@
 		],
 	"js/website.min.js": [
 		"public/js/website.js"
+		],
+	"js/tutorial.min.js": [
+		"public/js/user_progress_dialog.js",
+		"public/js/tutorialList.js",
+		"public/js/tutorial.js"
 		]
 }
