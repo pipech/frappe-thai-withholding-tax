@@ -55,7 +55,6 @@ class Pnd(Document):
 
     def on_submit(self):
         for d in self.wht_cert:
-            print(d.wht_cert)
             doc = frappe.get_doc('Wht Cert', d.wht_cert)
             doc.workflow_state = 'Submitted'
             doc.save()

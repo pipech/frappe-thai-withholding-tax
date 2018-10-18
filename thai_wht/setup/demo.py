@@ -310,6 +310,15 @@ def add_whder_whdee():
     make_fixture_records(demo_records)
 
 
+def commit_pnd():
+    pnd_list = frappe.get_all(
+        doctype='Pnd',
+    )
+    for pnd in pnd_list:
+        pnd_doc = frappe.get_doc('Pnd', pnd['name'])
+        pnd_doc.submit()
+
+
 @frappe.whitelist()
 def check_password(pwd):
     from frappe.utils.password import check_password
