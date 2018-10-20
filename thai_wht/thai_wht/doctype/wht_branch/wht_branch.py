@@ -85,7 +85,7 @@ def get_branch_address(branch):
         'Wht Branch', branch, '*', as_dict=True
         )
 
-    if branch_dict == 'กรุงเทพมหานคร':
+    if branch_dict.province == 'กรุงเทพมหานคร':
         addr_temp = '{addr} แขวง{sub_district} เขต{district} {province}'
     else:
         addr_temp = '{addr} ต.{sub_district} อ.{district} จ.{province}'
