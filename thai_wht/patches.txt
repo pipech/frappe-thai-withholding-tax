@@ -1,0 +1,1 @@
+thai_wht.patches.v1_0.tippy_dialog_fixture
