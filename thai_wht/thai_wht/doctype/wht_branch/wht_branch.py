@@ -22,6 +22,15 @@ class WhtBranch(Document):
         except ValueError:
             frappe.throw('สาขาไม่ถูกต้อง กรุณากรอกสาขาเป็นตัวเลข')
 
+        if self.zip_code:
+            try:
+                int(self.zip_code)
+            except ValueError:
+                frappe.throw('รหัสไปรษณีย์ไม่ถูกต้อง กรุณากรอกรหัสไปรษณีย์เป็นตัวเลข')
+
+            if len(self.zip_code) != 5:
+                frappe.throw('รหัสไปรษณีย์ไม่ถูกต้อง กรุณากรอกรหัสไปรษณีย์เป็นตัวเลข 5 หลัก')
+
 
 def load_branch(doc):
     filters = [
@@ -50,14 +59,16 @@ def get_branch_display(branch_dict):
             ) or {}
 
     template = """
+        {{ address_line1 }}<br>
         {% if province == 'กรุงเทพมหานคร' %}
-            {{ address_line1 }}<br>
             แขวง{{ sub_district }} เขต{{ district }}<br>
             {{ province }}<br>
         {% else %}
-            {{ address_line1 }}<br>
             ต.{{ sub_district }} อ.{{ district }}<br>
             จ.{{ province }}<br>
+        {% endif %}
+        {% if zip_code %}
+            {{ zip_code }}<br>
         {% endif %}
     """
 
@@ -96,5 +107,11 @@ def get_branch_address(branch):
         district=branch_dict.district,
         province=branch_dict.province,
         )
+
+    if branch_dict.zip_code:
+        branch_dict.address = ' '.join([
+            branch_dict.address,
+            branch_dict.zip_code,
+            ])
 
     return branch_dict

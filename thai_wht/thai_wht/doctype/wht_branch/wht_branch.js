@@ -1,19 +1,19 @@
 // Copyright (c) 2018, SpaceCode Co., Ltd. and contributors
 // For license information, please see license.txt
 
-let loaded = 0;
+let thaiAutoFillloaded = 0;
 
 frappe.ui.form.on('Wht Branch', {
     onload: function(frm) {
         // thai address auto fill
-        
-        if (loaded === 0) {
-            loaded = 1;
+        if (thaiAutoFillloaded === 0) {
+            thaiAutoFillloaded = 1;
 
             $.Thailand({
                 $district: $('[data-fieldname="sub_district"] input'),
                 $amphoe: $('[data-fieldname="district"] input'),
                 $province: $('[data-fieldname="province"] input'),
+                $zipcode: $('[data-fieldname="zip_code"] input'),
             });
         }
     },
