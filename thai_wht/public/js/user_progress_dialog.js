@@ -42,7 +42,7 @@ frappe.ui.toolbar.Toolbar.prototype.setup_progress_dialog = function() {
                             });
                             $(document).on('page-change', () => {
                                 if (cur_page.page.label === 'Desktop') {
-                                    if (progressDialog.progress_percent >= (3/progressDialog.slides.length)) {
+                                    if (progressDialog.progress_percent < (3*100/progressDialog.slides.length)) {
                                         tipEle.show();
                                     }
                                 }
