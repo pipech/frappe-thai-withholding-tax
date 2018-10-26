@@ -4,17 +4,15 @@ import frappe
 def get_site_data():
     site_data = {}
 
-    data_list = [
-        {
-            'label': 'last_active',
-            'func': get_last_active(),
-        }
+    func_list = [
+        get_last_active(),
+        get_total_whdee_whder(),
     ]
 
-    for data in data_list:
-        func_return = data['func']
+    for func in func_list:
+        func_return = func
         if func_return:
-            site_data[data['label']] = func_return
+            site_data.update(func_return)
 
     return site_data
 
@@ -25,4 +23,14 @@ def get_last_active():
     last_active = last_active[0].get('last_active')
     if last_active:
         last_active = last_active.strftime('%Y-%m-%d %H:%M:%S')
-        return last_active
+        return {'last_active': last_active}
+
+
+def get_total_whdee_whder():
+    sql = """
+    SELECT
+        (SELECT COUNT(*) FROM tabWhdee) AS 'whdee',
+        (SELECT COUNT(*) FROM tabWhder) AS 'whder'
+        """
+    total_whdee_whder = frappe.db.sql(sql, as_dict=1)[0]
+    return total_whdee_whder
