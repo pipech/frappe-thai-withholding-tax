@@ -11,7 +11,7 @@
 		"public/js/tutorialList.js",
 		"public/js/tutorial.js"
 		],
-	"js/google_analytics.min.js": [
+	"js/thai_wht_analytics.min.js": [
 		"public/js/google_analytics.js"
 	]
 }

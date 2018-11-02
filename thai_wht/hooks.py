@@ -26,7 +26,7 @@ app_include_js = [
     'assets/thai_wht/js/lib/tippy/tippy.min.js',
     'assets/js/tutorial.min.js',
     # google analytics
-    'assets/js/google_analytics.min.js',
+    'assets/js/thai_wht_analytics.min.js',
     ]
 app_include_css = [
     # auto fill thai address
