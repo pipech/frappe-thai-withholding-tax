@@ -63,7 +63,7 @@ def download_pdf_pnd(name):
         }
     )
     content_front = frappe.render_template(
-        'thai_wht/thai_wht/report/pnd_attach/pnd_front_3.html',
+        'thai_wht/thai_wht/report/pnd_attach/pnd_front_53.html',
         {
             'data': data,
             'columns': columns,
@@ -112,7 +112,7 @@ def download_pdf_pnd(name):
     )
 
     # read front template
-    pdf_template = PdfFileReader('assets/thai_wht/pnd_template/pnd3.pdf')
+    pdf_template = PdfFileReader('assets/thai_wht/pnd_template/pnd53.pdf')
     pdf_front = PdfFileReader(fname_front)
 
     # merge front page
