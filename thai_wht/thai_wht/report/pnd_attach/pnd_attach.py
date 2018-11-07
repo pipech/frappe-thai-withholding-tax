@@ -3,8 +3,16 @@
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
+
 import frappe
-from frappe.utils.pdf import get_pdf
+import os
+import pdfkit
+
+from frappe.utils import scrub_urls
+from frappe.utils.pdf import prepare_options
+from PyPDF2 import PdfFileReader
+from PyPDF2 import PdfFileMerger
+from PyPDF2 import PdfFileWriter
 
 
 def execute(name, csv=False, filters=None):
@@ -33,32 +41,66 @@ def download_pdf_csv(name):
 
 @frappe.whitelist()
 def download_pdf_pnd(name):
+    # get data
     columns, data = execute(name)
-    content = frappe.render_template(
+
+    # prepared html
+    content_attach = frappe.render_template(
         'thai_wht/thai_wht/report/pnd_attach/pnd_attach.html',
         {
             'data': data,
             'columns': columns,
         }
         )
-    html = frappe.render_template(
+    html_attach = frappe.render_template(
         'public/html/print_template_pnd.html',
         {
-            'content': content,
+            'content': content_attach,
             'title': name,
             'landscape ': True,
             'print_settings': {},
             'columns': columns,
         }
     )
+
+    # temp file name
+    hash_name = frappe.generate_hash()
+    fname_attach = os.path.join(
+        '/tmp',
+        'pnd-attach-{0}.pdf'.format(hash_name)
+        )
+
+    # generate pdf
+    pnd_gen_pdf(
+        html=html_attach,
+        options={'orientation': 'Landscape'},
+        output_path=fname_attach,
+    )
+
+    # get read file to use for frappe response
+    with open(fname_attach, 'rb') as fileobj:
+        filedata = fileobj.read()
+
+    # delete temp file
+    if os.path.exists(fname_attach):
+        os.remove(fname_attach)
+
+    # frappe response
     frappe.local.response.filename = '{name}.pdf'.format(
         name=name.replace(' ', '-').replace('/', '-')
         )
-    frappe.local.response.filecontent = get_pdf(
-        html,
-        {'orientation': 'Landscape'}
-        )
+    frappe.local.response.filecontent = filedata
     frappe.local.response.type = 'download'
+
+
+def pnd_gen_pdf(html, options, output_path):
+    html = scrub_urls(html)
+    html, options = prepare_options(html, options)
+    pdfkit.from_string(
+        input=html,
+        output_path=output_path,
+        options=options
+        )
 
 
 def format_data(data):
