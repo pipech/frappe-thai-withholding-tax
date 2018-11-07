@@ -63,7 +63,7 @@ def download_pdf_pnd(name):
         }
     )
     content_front = frappe.render_template(
-        'thai_wht/thai_wht/report/pnd_attach/pnd_front.html',
+        'thai_wht/thai_wht/report/pnd_attach/pnd_front_3.html',
         {
             'data': data,
             'columns': columns,
@@ -132,6 +132,7 @@ def download_pdf_pnd(name):
     attach_stream = open(fname_attach, 'rb')
     # import_bookmarks is here to prevent error
     # "utils.PdfReadError("Unexpected destination %r" % dest)"
+    # https://github.com/mstamy2/PyPDF2/issues/193
     # merge file
     merger = PdfFileMerger()
     merger.append(front_merged_stream, import_bookmarks=False)
