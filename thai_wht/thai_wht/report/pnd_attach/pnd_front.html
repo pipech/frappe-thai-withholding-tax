@@ -1,0 +1,59 @@
+<style>
+    .print-format {
+        /* max-width: 11.69in !important;
+		min-height: 11.69in; */
+        /* setting pdf margin */
+        margin-left: 0mm;
+        margin-right: 0mm;
+        margin-bottom: 0mm;
+        margin-top: 0mm;
+
+        margin: 0px !important;
+        padding: 0mm 5mm 0mm 5mm !important;
+    }
+    .print-format p,
+    .pnd-heading {
+        font-size: 9pt;
+        font-family: Laksaman;
+    }
+    .print-format th {
+        vertical-align: middle !important;
+    }
+    .pnd-heading {
+        padding: 5mm 0 0 0;
+    }
+    .pnd-heading h1,
+    .pnd-heading b,
+    .pnd-heading small {
+        display: inline;
+    }
+    .print-format ol {
+        margin-bottom: 0mm !important;
+    }
+    .print-format th {
+        padding: 0.75mm 1mm 0.75mm 1mm !important;
+    }
+    .print-format td {
+        /* 4.5mm height, will match perfectly with below padding and 9pt font size */
+        /* fill table and blank table will have same size */
+        padding: 1.05mm 2mm 1mm 2mm !important;
+        height: 4.5mm;
+    }
+    .print-format td.footer {
+        padding: 1.5mm !important;
+    }
+    table,
+    tr,
+    td,
+    th {
+        border:#666 solid 1px;
+        border-collapse: collapse;
+        font-size: 9pt;
+        text-align: center;
+        font-family: Laksaman;
+        /* got this number from rendered html */
+        line-height: 1.42857143;
+    }
+</style>
+
+<b>{{ data[0].pnd._whder }}</b>

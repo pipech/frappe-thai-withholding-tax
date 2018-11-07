@@ -49,8 +49,7 @@ frappe.ui.form.on('Pnd', {
 function printPnd(frm) {
     let w = window.open(
         frappe.urllib.get_full_url(
-            // '/api/method/thai_wht.thai_wht.report.pnd_attach.pnd_attach.download_pdf_pnd?'
-            '/api/method/thai_wht.thai_wht.report.pnd_attach.pnd_front.download_pdf_pnd?'
+            '/api/method/thai_wht.thai_wht.report.pnd_attach.pnd_attach.download_pdf_pnd?'
             + 'name=' + encodeURIComponent(frm.doc.name)
         )
     );
