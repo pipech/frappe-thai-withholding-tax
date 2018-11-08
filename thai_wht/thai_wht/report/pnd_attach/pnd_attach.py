@@ -8,6 +8,7 @@ import frappe
 import os
 import pdfkit
 
+from decimal import Decimal
 from frappe.utils import scrub_urls
 from frappe.utils.pdf import prepare_options
 from PyPDF2 import PdfFileReader
@@ -285,7 +286,7 @@ def get_pnd(pnd_name):
     pnd_dict['year'] = int(pnd_dict['year'])
 
     pnd_dict['_penalty'] = '{:,.2f}'.format(pnd_dict['penalty'])
-    pnd_dict['penalty'] = int(pnd_dict['penalty'])
+    pnd_dict['penalty'] = Decimal(pnd_dict['penalty'])
 
     id = pnd_dict.whder
     pnd_dict['_whder'] = '{}-{}-{}-{}-{}'.format(
@@ -334,11 +335,11 @@ def get_page_and_total(data):
         for item in range(start_data, end_data):
             for i in range(3):
                 try:
-                    page_wht += int(data[item]['{}{}'.format('wht', i)])
+                    page_wht += Decimal(data[item]['{}{}'.format('wht', i)])
                 except KeyError:
                     pass
                 try:
-                    page_paid += int(data[item]['{}{}'.format('paid', i)])
+                    page_paid += Decimal(data[item]['{}{}'.format('paid', i)])
                 except KeyError:
                     pass
 
