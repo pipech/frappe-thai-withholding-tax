@@ -278,7 +278,7 @@ def get_pnd(pnd_name):
         'พฤศจิกายน',
         'ธันวาคม',
     ]
-    pnd_dict['_date'] = 'วันที่ {:02d} เดือน {} พ.ศ. {}'.format(
+    pnd_dict['_date'] = '{:02d} เดือน {} พ.ศ. {}'.format(
         pnd_dict.date.day,
         thai_month[pnd_dict.date.month-1],
         pnd_dict.date.year+543
