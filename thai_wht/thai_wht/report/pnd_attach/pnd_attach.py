@@ -27,6 +27,9 @@ def execute(name, csv=False, filters=None):
     if name:
         data[0]['pnd'] = get_pnd(name)
         data[0]['total'] = get_page_and_total(data)
+        data[0]['total']['all'] = \
+            data[0]['total']['all_wht'] + data[0]['pnd']['penalty']
+        data[0]['total']['_all'] = '{:,.2f}'.format(data[0]['total']['all'])
     # get columns
     columns = get_columns()
 
@@ -278,12 +281,22 @@ def get_pnd(pnd_name):
         thai_month[pnd_dict.date.month-1],
         pnd_dict.date.year+543
         )
-    
+    pnd_dict['year'] = int(pnd_dict['year'])
+
+    pnd_dict['_penalty'] = '{:,.2f}'.format(pnd_dict['penalty'])
+    pnd_dict['penalty'] = int(pnd_dict['penalty'])
+
     id = pnd_dict.whder
     pnd_dict['_whder'] = '{}-{}-{}-{}-{}'.format(
         id[0], id[1:5], id[5:10], id[10:12], id[12]
         )
-    
+    pnd_dict['_whder_branch_no'] = ' '.join(pnd_dict['whder_branch_no'])
+    pnd_dict['_whder1'] = id[0]
+    pnd_dict['_whder2'] = ' '.join(id[1:5])
+    pnd_dict['_whder3'] = ' '.join(id[5:10])
+    pnd_dict['_whder4'] = ' '.join(id[10:12])
+    pnd_dict['_whder5'] = ' '.join(id[12])
+
     return pnd_dict
 
 
@@ -296,9 +309,13 @@ def get_page_and_total(data):
     pages = len(data) // line_in_page
     if line_left > 0:
         pages += 1
+    total['line'] = len(data)
     total['pages'] = pages
     total['line_left'] = line_left
     total['line_in_page'] = line_in_page
+
+    all_wht = 0
+    all_paid = 0
 
     # cal total
     for page in range(0, pages):
@@ -332,6 +349,15 @@ def get_page_and_total(data):
         total[page]['paid'] = page_paid
         total[page]['_wht'] = _page_wht
         total[page]['_paid'] = _page_paid
+
+        all_wht += page_wht
+        all_paid += page_paid
+
+    total['all_wht'] = all_wht
+    total['all_paid'] = all_paid
+
+    total['_all_wht'] = '{:,.2f}'.format(all_wht)
+    total['_all_paid'] = '{:,.2f}'.format(all_paid)
 
     return total
 
