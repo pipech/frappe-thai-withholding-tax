@@ -40,7 +40,7 @@
     tr,
     td,
     th {
-        /* box-shadow: 0 0 0 1px red; */
+        box-shadow: 0 0 0 1px red;
         border-collapse: collapse;
         font-size: 9pt;
         text-align: left;
@@ -89,6 +89,14 @@
     table.pnd-sign p {
         margin: 0 !important;
     }
+
+    p.pnd-address span {
+        display: inline-block;
+        text-overflow: clip;
+        overflow: hidden;
+        white-space: nowrap;
+        text-align: center;
+    }
 </style>
 
 <div class="pnd-heading">
@@ -114,19 +122,74 @@
                             </p>
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="height:34.5mm;">
                         <td style="padding:0 0 0 1.5mm !important;">
-                            <p style="margin:0;">
-                                {{ data[0].pnd.whder_prefix }}{{ data[0].pnd.whder_name }}
-                            </p>
-                        </td>
-                    </tr>
-                    <tr style="height:30mm;">
-                        <td>
-                            <p style="margin:0; line-height: 150%;">
-                                <span style="display:inline-block; width:8mm;"></span>
-                                {{ data[0].pnd.whder_branch_addr }}
-                            </p>
+                                <p style="margin:0; padding-bottom:3px;">
+                                        {{ data[0].pnd.whder_prefix }}{{ data[0].pnd.whder_name }}
+                                    </p>
+                                    {% macro fill_addr(addr) %}
+                                    {% if data[0].addr[addr] %}
+                                        {{ data[0].addr[addr] }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                    {% endmacro %}
+        
+                                    <p style="margin:0; line-height: 175%;" class="pnd-address">
+                                        <span style="width:17mm;"></span>
+                                        <span style="width:20mm;">
+                                            {{ fill_addr('building') }}
+                                        </span>
+                                        <span style="width:11.5mm;"></span>
+                                        <span style="width:7mm;">
+                                            {{ fill_addr('room_no') }}
+                                        </span>
+                                        <span style="width:4.7mm;"></span>
+                                        <span style="width:3.5mm;">
+                                            {{ fill_addr('floor_no') }}
+                                        </span>
+                                        <span style="width:8mm;"></span>
+                                        <span style="width:23mm;">
+                                            {{ fill_addr('moo_ban') }}
+                                        </span>
+                                        <br>
+                                        <span style="width:6mm;"></span>
+                                        <span style="width:27.5mm;">
+                                            {{ fill_addr('address_line1') }}
+                                        </span>
+                                        <span style="width:4.5mm;"></span>
+                                        <span style="width:4.5mm;">
+                                            {{ fill_addr('moo') }}
+                                        </span>
+                                        <span style="width:11mm;"></span>
+                                        <span style="width:24mm;">
+                                            {{ fill_addr('soi') }}
+                                        </span>
+                                        <span style="width:3.5mm;"></span>
+                                        <span style="width:13mm;">
+                                            {{ fill_addr('sub_soi') }}
+                                        </span>
+                                        <br>
+                                        <span style="width:5mm;"></span>
+                                        <span style="width:39mm;">
+                                            {{ fill_addr('road') }}
+                                        </span>
+                                        <span style="width:14mm;"></span>
+                                        <span style="width:40mm;">
+                                            {{ fill_addr('sub_district') }}
+                                        </span>
+                                        <br>
+                                        <span style="width:13mm;"></span>
+                                        <span style="width:38mm;">
+                                            {{ fill_addr('district') }}
+                                        </span>
+                                        <span style="width:6mm;"></span>
+                                        <span style="width:40mm;">
+                                            {{ fill_addr('province') }}
+                                        </span>
+                                        <br>
+                                        <span style="width:18.5mm;"></span>
+                                        <span style="width:18mm; word-spacing:0.32em; text-align:left;">{{ fill_addr('_zip_code') }}</span>
                         </td>
                     </tr>
                     <tr style="height:12mm;">
@@ -322,7 +385,19 @@
         </tr>
         <tr>
             <td>
-                <p style="padding-left:6mm">{{ data[0].pnd._date }}</p>
+                <p style="padding-left:5mm">
+                    <span style="display:inline-block; width:6mm;">
+                        {{ data[0].pnd._date }}
+                    </span>
+                    <span style="display:inline-block; width:6mm;"></span>
+                    <span style="display:inline-block; width:22mm;">
+                        {{ data[0].pnd._month }}
+                    </span>
+                    <span style="display:inline-block; width:3mm;"></span>
+                    <span style="display:inline-block; width:4mm;">
+                        {{ data[0].pnd._year }}
+                    </span>
+                </p>
             </td>
         </tr>
     </table>

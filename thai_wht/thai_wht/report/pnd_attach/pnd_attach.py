@@ -31,6 +31,7 @@ def execute(name, csv=False, filters=None):
         data[0]['total']['all'] = \
             data[0]['total']['all_wht'] + data[0]['pnd']['penalty']
         data[0]['total']['_all'] = '{:,.2f}'.format(data[0]['total']['all'])
+        data[0]['addr'] = get_branch_addr(data[0]['pnd']['whder_branch'])
     # get columns
     columns = get_columns()
 
@@ -278,11 +279,10 @@ def get_pnd(pnd_name):
         'พฤศจิกายน',
         'ธันวาคม',
     ]
-    pnd_dict['_date'] = '{:02d} เดือน {} พ.ศ. {}'.format(
-        pnd_dict.date.day,
-        thai_month[pnd_dict.date.month-1],
-        pnd_dict.date.year+543
-        )
+    pnd_dict['_date'] = '{:02d}'.format(pnd_dict.date.day)
+    pnd_dict['_month'] = thai_month[pnd_dict.date.month-1]
+    pnd_dict['_year'] = pnd_dict.date.year+543
+    
     pnd_dict['year'] = int(pnd_dict['year'])
 
     pnd_dict['_penalty'] = '{:,.2f}'.format(pnd_dict['penalty'])
@@ -300,6 +300,17 @@ def get_pnd(pnd_name):
     pnd_dict['_whder5'] = ' '.join(id[12])
 
     return pnd_dict
+
+
+def get_branch_addr(branch_name):
+    branch_dict = frappe.get_value(
+        doctype='Wht Branch',
+        fieldname='*',
+        filters=branch_name,
+        as_dict=1
+        )
+    branch_dict['_zip_code'] = ' '.join(branch_dict['zip_code'])
+    return branch_dict
 
 
 def get_page_and_total(data):
