@@ -100,25 +100,25 @@
                 <tr style="height:7mm;">
                         <td style="text-align:right;">
                             <p>
-                                <span class="box">1</span>
-                                <span class="box">1 0 2 8</span>
-                                <span class="box">0 0 0 0 8</span>
-                                <span class="box">6 5</span>
-                                <span class="box">0</span>
+                                <span class="box">{{ data[0].pnd._whder1 }}</span>
+                                <span class="box">{{ data[0].pnd._whder2 }}</span>
+                                <span class="box">{{ data[0].pnd._whder3 }}</span>
+                                <span class="box">{{ data[0].pnd._whder4 }}</span>
+                                <span class="box">{{ data[0].pnd._whder5 }}</span>
                             </p>
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align:right; padding:0 !important;">
                             <p style="word-spacing:0.34em; padding:3mm 1.3mm 0 0;">
-                                0 0 0 0 0
+                                {{ data[0].pnd._whder_branch_no }}
                             </p>
                         </td>
                     </tr>
                     <tr>
                         <td style="padding:0 0 0 1.5mm !important;">
                             <p style="margin:0;">
-                                บจก.สเปซโค้ด
+                                {{ data[0].pnd.whder_prefix }}{{ data[0].pnd.whder_name }}
                             </p>
                         </td>
                     </tr>
@@ -126,7 +126,7 @@
                         <td>
                             <p style="margin:0; line-height: 150%;">
                                 <span style="display:inline-block; width:14mm;"></span>
-                                99/246 หมู่ที่ 0 ถ.ประชาอุทิศ ต.นาเกลือ อ.พระสมุทรเจดีย์ จ.สมุทรปราการ 10290
+                                {{ data[0].pnd.whder_branch_addr }}
                             </p>
                         </td>
                     </tr>
@@ -134,11 +134,23 @@
                         <td style="padding:1mm 0 0 0 !important;">
                             <p style="margin:0;">
                                 <span style="display:inline-block; width:16mm;"></span>
-                                <span style="font-size: 18px;">✓</span>
+                                <span style="font-size: 18px;">
+                                    {% if data[0].pnd.submit_no=='0' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
                                 <span style="display:inline-block; width:26.5mm;"></span>
-                                <span style="font-size: 18px;">✓</span>
+                                <span style="font-size: 18px;">
+                                    {% if data[0].pnd.submit_no!='0' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
                                 <span style="display:inline-block; width:30mm;"></span>
-                                <span>3</span>
+                                <span>
+                                    {% if data[0].pnd.submit_no!='0' %}
+                                        {{ data[0].pnd.submit_no }}
+                                    {% endif %}
+                                </span>
                             </p>
                         </td>
                     </tr>
@@ -148,36 +160,87 @@
                 <table style="width:100%; table-layout:fixed;" class="pnd-month-check">
                     <tr style="height:15mm;">
                         <td style="text-align:right;">
-                            <p style="padding:6.2mm 0 0 64.5mm; font-size: 9pt;">2581</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p>
-                                <span>✓</span>
-                                <span>✓</span>
-                                <span style="width:18mm;">✓</span>
-                                <span>✓</span>
+                            <p style="padding:6.2mm 0 0 64.5mm; font-size: 9pt;">
+                                {% set thai_year = data[0].pnd.year+543 %}
+                                {{ thai_year }}
                             </p>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <p>
-                                <span>✓</span>
-                                <span>✓</span>
-                                <span style="width:18mm;">✓</span>
-                                <span>✓</span>
+                                <span>
+                                    {% if data[0].pnd.month=='1' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span>
+                                    {% if data[0].pnd.month=='4' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span style="width:18mm;">
+                                    {% if data[0].pnd.month=='7' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span>
+                                    {% if data[0].pnd.month=='10' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
                             </p>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <p>
-                                <span>✓</span>
-                                <span>✓</span>
-                                <span style="width:18mm;">✓</span>
-                                <span>✓</span>
+                                <span>
+                                    {% if data[0].pnd.month=='2' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span>
+                                    {% if data[0].pnd.month=='5' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span style="width:18mm;">
+                                    {% if data[0].pnd.month=='8' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span>
+                                    {% if data[0].pnd.month=='11' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>
+                                <span>
+                                    {% if data[0].pnd.month=='3' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span>
+                                    {% if data[0].pnd.month=='6' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span style="width:18mm;">
+                                    {% if data[0].pnd.month=='9' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span>
+                                    {% if data[0].pnd.month=='12' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
                             </p>
                         </td>
                     </tr>
@@ -191,9 +254,27 @@
     <table style="width:100%; table-layout:fixed;" class="pnd-submit-by">
         <tr>
             <td style="width:30mm;"></td>
-            <td style="width:40mm;"><p>✓</p></td>
-            <td style="width:40mm;"><p>✓</p></td>
-            <td><p>✓</p></td>
+            <td style="width:40mm;">
+                <p>
+                    {% if data[0].pnd.law=='3 เตรส' %}
+                    ✓
+                    {% endif %}
+                </p>
+            </td>
+            <td style="width:40mm;">
+                <p>
+                    {% if data[0].pnd.law=='48 ทวิ' %}
+                    ✓
+                    {% endif %}
+                </p>
+            </td>
+            <td>
+                <p>
+                    {% if data[0].pnd.law=='50 (3) (4) (5)' %}
+                    ✓
+                    {% endif %}
+                </p>
+            </td>
         </tr>
     </table>
 </div>
@@ -205,12 +286,12 @@
                 <p style="font-size: 18px; padding:3px 0 0 7px;">✓</p>
             </td>
             <td style="text-align:right; padding:11px 45px 0 0 !important;">
-                <p style="margin:0 !important;">30</p>
+                <p style="margin:0 !important;">{{ data[0].total.line }}</p>
             </td>
         </tr>
         <tr>
             <td style="text-align:right; padding:2px 45px 0 0 !important;">
-                <p>1</p>
+                <p>{{ data[0].total.pages }}</p>
             </td>
         </tr>
     </table>
@@ -219,16 +300,16 @@
 <div style="padding: 43.5mm 0 0 140mm;">
     <table style="width:30mm;" class="pnd-total">
         <tr>
-            <td>10,240.33</td>
+            <td>{{ data[0].total._all_paid }}</td>
         </tr>
         <tr>
-            <td>3,333.22</td>
+            <td>{{ data[0].total._all_wht }}</td>
         </tr>
         <tr>
-            <td>222.33</td>
+            <td>{{ data[0].pnd._penalty }}</td>
         </tr>
         <tr>
-            <td>3,400.02</td>
+            <td>{{ data[0].total._all }}</td>
         </tr>
     </table>
 </div>
@@ -237,17 +318,17 @@
     <table style="width:53mm;" class="pnd-sign">
         <tr>
             <td style="text-align:center;">
-                <p>นายไป๊ เป็ดก๊าบก๊าบ</p>
+                <p style=><span style="display:inline-block; width:1mm;"></span></p>
             </td>
         </tr>
         <tr>
             <td>
-                <p style="padding-left:8mm;">นายกรัฐมนตรี</p>
+                <p style="padding-left:8mm;"><span style="display:inline-block; width:1mm;"></p>
             </td>
         </tr>
         <tr>
             <td>
-                <p style="padding-left:6mm">1 เดือน ธันวาคม พ.ศ. 2344</p>
+                <p style="padding-left:6mm">{{ data[0].pnd._date }}</p>
             </td>
         </tr>
     </table>
