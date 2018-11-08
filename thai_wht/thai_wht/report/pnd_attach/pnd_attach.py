@@ -46,6 +46,7 @@ def download_pdf_csv(name):
 def download_pdf_pnd(name):
     # get data
     columns, data = execute(name)
+    pnd = data[0]['pnd']['pnd']
 
     # prepared html
     content_attach = frappe.render_template(
@@ -66,7 +67,7 @@ def download_pdf_pnd(name):
         }
     )
     content_front = frappe.render_template(
-        'thai_wht/thai_wht/report/pnd_attach/pnd_front_3.html',
+        'thai_wht/thai_wht/report/pnd_attach/pnd_front_{}.html'.format(pnd),
         {
             'data': data,
             'columns': columns,
@@ -115,7 +116,7 @@ def download_pdf_pnd(name):
     )
 
     # read front template
-    pdf_template = PdfFileReader('assets/thai_wht/pnd_template/pnd3.pdf')
+    pdf_template = PdfFileReader('assets/thai_wht/pnd_template/pnd{}.pdf'.format(pnd))
     pdf_front = PdfFileReader(fname_front)
 
     # merge front page
