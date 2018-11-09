@@ -255,8 +255,21 @@
             </td>
             <td style="vertical-align: bottom !important;">
                 <p style="padding: 1.2mm 0 0 2cm;">ลงชื่อ .............................................................. ผู้จ่ายเงิน</p>
-                <p style="padding: 1.2mm 0 0 2cm;">(..............................................................)</p>
-                <p style="padding: 1.2mm 0 0 2cm;">ตำแหน่ง ...............................................</p>
+                {% if data[0].pnd.payer %}
+                <p style="padding: 1.2mm 0 0 2cm;">
+                    (&nbsp;&nbsp;{{ data[0].pnd.payer_prefix }}{{ data[0].pnd.payer_name }}&nbsp;&nbsp;)
+                </p>
+                <p style="padding: 1.2mm 0 0 2cm;">
+                    ตำแหน่ง {{ data[0].pnd.payer_position }}
+                </p>
+                {% else %}
+                <p style="padding: 1.2mm 0 0 2cm;">
+                    (..............................................................)
+                </p>
+                <p style="padding: 1.2mm 0 0 2cm;">
+                    ตำแหน่ง ...............................................
+                </p>
+                {% endif %}
                 <p style="padding: 1.2mm 0 0 2cm;">ยื่นวันที่ {{ data[0].pnd._date }} เดือน {{ data[0].pnd._month }} พ.ศ. {{ data[0].pnd._year }} </p>
             </td>
         </tr>

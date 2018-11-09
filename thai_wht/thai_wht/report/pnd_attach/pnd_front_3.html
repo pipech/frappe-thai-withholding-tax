@@ -85,7 +85,7 @@
 
     /* pnd-sign */
     table.pnd-sign td {
-        padding: 6.3px 0 0 0 !important;
+        padding: 6px 0 0 0 !important;
     }
     table.pnd-sign p {
         margin: 0 !important;
@@ -382,15 +382,25 @@
     <table style="width:75mm;" class="pnd-sign">
         <tr>
             <td style="text-align:center;">
-                <p>
+                <p style="width:70px; padding-top:1px;">
+                    {% if data[0].pnd.payer %}
+                    <span style="display:inline-block; width:52mm; text-overflow:clip; white-space:nowrap; overflow: hidden;">
+                    {{ data[0].pnd.payer_prefix }}{{ data[0].pnd.payer_name }}
+                    </span>
+                    {% else %}
                     <span style="display:inline-block; width:1mm;"></span>
+                    {% endif %}
                 </p>
             </td>
         </tr>
         <tr>
             <td>
                 <p style="padding-left:8mm;">
+                    {% if data[0].pnd.payer %}
+                    {{ data[0].pnd.payer_position }}
+                    {% else %}
                     <span style="display:inline-block; width:1mm;"></span>
+                    {% endif %}
                 </p>
             </td>
         </tr>

@@ -375,12 +375,26 @@
     <table style="width:70mm;" class="pnd-sign">
         <tr>
             <td style="text-align:center;">
-                <p style=><span style="display:inline-block; width:1mm;"></span></p>
+                <p style="width:70px;">
+                    {% if data[0].pnd.payer %}
+                    <span style="display:inline-block; width:52mm; text-overflow:clip; white-space:nowrap; overflow: hidden;">
+                    {{ data[0].pnd.payer_prefix }}{{ data[0].pnd.payer_name }}
+                    </span>
+                    {% else %}
+                    <span style="display:inline-block; width:1mm;"></span>
+                    {% endif %}
+                </p>
             </td>
         </tr>
         <tr>
             <td>
-                <p style="padding-left:8mm;"><span style="display:inline-block; width:1mm;"></p>
+                <p style="padding-left:8mm;">
+                    {% if data[0].pnd.payer %}
+                    {{ data[0].pnd.payer_position }}
+                    {% else %}
+                    <span style="display:inline-block; width:1mm;"></span>
+                    {% endif %}
+                </p>
             </td>
         </tr>
         <tr>

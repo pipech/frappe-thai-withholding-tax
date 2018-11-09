@@ -35,6 +35,7 @@ class Pnd(Document):
             )
         self.whder_name = whder.w_name
         self.whder_prefix = whder.prefix
+
         # get whder branch
         whder_branch = get_branch_address(
             branch=self.whder_branch
@@ -43,15 +44,15 @@ class Pnd(Document):
         self.whder_branch_addr = whder_branch.address
 
         # get payer info
-        # payer = frappe.get_value(
-        #     doctype='Payer',
-        #     filters=self.payer,
-        #     fieldname=['prefix', 'p_name', 'position'],
-        #     as_dict=True,
-        #     )
-        # self.payer_prefix = payer.prefix
-        # self.payer_name = payer.p_name
-        # self.payer_position = payer.position
+        payer = frappe.get_value(
+            doctype='Payer',
+            filters=self.payer,
+            fieldname=['prefix', 'p_name', 'position'],
+            as_dict=True,
+            )
+        self.payer_prefix = payer.prefix
+        self.payer_name = payer.p_name
+        self.payer_position = payer.position
 
     def on_submit(self):
         for d in self.wht_cert:
