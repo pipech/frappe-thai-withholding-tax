@@ -3,7 +3,9 @@
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
+
 import frappe
+
 from frappe.model.document import Document
 
 
@@ -49,7 +51,7 @@ def load_branch(doc):
 
 
 @frappe.whitelist()
-def get_branch_display(branch_dict):
+def get_branch_display(branch_dict, oneline=False):
     if not branch_dict:
         return
 
@@ -59,7 +61,19 @@ def get_branch_display(branch_dict):
             ) or {}
 
     template = """
-        {{ address_line1 }}<br>
+        {{ address_line1 }}
+        {% if moo %}ม.{{ moo }}{% endif %}
+        {% if road %}ถ.{{ road }}{% endif %}
+        {% if soi %}ซ.{{ soi }}{% endif %}
+        {% if sub_soi %}แยก{{ sub_soi }}{% endif %}
+        {% if moo_ban %}หมู่บ้าน{{ moo_ban }}{% endif %}
+        <br>
+        {% if building %}
+            อาคาร{{ building }}
+            {% if floor_no %}ชั้นที่{{ floor_no }}{% endif %}
+            {% if room_no %}ห้องที่{{ room_no }}{% endif %}
+            <br>
+        {% endif %}
         {% if province == 'กรุงเทพมหานคร' %}
             แขวง{{ sub_district }} เขต{{ district }}<br>
             {{ province }}<br>
@@ -71,6 +85,10 @@ def get_branch_display(branch_dict):
             {{ zip_code }}<br>
         {% endif %}
     """
+
+    if oneline:
+        template = template.replace('<br>', '')
+        template = ' '.join(template.split())
 
     return frappe.render_template(template, branch_dict)
 
@@ -96,22 +114,8 @@ def get_branch_address(branch):
         'Wht Branch', branch, '*', as_dict=True
         )
 
-    if branch_dict.province == 'กรุงเทพมหานคร':
-        addr_temp = '{addr} แขวง{sub_district} เขต{district} {province}'
-    else:
-        addr_temp = '{addr} ต.{sub_district} อ.{district} จ.{province}'
+    addr = get_branch_display(branch_dict, oneline=True)
 
-    branch_dict.address = addr_temp.format(
-        addr=branch_dict.address_line1,
-        sub_district=branch_dict.sub_district,
-        district=branch_dict.district,
-        province=branch_dict.province,
-        )
-
-    if branch_dict.zip_code:
-        branch_dict.address = ' '.join([
-            branch_dict.address,
-            branch_dict.zip_code,
-            ])
+    branch_dict.address = addr
 
     return branch_dict

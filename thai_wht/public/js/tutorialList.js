@@ -307,6 +307,55 @@ let tutorialDict = {
             content: 'กดเพื่อกลับไปที่หน้าหลัก',
         },
     ],
+    addPayer: [
+        {
+            pageLabel: 'Desktop',
+            tippyElement: 'div.case-wrapper[data-link="modules/Thai Wht"]',
+            content: 'กดที่นี่เพื่อเข้าสู่โมดูลภาษีหัก ณ ที่จ่าย',
+            placement: 'top',
+        },
+        {
+            pageLabel: 'Modules',
+            tippyElement: 'div:has(>span.open-notification[data-doctype="Payer"]) > :first-child',
+            content: 'กดที่นี่เพื่อเข้าสู่รายการผู้จ่ายเงิน',
+            placement: 'top',
+        },
+        {
+            pageLabel: 'List/Payer',
+            tippyElement: 'button.btn-primary.primary-action:not(.hide)',
+            content: 'กดเพื่อสร้างผู้จ่ายเงิน',
+        },
+        {
+            pageLabel: 'Form/Payer',
+            tippyElement: 'div[data-fieldname="prefix"] div.awesomplete > :first-child',
+            content: 'กดเพื่อเลือกคำนำหน้าชื่อ',
+        },
+        {
+            pageLabel: 'Form/Payer',
+            tippyElement: 'div[data-fieldname="p_name"] div.control-input > :first-child',
+            content: 'กดเพื่อกรอกชื่อ นามสกุล',
+        },
+        {
+            pageLabel: 'Form/Payer',
+            tippyElement: 'div[data-fieldname="position"] div.control-input > :first-child',
+            content: 'กดเพื่อกรอกตำแหน่ง',
+        },
+        {
+            pageLabel: 'Form/Payer',
+            tippyElement: 'button.btn-primary.primary-action:not(.hide):has(i.octicon-check)',
+            content: 'กดเพื่อบันทึกรายการ',
+        },
+        {
+            pageLabel: 'Form/Payer',
+            tippyElement: 'li a[href="#List/Payer"]',
+            content: 'กดเพื่อกลับไปที่รายการผู้จ่ายเงิน',
+        },
+        {
+            pageLabel: 'List/Payer',
+            tippyElement: 'a.navbar-home',
+            content: 'กดเพื่อกลับไปที่หน้าหลัก',
+        },
+    ],
     deleteDemo: [
         {
             pageLabel: 'Desktop',

@@ -1,0 +1,425 @@
+<style>
+    .print-format {
+        /* max-width: 11.69in !important;
+		min-height: 11.69in; */
+        /* setting pdf margin */
+        margin-left: 0mm;
+        margin-right: 0mm;
+        margin-bottom: 0mm;
+        margin-top: 0mm;
+
+        margin: 0px !important;
+        padding: 0mm 5mm 0mm 10mm !important;
+    }
+    .print-format p,
+    .pnd-heading {
+        font-size: 9pt;
+        font-family: Laksaman;
+    }
+    .print-format th {
+        vertical-align: middle !important;
+    }
+    .pnd-heading {
+        padding: 32mm 0 0 0;
+    }
+    .pnd-heading h1,
+    .pnd-heading b,
+    .pnd-heading small {
+        display: inline;
+    }
+    .print-format ol {
+        margin-bottom: 0mm !important;
+    }
+    .print-format th {
+        padding: 0.75mm 1mm 0.75mm 1mm;
+    }
+    .print-format td.footer {
+        padding: 1.5mm;
+    }
+    table,
+    tr,
+    td,
+    th {
+        /* box-shadow: 0 0 0 1px red; */
+        border-collapse: collapse;
+        font-size: 9pt;
+        text-align: left;
+        font-family: Laksaman;
+        /* got this number from rendered html */
+        line-height: 1.42857143;
+    }
+    span.box {
+        word-spacing:0.34em;
+        padding-left: 2mm;
+    }
+
+    /* pnd-month-check */
+    table.pnd-month-check td {
+        padding: 7px 0 2px  6px !important;
+    }
+    table.pnd-month-check span {
+        display: inline-block;
+        width: 18.75mm;
+        text-align: left;
+    }
+    table.pnd-month-check p {
+        font-size: 16px;
+        padding-left: 0;
+        text-align: left;
+        margin: 0;
+    }
+
+    /* pnd-submit-by */
+    table.pnd-submit-by p {
+        padding-top: 5px;
+        padding-left: 4px;
+        font-size: 16px;
+    }
+
+    /* pnd-total */
+    table.pnd-total td {
+        padding: 0 5px 1px 0  !important;
+        text-align: right;
+        font-size: 12pt;
+    }
+
+    /* pnd-sign */
+    table.pnd-sign td {
+        padding: 6px 0 0 0 !important;
+    }
+    table.pnd-sign p {
+        margin: 0 !important;
+    }
+
+    p.pnd-address span {
+        display: inline-block;
+        text-overflow: clip;
+        overflow: hidden;
+        white-space: nowrap;
+        text-align: center;
+    }
+</style>
+
+<div class="pnd-heading">
+    <table style="width:100%; table-layout:fixed;">
+        <tr style="height:70mm;">
+            <td style="width:103mm; padding:0!important;">
+                <table style="width:100%; table-layout:fixed;">
+                <tr style="height:7mm;">
+                        <td style="text-align:right;">
+                            <p>
+                                <span class="box">{{ data[0].pnd._whder1 }}</span>
+                                <span class="box">{{ data[0].pnd._whder2 }}</span>
+                                <span class="box">{{ data[0].pnd._whder3 }}</span>
+                                <span class="box">{{ data[0].pnd._whder4 }}</span>
+                                <span class="box">{{ data[0].pnd._whder5 }}</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right; padding:0 !important;">
+                            <p style="word-spacing:0.34em; padding:3mm 1.3mm 0 0;">
+                                {{ data[0].pnd._whder_branch_no }}
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="height:40.25mm;">
+                            <td style="padding:0 0 0 1.5mm !important;">
+                            <p style="margin:0; padding-bottom:3px;">
+                                {{ data[0].pnd.whder_prefix }}{{ data[0].pnd.whder_name }}
+                            </p>
+                            {% macro fill_addr(addr) %}
+                            {% if data[0].addr[addr] %}
+                                {{ data[0].addr[addr] }}
+                            {% else %}
+                                -
+                            {% endif %}
+                            {% endmacro %}
+
+                            <p style="margin:0; line-height: 175%;" class="pnd-address">
+                                <span style="width:17mm;"></span>
+                                <span style="width:20mm;">
+                                    {{ fill_addr('building') }}
+                                </span>
+                                <span style="width:11.5mm;"></span>
+                                <span style="width:7mm;">
+                                    {{ fill_addr('room_no') }}
+                                </span>
+                                <span style="width:4.7mm;"></span>
+                                <span style="width:3.5mm;">
+                                    {{ fill_addr('floor_no') }}
+                                </span>
+                                <span style="width:8mm;"></span>
+                                <span style="width:23mm;">
+                                    {{ fill_addr('moo_ban') }}
+                                </span>
+                                <br>
+                                <span style="width:6mm;"></span>
+                                <span style="width:27.5mm;">
+                                    {{ fill_addr('address_line1') }}
+                                </span>
+                                <span style="width:4.5mm;"></span>
+                                <span style="width:4.5mm;">
+                                    {{ fill_addr('moo') }}
+                                </span>
+                                <span style="width:11mm;"></span>
+                                <span style="width:24mm;">
+                                    {{ fill_addr('soi') }}
+                                </span>
+                                <span style="width:3.5mm;"></span>
+                                <span style="width:13mm;">
+                                    {{ fill_addr('sub_soi') }}
+                                </span>
+                                <br>
+                                <span style="width:5mm;"></span>
+                                <span style="width:39mm;">
+                                    {{ fill_addr('road') }}
+                                </span>
+                                <span style="width:14mm;"></span>
+                                <span style="width:40mm;">
+                                    {{ fill_addr('sub_district') }}
+                                </span>
+                                <br>
+                                <span style="width:13mm;"></span>
+                                <span style="width:38mm;">
+                                    {{ fill_addr('district') }}
+                                </span>
+                                <span style="width:6mm;"></span>
+                                <span style="width:40mm;">
+                                    {{ fill_addr('province') }}
+                                </span>
+                                <br>
+                                <span style="width:18mm;"></span>
+                                <span style="width:18mm; word-spacing:0.32em; text-align:left;">{{ fill_addr('_zip_code') }}</span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr style="height:12mm;">
+                        <td style="padding:1mm 0 0 0 !important;">
+                            <p style="margin:0;">
+                                <span style="display:inline-block; width:16mm;"></span>
+                                <span style="font-size: 18px; display:inline-block; width:4.5mm;">
+                                    {% if data[0].pnd.submit_no=='0' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span style="display:inline-block; width:26.5mm;"></span>
+                                <span style="font-size: 18px;">
+                                    {% if data[0].pnd.submit_no!='0' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span style="display:inline-block; width:30mm;"></span>
+                                <span>
+                                    {% if data[0].pnd.submit_no!='0' %}
+                                        {{ data[0].pnd.submit_no }}
+                                    {% endif %}
+                                </span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="padding:0!important;">
+                <table style="width:100%; table-layout:fixed;" class="pnd-month-check">
+                    <tr style="height:15mm;">
+                        <td style="text-align:right;">
+                            <p style="padding:6.2mm 0 0 64.5mm; font-size: 9pt;">
+                                {% set thai_year = data[0].pnd.year+543 %}
+                                {{ thai_year }}
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>
+                                <span>
+                                    {% if data[0].pnd.month=='1' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span>
+                                    {% if data[0].pnd.month=='4' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span style="width:18mm;">
+                                    {% if data[0].pnd.month=='7' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span>
+                                    {% if data[0].pnd.month=='10' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>
+                                <span>
+                                    {% if data[0].pnd.month=='2' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span>
+                                    {% if data[0].pnd.month=='5' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span style="width:18mm;">
+                                    {% if data[0].pnd.month=='8' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span>
+                                    {% if data[0].pnd.month=='11' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>
+                                <span>
+                                    {% if data[0].pnd.month=='3' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span>
+                                    {% if data[0].pnd.month=='6' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span style="width:18mm;">
+                                    {% if data[0].pnd.month=='9' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                                <span>
+                                    {% if data[0].pnd.month=='12' %}
+                                    ✓
+                                    {% endif %}
+                                </span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <table style="width:100%; table-layout:fixed;" class="pnd-submit-by">
+        <tr>
+            <td style="width:30mm;"></td>
+            <td style="width:40mm;">
+                <p>
+                    {% if data[0].pnd.law=='3 เตรส' %}
+                    ✓
+                    {% endif %}
+                </p>
+            </td>
+            <td style="width:40mm;">
+                <p>
+                    {% if data[0].pnd.law=='48 ทวิ' %}
+                    ✓
+                    {% endif %}
+                </p>
+            </td>
+            <td>
+                <p>
+                    {% if data[0].pnd.law=='50 (3) (4) (5)' %}
+                    ✓
+                    {% endif %}
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div style="padding-left:80mm; text-align:left;">
+    <table style="width:105mm;">
+        <tr>
+            <td rowspan="2">
+                <p style="font-size: 18px; padding:0 0 0 7px;">✓</p>
+            </td>
+            <td style="text-align:right; padding:11px 45px 0 0 !important;">
+                <p style="margin:0 !important;">{{ data[0].total.line }}</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right; padding:2px 45px 0 0 !important;">
+                <p>{{ data[0].total.pages }}</p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div style="padding: 43.5mm 0 0 140mm;">
+    <table style="width:30mm;" class="pnd-total">
+        <tr>
+            <td>{{ data[0].total._all_paid }}</td>
+        </tr>
+        <tr>
+            <td>{{ data[0].total._all_wht }}</td>
+        </tr>
+        <tr>
+            <td>{{ data[0].pnd._penalty }}</td>
+        </tr>
+        <tr>
+            <td>{{ data[0].total._all }}</td>
+        </tr>
+    </table>
+</div>
+
+<div style="padding: 25.5mm 0 0 65mm;">
+    <table style="width:75mm;" class="pnd-sign">
+        <tr>
+            <td style="text-align:center;">
+                <p style="width:70px; padding-top:1px;">
+                    {% if data[0].pnd.payer %}
+                    <span style="display:inline-block; width:52mm; text-overflow:clip; white-space:nowrap; overflow: hidden;">
+                    {{ data[0].pnd.payer_prefix }}{{ data[0].pnd.payer_name }}
+                    </span>
+                    {% else %}
+                    <span style="display:inline-block; width:1mm;"></span>
+                    {% endif %}
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p style="padding-left:8mm;">
+                    {% if data[0].pnd.payer %}
+                    {{ data[0].pnd.payer_position }}
+                    {% else %}
+                    <span style="display:inline-block; width:1mm;"></span>
+                    {% endif %}
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p style="padding-left:5mm">
+                    <span style="display:inline-block; width:6mm;">
+                        {{ data[0].pnd._date }}
+                    </span>
+                    <span style="display:inline-block; width:6mm;"></span>
+                    <span style="display:inline-block; width:22mm;">
+                        {{ data[0].pnd._month }}
+                    </span>
+                    <span style="display:inline-block; width:7mm;"></span>
+                    <span style="display:inline-block; width:4mm;">
+                        {{ data[0].pnd._year }}
+                    </span>
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>
