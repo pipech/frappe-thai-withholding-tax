@@ -309,7 +309,8 @@ def get_branch_addr(branch_name):
         filters=branch_name,
         as_dict=1
         )
-    branch_dict['_zip_code'] = ' '.join(branch_dict['zip_code'])
+    if branch_dict['zip_code'] is not None:
+        branch_dict['_zip_code'] = ' '.join(branch_dict['zip_code'])
     return branch_dict
 
 
