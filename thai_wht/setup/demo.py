@@ -18,6 +18,7 @@ def add_demo():
     if frappe.conf.demo == 1:
         add_whder_whdee()
         add_wht_cert()
+        add_payer()
         autogen()
 
 
@@ -197,10 +198,12 @@ def add_whder_whdee():
         {
             'doctype': 'Wht Branch',
             'branch': '00000',
-            'address_line1': u'11 หมู่บ้านไอรอนแมน',
+            'address_line1': u'11',
+            'moo_ban': u'ไอรอนแมน',
             'sub_district': u'เหล',
             'district': u'กะปง',
             'province': u'พังงา',
+            'zip_code': u'12345',
             'links': [
                 {
                     'link_doctype': 'Whder',
@@ -211,7 +214,8 @@ def add_whder_whdee():
         {
             'doctype': 'Wht Branch',
             'branch': '00001',
-            'address_line1': u'12 หมู่บ้านโกลด์แมน',
+            'address_line1': u'12',
+            'moo_ban': u'โกลด์แมน',
             'sub_district': u'แมด',
             'district': u'ลืออำนาจ',
             'province': u'อำนาจเจริญ',
@@ -225,7 +229,8 @@ def add_whder_whdee():
         {
             'doctype': 'Wht Branch',
             'branch': '00000',
-            'address_line1': u'22 ซ.ทาแก 27',
+            'address_line1': u'22',
+            'soi': u'ทาแก 27',
             'sub_district': u'ทากาศ',
             'district': u'แม่ทา',
             'province': u'ลำพูน',
@@ -243,6 +248,7 @@ def add_whder_whdee():
             'sub_district': u'สันกำแพง',
             'district': u'สันกำแพง',
             'province': u'เชียงใหม่',
+            'zip_code': u'10123',
             'links': [
                 {
                     'link_doctype': 'Whdee',
@@ -267,7 +273,8 @@ def add_whder_whdee():
         {
             'doctype': 'Wht Branch',
             'branch': '00000',
-            'address_line1': u'39573 ถ.ดาวเหนือ',
+            'address_line1': u'3973',
+            'road': u'ดาวเหนือ',
             'sub_district': u'ดาวเรือง',
             'district': u'เมืองสระบุรี',
             'province': u'สระบุรี',
@@ -285,6 +292,7 @@ def add_whder_whdee():
             'sub_district': u'ดาวคะนอง',
             'district': u'ธนบุรี',
             'province': u'กรุงเทพมหานคร',
+            'zip_code': u'10160',
             'links': [
                 {
                     'link_doctype': 'Whdee',
@@ -305,6 +313,19 @@ def add_whder_whdee():
                     'link_name': '1625011011065',
                 }
             ],
+        },
+    ]
+    make_fixture_records(demo_records)
+
+
+def add_payer():
+    demo_records = [
+        # Payer
+        {
+            'doctype': 'Payer',
+            'prefix': u'นาย',
+            'p_name': u'สมประสงค์ ดีใจ',
+            'position': u'ผู้จัดการบัญชี',
         },
     ]
     make_fixture_records(demo_records)
