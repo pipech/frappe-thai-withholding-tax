@@ -27,7 +27,7 @@ frappe.ui.toolbar.Toolbar.prototype.setup_progress_dialog = function() {
                                 {
                                     content: 'กดที่นี่ เพื่อเปิดคู่มือการใช้งาน',
                                     arrow: true,
-                                    showOnInit: true,
+                                    showOnInit: false,
                                     trigger: 'manual',
                                     hideOnClick: 'false',
                                     placement: 'top',
@@ -40,13 +40,25 @@ frappe.ui.toolbar.Toolbar.prototype.setup_progress_dialog = function() {
                             $(eventSelector).on('focus', () => {
                                 tipEle.hide();
                             });
-                            $(document).on('page-change', () => {
+
+                            // show tippy function base on percentage
+                            tipEle.showOnPercent = (progressPercent) => {
                                 if (cur_page.page.label === 'Desktop') {
-                                    if (progressDialog.progress_percent < (3*100/progressDialog.slides.length)) {
+                                    if (progressPercent < 50) {
                                         tipEle.show();
                                     }
                                 }
+                            };
+
+                            // show tippy when page change
+                            $(document).on('page-change', () => {
+                                tipEle.showOnPercent(progressDialog.progress_percent);
                             });
+
+                            // show tippy when first init
+                            if (cur_page.page.label === 'Desktop') {
+                                progressDialog.showTippy(tipEle);
+                            }
                         }
                     }
 
@@ -155,6 +167,7 @@ let TutorialDialog = class UserProgressDialog {
             this.progress_state_dict[slide.action_name] = slide.done || 0;
         });
         this.progress_percent = 0;
+        this.getAndUpdateProgressState();
         this.setup();
     }
 
@@ -205,6 +218,28 @@ let TutorialDialog = class UserProgressDialog {
         this.updater = setInterval(() => {
             this.getAndUpdateProgressState();
         }, 60000);
+    }
+
+    /** show tippy dialog
+     * @param {object} tippy
+     */
+    showTippy(tippy) {
+        frappe.call({
+            method: 'thai_wht.utils.user_progress_utils.update_default_domain_actions_and_get_state',
+            callback: function(r) {
+                let states = r.message;
+                // get total complete
+                let completed = 0;
+                Object.keys(states).map((action_name) => {
+                    if (states[action_name]) {
+                        completed ++;
+                    }
+                });
+                let progressPercent = completed / Object.keys(states).length * 100;
+
+                tippy.showOnPercent(progressPercent);
+            },
+        });
     }
 
     /** get and update progress state */
