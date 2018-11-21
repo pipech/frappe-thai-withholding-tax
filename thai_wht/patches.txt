@@ -1,2 +1,3 @@
 thai_wht.patches.v1_0.tippy_dialog_fixture
 thai_wht.patches.v1_10_2.add_translation
+thai_wht.patches.v1_10_3.add_translation
