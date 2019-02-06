@@ -17,6 +17,10 @@ frappe.ui.form.on('Pnd', {
                     </a>
                 </span>
             `);
+            $('.octicon-hubot').parent().click(function() {
+                rdserverExportConfirm(frm.doc.name);
+            });
+
             $('#page-Form\\/Pnd .fa-print').parents('span').before(`
                 <span class="page-icon-group hidden-xs hidden-sm">
                     <a class="text-muted no-decoration">
@@ -26,9 +30,6 @@ frappe.ui.form.on('Pnd', {
             `);
             $('.fa-list').parent().click(function() {
                 exportPnd(frm);
-            });
-            $('.octicon-hubot').parent().click(function() {
-                rdserverExportConfirm(frm.doc.name);
             });
         }
     },
@@ -55,7 +56,7 @@ frappe.ui.form.on('Pnd', {
 });
 
 /** rdserver export confirm dialog
- *  * @param {string} name
+ * @param {string} name
 */
 function rdserverExportConfirm(name) {
     frappe.confirm(
