@@ -3,10 +3,12 @@
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
+
+import datetime
 import frappe
+
 from frappe import _
 from frappe.model.document import Document
-import datetime
 from thai_wht.thai_wht.doctype.wht_branch.wht_branch import get_branch_address
 
 
@@ -18,12 +20,25 @@ class Pnd(Document):
                 frappe.throw(_('ข้อมูลซ้ำ มีเอกสารฉบับร่างอยู่แล้ว'))
         elif pnd_count.total_submit - 1 > self.submit_no:
             frappe.throw(_('ครั้งที่ยื่นไม่ถูกต้อง'))
+        err_msg = []
         for d in self.wht_cert:
             wht_cert = frappe.get_doc('Wht Cert', d.wht_cert)
             if wht_cert.workflow_state == 'Submitted':
-                frappe.throw(_(
-                    'หนังสือรับรอง {wht_cert} ได้มีการยื่นไปในภ.ง.ด.ฉบับอื่นแล้ว'.format(wht_cert=wht_cert.name)
-                    ))
+                err_msg.append(
+                    'หนังสือรับรอง {wht_cert} ได้มีการยื่นไปในแบบยื่นรายการภาษีฉบับอื่นแล้ว'.format(
+                        wht_cert=wht_cert.name
+                        )
+                    )
+            if int(wht_cert.date.month) != int(self.month):
+                err_msg.append(
+                    'เดือนที่ออกหนังสือรับรอง {wht_cert} ไม่ตรงกับเดือน ในแบบยื่นรายการภาษี'.format(
+                        wht_cert=wht_cert.name
+                        )
+                    )
+        if err_msg:
+            err_msg = '<br>'.join(err_msg)
+            frappe.throw(err_msg, 'ไม่สามารถบันทึกรายการได้')
+
 
     def before_save(self):
         # get whder name and prefix

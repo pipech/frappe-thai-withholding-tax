@@ -13,14 +13,23 @@ frappe.ui.form.on('Pnd', {
             $('#page-Form\\/Pnd .fa-print').parents('span').before(`
                 <span class="page-icon-group hidden-xs hidden-sm">
                     <a class="text-muted no-decoration">
+                        <i class="octicon octicon-hubot"></i>
+                    </a>
+                </span>
+            `);
+            $('#page-Form\\/Pnd .fa-print').parents('span').before(`
+                <span class="page-icon-group hidden-xs hidden-sm">
+                    <a class="text-muted no-decoration">
                         <i class="fa fa-list"></i>
                     </a>
                 </span>
-            `)
+            `);
             $('.fa-list').parent().click(function() {
                 exportPnd(frm);
             });
-
+            $('.octicon-hubot').parent().click(function() {
+                rdserverExportConfirm(frm.doc.name);
+            });
         }
     },
     refresh: (frm) => {
@@ -30,27 +39,61 @@ frappe.ui.form.on('Pnd', {
 
         // override print function
         $('.fa-print').parent().unbind().click(function() {
-            printPnd(frm);
+            printPnd(frm.doc.name);
         });
         $('a.grey-link:contains("'+__('Print')+'")').unbind().click(function() {
-            printPnd(frm);
+            printPnd(frm.doc.name);
         });
         // added export menu function
         frm.page.add_menu_item(__('Internet Export'), function() {
             exportPnd(frm);
         });
+        frm.page.add_menu_item(__('RDserver Export'), function() {
+            rdserverExportConfirm(frm.doc.name);
+        });
     },
 });
 
+/** rdserver export confirm dialog
+ *  * @param {string} name
+*/
+function rdserverExportConfirm(name) {
+    frappe.confirm(
+        `
+        <p>
+        ฟังก์ชั่นนี้ โปรแกรมจะทำการเซฟข้อมูลในรูปแบบที่สามารถยื่นผ่าน
+        https://rdserver.rd.go.th ได้โดยตรง โดยไม่ต้องผ่านโปรแกรมโอนย้ายข้อมูลภ.ง.ด.
+        </p>
+        <p><b>
+        ฟังก์ชั่นนี้ อยู่ในขั้นทดลอง ทาง https://pnd.in.th 
+        ไม่ขอรับผิดชอบความเสียหายที่อาจเกิดจากข้อมูลที่นำส่งผิดพลาดใดๆทั้งสิ้น
+        </b></p>
+        <p>
+        ท่านต้องการดำเนินการต่อหรือไม่ ?
+        </p>
+        <p>
+        หากไม่ต้องการ ท่านยังสามารถนำส่งข้อมูลภาษีได้ 2 วิธี คือ
+        <ol>
+            <li>นำส่งด้วยตนเอง กดที่ปุ่ม <i class="fa fa-print"></i></li> 
+            <li>นำส่งด้วยอินเตอร์เน็ต ผ่านโปรแกรมโอนย้ายข้อมูลภ.ง.ด. 
+            กดที่ปุ่ม <i class="fa fa-list"></i></li> 
+        </ol>
+        </p>
+        `,
+        function() {
+            webExportPnd(name);
+        },
+    );
+}
 
 /** print pnd 
- * @param {object} frm
+ * @param {string} name
 */
-function printPnd(frm) {
+function printPnd(name) {
     let w = window.open(
         frappe.urllib.get_full_url(
-            '/api/method/thai_wht.thai_wht.report.pnd_attach.pnd_attach.download_pdf_pnd?'
-            + 'name=' + encodeURIComponent(frm.doc.name)
+            '/api/method/thai_wht.thai_wht.report.pnd_attach.pnd_paper.download?'
+            + 'name=' + encodeURIComponent(name)
         )
     );
     if (!w) {
@@ -117,4 +160,19 @@ function printPnd(frm) {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+}
+
+/** export pnd txt file with | as seperator
+ * @param {string} name
+*/
+function webExportPnd(name) {
+    let w = window.open(
+        frappe.urllib.get_full_url(
+            '/api/method/thai_wht.thai_wht.report.pnd_attach.pnd_internet.download?'
+            + 'name=' + encodeURIComponent(name)
+        )
+    );
+    if (!w) {
+        frappe.msgprint(__('Please enable pop-ups')); return;
+    }
 }

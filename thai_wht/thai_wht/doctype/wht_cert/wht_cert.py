@@ -3,7 +3,10 @@
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
+
+import datetime
 import frappe
+
 from frappe.model.document import Document
 from thai_wht.thai_wht.doctype.wht_branch.wht_branch import get_branch_address
 
@@ -57,3 +60,19 @@ class WhtCert(Document):
             )
         self.whdee_branch_no = whdee_branch.branch
         self.whdee_branch_addr = whdee_branch.address
+
+    def validate(self):
+        err_msg = []
+        cert_month = datetime.datetime.strptime(self.date, '%Y-%m-%d').month
+        for d in self.wht_cert_detail:
+            cert_detail_month = datetime.datetime.strptime(d.date, '%Y-%m-%d').month
+            if cert_detail_month != cert_month:
+                err_msg.append(
+                    'วันที่จ่ายเงินของรายการที่ {idx} ยอดเงิน {paid} ไม่ตรงกับเดือนที่ออกหนังสือรับรอง'.format(
+                        idx=d.idx,
+                        paid='{:,.2f}'.format(d.paid),
+                        )
+                    )
+        if err_msg:
+            err_msg = '<br>'.join(err_msg)
+            frappe.throw(err_msg, 'ไม่สามารถบันทึกรายการได้')
