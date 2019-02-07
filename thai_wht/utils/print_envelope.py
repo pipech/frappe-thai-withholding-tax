@@ -15,7 +15,6 @@ from thai_wht.thai_wht.doctype.wht_branch.wht_branch import get_branch_address
 def print_envelope(name):
     # get data
     wht_cert = frappe.get_doc('Wht Cert', name).as_dict()
-    print(wht_cert)
 
     # get addr
     whder_addr = get_branch_address(
