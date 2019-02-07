@@ -138,7 +138,8 @@ def to_utf8_decimal(data_list):
                 _data.append(str(d))
         lines_hex = '|'.join(_data)
         # convert string to uft8 code points byte format
-        lines_hex = lines_hex.encode('utf-8')
+        # used to encode by utf-8 now it tis-620
+        lines_hex = lines_hex.encode('tis-620')
         # convert byte to list of byte array
         lines_hex = list(bytearray(lines_hex))
 
