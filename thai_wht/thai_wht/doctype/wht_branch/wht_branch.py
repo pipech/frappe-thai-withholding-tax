@@ -109,12 +109,12 @@ def get_branch_select(link_doctype, link_name):
     return branch_list
 
 
-def get_branch_address(branch):
+def get_branch_address(branch, oneline=True):
     branch_dict = frappe.get_value(
         'Wht Branch', branch, '*', as_dict=True
         )
 
-    addr = get_branch_display(branch_dict, oneline=True)
+    addr = get_branch_display(branch_dict, oneline)
 
     branch_dict.address = addr
 

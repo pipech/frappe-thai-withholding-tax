@@ -1,0 +1,24 @@
+<table style="width: 100%;">
+    <tr>
+        <td style="width: 35%;" valign="top">
+            <p style="font-size: 9pt;">
+                {{ data.whder_prefix }}{{ data.whder_name }}
+                <br>
+                {{ whder_addr }}
+            </p>
+        </td>
+        <td style="width: 65%">
+            <div style="padding-top: 3cm;">
+                กรุณาส่ง<br>
+                <p style="padding-left: 5mm;">
+                    {{ data.whdee_prefix }}{{ data.whdee_name }}
+                    {% if data.pnd == "53" %}
+                        - ฝ่ายบัญชี
+                    {% endif %}
+                    <br>
+                    {{ whdee_addr }}
+                </p>
+            </div>
+        </td>
+    </tr>
+</table>

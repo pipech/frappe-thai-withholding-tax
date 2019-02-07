@@ -2,6 +2,20 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Wht Cert', {
+    onload: (frm) =>{
+        if ($('#page-Form\\/Wht\\ Cert .octicon-mail').length===0) {
+            $('#page-Form\\/Wht\\ Cert .fa-print').parents('span').before(`
+                <span class="page-icon-group hidden-xs hidden-sm">
+                    <a class="text-muted no-decoration">
+                        <i class="octicon octicon-mail"></i>
+                    </a>
+                </span>
+            `);
+            $('.octicon-mail').parent().click(function() {
+                printEnv(frm.doc.name);
+            });
+        }
+    },
     refresh: function(frm) {
         // override print function
         $('.fa-print').parent().unbind().click(function() {
@@ -19,6 +33,10 @@ frappe.ui.form.on('Wht Cert', {
         branchList.branchSelectionQuery(
             'Whdee', frm.doc.whdee, frm.doc.whdee_branch, 'whdee_branch'
         );
+
+        frm.page.add_menu_item(__('Print Envelope'), function() {
+            printEnv(frm.doc.name);
+        });
 
         hideChildAddBtn(frm);
     },
@@ -186,5 +204,21 @@ function calWht(gridRow) {
             'wht',
             wht
         );
+    }
+}
+
+
+/** print pnd 
+ * @param {string} name
+*/
+function printEnv(name) {
+    let w = window.open(
+        frappe.urllib.get_full_url(
+            '/api/method/thai_wht.utils.print_envelope.print_envelope?'
+            + 'name=' + encodeURIComponent(name)
+        )
+    );
+    if (!w) {
+        frappe.msgprint(__('Please enable pop-ups')); return;
     }
 }
