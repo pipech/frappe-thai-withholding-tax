@@ -19,13 +19,14 @@ def download(name):
     pnd = data[0]['pnd']
 
     # fill main
-    data_m = [''] * 47
     if pnd['pnd'] == '3':
+        data_m = [''] * 47
         data_m[3] = 'PND3'
         data_m[6] = pnd['whder']
         data_m[44] = 'C'
         data_m = fill_main_fixed(data, data_m, 7)
     elif pnd['pnd'] == '53':
+        data_m = [''] * 48
         data_m[3] = 'PND53'
         data_m[44] = pnd['whder']
         data_m = fill_main_fixed(data, data_m, 6)
