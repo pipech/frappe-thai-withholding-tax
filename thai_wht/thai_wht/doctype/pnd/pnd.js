@@ -29,7 +29,7 @@ frappe.ui.form.on('Pnd', {
                 </span>
             `);
             $('.fa-list').parent().click(function() {
-                exportPnd(frm);
+                internetExportConfirm(frm.doc.name);
             });
         }
     },
@@ -47,13 +47,54 @@ frappe.ui.form.on('Pnd', {
         });
         // added export menu function
         frm.page.add_menu_item(__('Internet Export'), function() {
-            exportPnd(frm);
+            internetExportConfirm(frm.doc.name);
         });
         frm.page.add_menu_item(__('RDserver Export'), function() {
             rdserverExportConfirm(frm.doc.name);
         });
     },
 });
+
+/** rdserver export confirm dialog
+ * @param {string} name
+*/
+function internetExportConfirm(name) {
+    frappe.confirm(
+        `
+        <p>
+        ฟังก์ชั่นนี้ โปรแกรมจะทำการเซฟข้อมูล<br>
+        ในรูปแบบที่ <b>ต้องทำการแปลงข้อมูลผ่าน โปรแกรมโอนย้ายข้อมูลภ.ง.ด. ของกรมสรรพากร</b><br>
+        ก่อนที่จะนำไฟล์ที่ได้ไปยื่นผ่าน https://rdserver.rd.go.th
+        </p>
+        <p>
+        วิธีการใช้<br>
+        <ul>
+            <li>ให้ท่านกดปุ่ม Yes สีฟ้าด้านบน</li>
+            <li>
+                ให้ท่านกดคลิ๊กขวาที่บริเวณที่มีข้อมูล จากนั้นเลือก Save as... และเซฟไฟล์ลงในโฟลเดอร์ที่ต้องการ<br>
+                <small>
+                    (สำหรับหลายๆท่าน ข้อมูลอาจะเป็นภาษาที่อ่านไม่ออก ไม่ต้องกังวล 
+                    เมื่อนำข้อมูลไปยื่นผ่านโปรแกรมโอนย้ายข้อมูลเสร็จแล้ว 
+                    ให้ท่านทดลองกด "พิมพ์" จะเห็นว่าข้อมูลเป็นภาษาไทยที่ถูกต้อง)
+                    </small>
+                </li>
+            <li>
+                นำไฟล์ที่ได้ ไปแปลงข้อมูลผ่าน โปรแกรมโอนย้ายข้อมูลภ.ง.ด. ของกรมสรรพากร
+                <a href="https://docs.google.com/document/d/1JhlKvOL91ht_KA9BOscLQH9U9D2rQQ-Un2R3wgZIuhA/edit#heading=h.z2auia9i4ml" target="_blank">
+                    กดที่นี่ เพื่อดูข้อมูลเพิ่มเติม
+                </a>
+            </li>
+            <li>นำไฟล์ที่ได้จากโปรแกรมโอนย้ายข้อมูลภ.ง.ด. ไปยื่นผ่าน https://rdserver.rd.go.th</li>
+        </ul>
+        
+
+        </p>
+        `,
+        function() {
+            internetExportPnd(name);
+        },
+    );
+}
 
 /** rdserver export confirm dialog
  * @param {string} name
@@ -103,64 +144,18 @@ function printPnd(name) {
 }
 
 /** export pnd txt file with | as seperator
- * @param {object} frm
+ * @param {object} name
 */
- async function exportPnd(frm) {
-    const m = await frappe.call({
-        method: 'thai_wht.thai_wht.report.' +
-        'pnd_attach.pnd_attach.download_pdf_csv',
-        async: true,
-        args: {'name': frm.doc.name},
-    });
-    const data = m.message;
-    const rowIndex = [
-        'whdee',
-        'whdee_prefix',
-        'whdee_name',
-        'date0',
-        'type0',
-        'rate0',
-        'paid0',
-        'wht0',
-        'condition0',
-        'date1',
-        'type1',
-        'rate1',
-        'paid1',
-        'wht1',
-        'condition1',
-        'date2',
-        'type2',
-        'rate2',
-        'paid2',
-        'wht2',
-        'condition2',
-    ];
-    let dataList = [];
-    for (let d=0; d<data.length; d++) {
-        let row = [];
-        for (let i=0; i<rowIndex.length; i++) {
-            if (rowIndex[i] in data[d]) {
-                row.push(data[d][rowIndex[i]]);
-            } else {
-                row.push('');
-            }
-        }
-        let rowText = row.join('|');
-        dataList.push(rowText);
+ async function internetExportPnd(name) {
+    let w = window.open(
+        frappe.urllib.get_full_url(
+            '/api/method/thai_wht.thai_wht.report.pnd_attach.pnd_internet.download_csv?'
+            + 'name=' + encodeURIComponent(name)
+        )
+    );
+    if (!w) {
+        frappe.msgprint(__('Please enable pop-ups')); return;
     }
-    let csvData = dataList.join('\r\n');
-
-    let filename = frm.doc.name + '.txt';
-    let a = document.createElement('a');
-
-    let blobObject = new Blob([csvData], {type: 'text; charset=UTF-8'});
-    a.href = URL.createObjectURL(blobObject);
-    a.download = filename;
-
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
 }
 
 /** export pnd txt file with | as seperator

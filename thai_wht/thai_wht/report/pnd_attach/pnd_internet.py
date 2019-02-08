@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 
+import datetime
 import frappe
 import os
 import zipfile
@@ -217,3 +218,59 @@ def fill_main_fixed(data, data_m, i):
     data_m[46] = '2'
 
     return data_m
+
+
+@frappe.whitelist()
+def download_csv(name):
+    data = execute(name, csv=True)
+    row_index = [
+        'whdee',
+        'whdee_prefix',
+        'whdee_name',
+        'date0',
+        'type0',
+        'rate0',
+        'paid0',
+        'wht0',
+        'condition0',
+        'date1',
+        'type1',
+        'rate1',
+        'paid1',
+        'wht1',
+        'condition1',
+        'date2',
+        'type2',
+        'rate2',
+        'paid2',
+        'wht2',
+        'condition2',
+    ]
+    data_list = []
+    for d in data:
+        row = []
+        for index in row_index:
+            if index in d:
+                if isinstance(d[index], datetime.date):
+                    row.append(
+                        d[index].strftime('%Y-%m-%d')
+                    )
+                elif not isinstance(d[index], string_types):
+                    row.append(
+                        str(d[index])
+                    )
+                else:
+                    row.append(d[index])
+            else:
+                row.append('')
+        row_text = '|'.join(row)
+        data_list.append(row_text)
+    data_text = '\r\n'.join(data_list)
+    data_text = data_text.encode('tis-620')
+
+    # frappe response
+    frappe.local.response.filename = '{name}.txt'.format(
+        name=name,
+        )
+    frappe.local.response.filecontent = data_text
+    frappe.local.response.type = 'download'

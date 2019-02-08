@@ -32,12 +32,6 @@ def execute(name, csv=False, filters=None):
     return columns, data
 
 
-@frappe.whitelist()
-def download_pdf_csv(name):
-    data = execute(name, csv=True)
-    return data
-
-
 def format_data(data):
     for d in data:
         for i in range(3):
