@@ -63,9 +63,15 @@ class WhtCert(Document):
 
     def validate(self):
         err_msg = []
-        cert_month = datetime.datetime.strptime(self.date, '%Y-%m-%d').month
+        try:
+            cert_month = self.date.month
+        except AttributeError:
+            cert_month = datetime.datetime.strptime(self.date, '%Y-%m-%d').month
         for d in self.wht_cert_detail:
-            cert_detail_month = datetime.datetime.strptime(d.date, '%Y-%m-%d').month
+            try:
+                cert_detail_month = d.date.month
+            except AttributeError:
+                cert_detail_month = datetime.datetime.strptime(d.date, '%Y-%m-%d').month
             if cert_detail_month != cert_month:
                 err_msg.append(
                     'วันที่จ่ายเงินของรายการที่ {idx} ยอดเงิน {paid} ไม่ตรงกับเดือนที่ออกหนังสือรับรอง'.format(
