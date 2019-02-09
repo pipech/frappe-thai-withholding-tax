@@ -137,6 +137,23 @@ let tutorialDict = {
         },
         {
             pageLabel: 'Form/Pnd',
+            tippyElement: 'body > div.modal.fade.in button.btn-primary',
+            content: 'อ่านรายละเอียด และกดยืนยัน',
+            placement: 'top',
+        },
+        {
+            pageLabel: 'Form/Pnd',
+            tippyElement: 'a:not(.hide) i.octicon-hubot',
+            content: 'กดเพื่อเซฟไฟล์สำหรับยื่นผ่านอินเตอร์เน็ต',
+        },
+        {
+            pageLabel: 'Form/Pnd',
+            tippyElement: 'body > div.modal.fade.in button.btn-primary',
+            content: 'อ่านรายละเอียด และกดยืนยัน',
+            placement: 'top',
+        },
+        {
+            pageLabel: 'Form/Pnd',
             tippyElement: 'button.btn-primary.primary-action:not(.hide)',
             content: 'เมื่อตรวจสอบเรียบร้อยแล้ว กดที่นี่',
         },

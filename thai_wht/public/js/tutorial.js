@@ -52,15 +52,18 @@ function loadTippy() {
                         if (tippyElement[0]) {
                             // stop interval
                             clearInterval(checkLoaded);
-                            if (tutorial.placement) {
-                                initTippy(
-                                    tippyElement,
-                                    tutorial.content,
-                                    tutorial.placement
-                                    );
-                            } else {
-                                initTippy(tippyElement, tutorial.content);
-                            }
+                            // waiting element to load
+                            setTimeout(()=>{
+                                if (tutorial.placement) {
+                                    initTippy(
+                                        tippyElement,
+                                        tutorial.content,
+                                        tutorial.placement
+                                        );
+                                } else {
+                                    initTippy(tippyElement, tutorial.content);
+                                }
+                            }, 200);
                         }
                     }, 200);
                 }
