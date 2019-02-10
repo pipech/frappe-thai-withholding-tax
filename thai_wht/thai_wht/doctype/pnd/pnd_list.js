@@ -34,7 +34,15 @@ function createAutoGenButton() {
     $('button.btn-success:contains('+__('Auto')+')')
         .click(function() {
             frappe.confirm(
-                'Auto Generate ?',
+                `
+                <p>
+                    โปรแกรมจะดึงรายการ <b>หนังสือรับรองหักภาษี ณ ที่จ่าย</b> ที่มี
+                    <b>สถานะ Confirm</b> เท่านั้น
+                </p>
+                <p>
+                    ท่านต้องการจะสร้างแบบยื่นรายการภาษีเงินได้ ใช่หรือไม่ ?
+                </p>
+                `,
                 function() {
                     frappe.call({
                         method: 'thai_wht.thai_wht.doctype.pnd.pnd.autogen',
