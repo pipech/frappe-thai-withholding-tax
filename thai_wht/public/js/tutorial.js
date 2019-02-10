@@ -49,7 +49,11 @@ function loadTippy() {
                     let checkLoaded = setInterval(() => {
                         let eleSelector = selPrefix + tutorial.tippyElement;
                         let tippyElement = $(eleSelector);
+                        // debug>
+                        // console.log('finding', eleSelector)
                         if (tippyElement[0]) {
+                            // debug>
+                            // console.log('found', tippyElement[0])
                             // stop interval
                             clearInterval(checkLoaded);
                             // waiting element to load
