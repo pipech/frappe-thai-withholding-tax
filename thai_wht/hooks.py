@@ -27,6 +27,8 @@ app_include_js = [
     'assets/js/tutorial.min.js',
     # google analytics
     'assets/js/thai_wht_analytics.min.js',
+    # for testing app js
+    # 'assets/thai_wht/js/testing.js',
     ]
 app_include_css = [
     # auto fill thai address
