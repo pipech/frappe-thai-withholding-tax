@@ -114,6 +114,7 @@ function initTippy(tippyElement, content, placement='bottom') {
 
     let tippyEvent;
 
+    // bind event to destroy tippy and load next one
     if (/awesomplete/g.test(tippyElement.selector)) {
         tippyEvent = 'awesomplete-selectcomplete';
 
@@ -129,6 +130,18 @@ function initTippy(tippyElement, content, placement='bottom') {
         $(document).on('page-change', () => {
             tippyElement.unbind(tippyEvent);
             tippyElement.unbind('focus');
+            tipEle.destroy();
+        });
+    } else if (/div.list-items/g.test(tippyElement.selector)) {
+        tippyElement.closest('div.list-item-container').on('click', () => {
+            tippyElement.unbind(event);
+            tipEle.destroy();
+            localStorage.tutorialLoaded = 'false';
+            localStorage.tutorialListId++;
+            loadTippy();
+        });
+        $(document).on('page-change', () => {
+            tippyElement.unbind(event);
             tipEle.destroy();
         });
     } else {
