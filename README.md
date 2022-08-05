@@ -4,10 +4,10 @@ Thai withholding tax program, implement in Frappe Web Framework.
 
 ### TODO
 
-[] Create test fixture add unittest
-[] Check compatibility with Frappe version 13+
-[] Integrate with ERPNext
-[] Function generating end of year report (ภ.ง.ด. 1ก, ...)
+- [ ] Create test fixture add unittest
+- [ ] Check compatibility with Frappe version 13+
+- [ ] Integrate with ERPNext
+- [ ] Function generating end of year report (ภ.ง.ด. 1ก, ...)
 
 ### Notes
 
